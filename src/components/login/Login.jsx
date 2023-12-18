@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
 
     if (username === "admin" && password === "admin") {
-      navigate("/");
+      navigate("/jeweler");
       console.log("Giriş başarılı!");
     } else {
       alert("Hatalı kullanıcı adı veya şifre!");

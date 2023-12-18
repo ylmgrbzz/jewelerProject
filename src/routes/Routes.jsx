@@ -6,11 +6,14 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import JewelerPage from "../pages/JewelerPage";
 
 const RoutesApp = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/jeweler" element={<JewelerPage />} />
+
       <Route path="/" element={<Navigate to="/" />} />
     </Routes>
   );
