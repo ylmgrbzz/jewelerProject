@@ -1,5 +1,6 @@
 import React from "react";
 import "./JewelerMain.css";
+import { Link } from "react-router-dom";
 
 const JewelerMain = () => {
   return (
@@ -25,7 +26,7 @@ const JewelerMain = () => {
                 Müşteri Tanımlama
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/cari" class="stretched-link"></a> */}
+              <Link to="/musteriTanimlama" className="stretched-link"></Link>
             </div>
           </div>
         </div>
@@ -39,7 +40,7 @@ const JewelerMain = () => {
                 Şubeler Virman
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/subelerVirman" class="stretched-link"></a> */}
+              <Link to="/subelerVirman" className="stretched-link"></Link>
             </div>
           </div>
         </div>
@@ -53,7 +54,7 @@ const JewelerMain = () => {
                 Vade
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/vade" class="stretched-link"></a> */}
+              <Link to="/vade" className="stretched-link"></Link>
             </div>
           </div>
         </div>
@@ -67,7 +68,7 @@ const JewelerMain = () => {
                 Takoz
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/takoz" class="stretched-link"></a> */}
+              <Link to="/takoz" className="stretched-link"></Link>
             </div>
           </div>
         </div>
@@ -81,7 +82,7 @@ const JewelerMain = () => {
                 Kağıt
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/kagit" class="stretched-link"></a> */}
+              <Link to="/kagit" className="stretched-link"></Link>
             </div>
           </div>
         </div>
@@ -95,7 +96,7 @@ const JewelerMain = () => {
                 Kasa
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/kasa" class="stretched-link"></a> */}
+              <Link to="/kasa" className="stretched-link"></Link>
             </div>
           </div>
         </div>
@@ -109,7 +110,7 @@ const JewelerMain = () => {
                 Admin Paneli
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/" class="stretched-link"></a> */}
+              <Link to="/admin" className="stretched-link"></Link>
             </div>
           </div>
         </div>
@@ -123,7 +124,7 @@ const JewelerMain = () => {
                 Gider
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/gider" class="stretched-link"></a> */}
+              <Link to="/gider" className="stretched-link"></Link>
             </div>
           </div>
         </div>
@@ -137,7 +138,7 @@ const JewelerMain = () => {
                 Rapor
               </h1>
               <p class="card-text"></p>
-              {/* <a href="/rapor" class="stretched-link"></a> */}
+              <Link to="/rapor" className="stretched-link"></Link>
             </div>
           </div>
         </div>
