@@ -6,11 +6,12 @@ import {
   Navigate,
 } from "react-router-dom";
 import RoutesApp from "./routes/Routes";
+// import "./App.css";
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div>
         <RoutesApp />
       </div>
     </Router>
