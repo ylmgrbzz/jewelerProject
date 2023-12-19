@@ -12,6 +12,9 @@ import SubelerVirmanPage from "../pages/SubelerVirmanPage";
 import GiderPage from "../pages/GiderPage";
 import { TakozPage } from "../pages/TakozPage";
 import KagitPage from "../pages/KagitPage";
+import TakozAlisPage from "../pages/TakozAlisPage";
+import TakozSatisPage from "../pages/TakozSatisPage";
+import TakozTasimaPage from "../pages/TakozTasimaPage";
 
 const RoutesApp = () => {
   return (
@@ -21,8 +24,11 @@ const RoutesApp = () => {
       <Route path="/musteriTanimlama" element={<MusteriTanimlamaPage />} />
       <Route path="/subelerVirman" element={<SubelerVirmanPage />} />
       <Route path="/gider" element={<GiderPage />} />
-      <Route path="/takoz" element={<TakozPage />} />
+      <Route path="/takoz" element={<TakozPage />}></Route>
       <Route path="/kagit" element={<KagitPage />} />
+      <Route path="/takozAlis" element={<TakozAlisPage />} />
+      <Route path="/takozSatis" element={<TakozSatisPage />} />
+      <Route path="/takozTasima" element={<TakozTasimaPage />} />
 
       <Route path="/" element={<Navigate to="/" />} />
     </Routes>

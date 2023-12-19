@@ -18,13 +18,13 @@ const Takoz = () => {
       </div>
       <h1 className="menu-title">TAKOZ EKRANI</h1>
 
-      <Link to="/takoz/alis" className="btn btn-primary btn-lg menu-button">
+      <Link to="/takozAlis" className="btn btn-primary btn-lg menu-button">
         Takoz Alış
       </Link>
-      <Link to="/takoz/satis" className="btn btn-success btn-lg menu-button">
+      <Link to="/takozSatis" className="btn btn-success btn-lg menu-button">
         Takoz Satış
       </Link>
-      <Link to="/takoz/tasima" className="btn btn-secondary btn-lg menu-button">
+      <Link to="/takozTasima" className="btn btn-secondary btn-lg menu-button">
         Takoz Taşıma
       </Link>
     </div>
