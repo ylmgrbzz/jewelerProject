@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./MusteriTanimlama.css";
+import { useNavigate } from "react-router-dom";
 
 const MusteriTanimlama = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     document.body.classList.add("musteri-page");
 
@@ -29,13 +31,15 @@ const MusteriTanimlama = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Additional validation logic
     if (validateForm()) {
-      // Add your form submission logic here
       console.log("Form is valid. Submitting...");
     } else {
       console.log("Form is invalid. Please check your input.");
     }
+  };
+
+  const backToPage = () => {
+    navigate("/jeweler");
   };
 
   const validateForm = () => {
@@ -50,105 +54,9 @@ const MusteriTanimlama = () => {
       formData.adres
     );
   };
-
   return (
-    // <div className="container ">
-    //   <a
-    //     href="#"
-    //     className="btn btn-primary back-button"
-    //     onClick={() => window.history.go(-1)}
-    //   >
-    //     Geri Dön
-    //   </a>
-    //   <h1 className="form-title">CARİ KAYIT EKRANI</h1>
-    //   <Form
-    //     style={{
-    //       marginTop: "150px",
-    //       backgroundColor: "green",
-    //       height: "100%",
-    //     }}
-    //     onSubmit={handleSubmit}
-    //   >
-    //     <Form.Group controlId="unvan">
-    //       <Form.Label>Unvan</Form.Label>
-    //       <Form.Control
-    //         type="text"
-    //         placeholder="Unvan"
-    //         onChange={handleChange}
-    //         value={formData.unvan}
-    //         required
-    //       />
-    //     </Form.Group>
-
-    //     <Form.Group controlId="isim">
-    //       <Form.Label>Ad Soyad</Form.Label>
-    //       <Form.Control
-    //         type="text"
-    //         placeholder="Ad Soyad"
-    //         onChange={handleChange}
-    //         value={formData.isim}
-    //         required
-    //       />
-    //     </Form.Group>
-
-    //     <Form.Group controlId="tel1">
-    //       <Form.Label>GSM 1</Form.Label>
-    //       <Form.Control
-    //         type="text"
-    //         placeholder="Tel1"
-    //         onChange={handleChange}
-    //         value={formData.tel1}
-    //         required
-    //       />
-    //     </Form.Group>
-
-    //     <Form.Group controlId="tel2">
-    //       <Form.Label>GSM 2</Form.Label>
-    //       <Form.Control
-    //         type="text"
-    //         placeholder="Tel2"
-    //         onChange={handleChange}
-    //         value={formData.tel2}
-    //         required
-    //       />
-    //     </Form.Group>
-
-    //     <Form.Group controlId="email">
-    //       <Form.Label>E-Mail</Form.Label>
-    //       <Form.Control
-    //         type="email"
-    //         placeholder="E-Mail"
-    //         onChange={handleChange}
-    //         value={formData.email}
-    //         required
-    //       />
-    //     </Form.Group>
-
-    //     <Form.Group controlId="adres">
-    //       <Form.Label>Adres</Form.Label>
-    //       <Form.Control
-    //         as="textarea"
-    //         rows={4}
-    //         placeholder="Adres"
-    //         onChange={handleChange}
-    //         value={formData.adres}
-    //         required
-    //       />
-    //     </Form.Group>
-
-    //     <Button
-    //       style={{
-    //         marginTop: "10px",
-    //       }}
-    //       variant="primary"
-    //       type="submit"
-    //     >
-    //       Gönder
-    //     </Button>
-    //   </Form>
-    // </div>
     <div class="container">
-      <a href="#" class="btn btn-primary back-button" onclick="history.go(-1)">
+      <a href="#" class="btn btn-primary back-button" onClick={backToPage()}>
         Geri Dön
       </a>
       <h1 class="form-title">CARİ KAYIT EKRANI</h1>

@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import JewelerPage from "../pages/JewelerPage";
 import MusteriTanimlamaPage from "../pages/MusteriTanimlamaPage";
+import SubelerVirmanPage from "../pages/SubelerVirmanPage";
 
 const RoutesApp = () => {
   return (
@@ -15,6 +16,7 @@ const RoutesApp = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/jeweler" element={<JewelerPage />} />
       <Route path="/musteriTanimlama" element={<MusteriTanimlamaPage />} />
+      <Route path="/subelerVirman" element={<SubelerVirmanPage />} />
 
       <Route path="/" element={<Navigate to="/" />} />
     </Routes>
