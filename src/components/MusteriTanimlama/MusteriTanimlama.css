@@ -1,5 +1,5 @@
-body {
-  background-color: #f0f0f0;
+body.musteri-page {
+  background-color: #080710;
 }
 
 .container {
@@ -37,6 +37,6 @@ body {
 }
 .back-button {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 50px;
+  left: 150px;
 }

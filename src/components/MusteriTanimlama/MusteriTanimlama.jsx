@@ -1,117 +1,68 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import React, { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-
-// import "./MusteriTanimlama.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./MusteriTanimlama.css";
 
 const MusteriTanimlama = () => {
-  // const goBack = () => {
-  //   history.go(-1);
-  // };
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    title: "",
-    gsm1: "",
-    gsm2: "",
-    email: "",
-    address: "",
-  });
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = {};
+  useEffect(() => {
+    document.body.classList.add("musteri-page");
 
-    // Ad ve soyad kontrolü
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "Ad boş bırakılamaz";
-      valid = false;
-    }
+    return () => {
+      document.body.classList.remove("musteri-page");
+    };
+  }, []);
 
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Soyad boş bırakılamaz";
-      valid = false;
-    }
-
-    // Diğer alanlar için isteğe bağlı doğrulama ekleyebilirsiniz
-
-    setErrors(newErrors);
-    return valid;
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Add your form submission logic here
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      // Formu gönderme işlemleri burada yapılabilir
-      console.log("Form Gönderildi", formData);
-    } else {
-      console.error("Form Gönderilemedi - Doğrulama Hatası");
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-
-    // Her input değiştiğinde hatayı temizle
-    setErrors({ ...errors, [name]: "" });
-  };
-
-  const [errors, setErrors] = useState({});
   return (
-    <div className="container mt-5">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter your username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
+    <div className="container ">
+      <a href="#" class="btn btn-primary back-button" onclick="history.go(-1)">
+        Geri Dön
+      </a>
+      <h1 class="form-title">CARİ KAYIT EKRANI</h1>
+      <Form
+        style={{
+          marginTop: "150px",
+          backgroundColor: "green",
+          height: "100%",
+        }}
+        onSubmit={handleSubmit}
+      >
+        <Form.Group controlId="formUnvan">
+          <Form.Label>Unvan</Form.Label>
+          <Form.Control type="text" placeholder="Unvan" />
         </Form.Group>
 
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter your password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+        <Form.Group controlId="formIsim">
+          <Form.Label>Ad Soyad</Form.Label>
+          <Form.Control type="text" placeholder="Ad Soyad" />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>{" "}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter your username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
+        <Form.Group controlId="formTel1">
+          <Form.Label>GSM 1</Form.Label>
+          <Form.Control type="text" placeholder="Tel1" />
         </Form.Group>
 
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter your password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+        <Form.Group controlId="formTel2">
+          <Form.Label>GSM 2</Form.Label>
+          <Form.Control type="text" placeholder="Tel2" />
+        </Form.Group>
+
+        <Form.Group controlId="formEmail">
+          <Form.Label>E-Mail</Form.Label>
+          <Form.Control type="email" placeholder="E-Mail" required />
+        </Form.Group>
+
+        <Form.Group controlId="formAdres">
+          <Form.Label>Adres</Form.Label>
+          <Form.Control as="textarea" rows={4} placeholder="Adres" />
         </Form.Group>
 
         <Button variant="primary" type="submit">
-          Submit
+          Gönder
         </Button>
       </Form>
     </div>
