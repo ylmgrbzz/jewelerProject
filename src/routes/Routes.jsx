@@ -36,7 +36,7 @@ const RoutesApp = () => {
       <Route path="/kagitSatis" element={<KagitSatisPage />} />
       <Route path="/kagitTasima" element={<KagitTasimaPage />} />
 
-      <Route path="/" element={<Navigate to="/" />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };
