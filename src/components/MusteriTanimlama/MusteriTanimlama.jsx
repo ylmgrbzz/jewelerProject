@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./MusteriTanimlama.css";
 import { useNavigate } from "react-router-dom";
+import "./MusteriTanimlama.css";
 
 const MusteriTanimlama = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    document.body.classList.add("musteri-page");
-
-    return () => {
-      document.body.classList.remove("musteri-page");
-    };
-  }, []);
 
   const [formData, setFormData] = useState({
     unvan: "",
@@ -62,7 +55,6 @@ const MusteriTanimlama = () => {
       <h1 class="form-title">CARİ KAYIT EKRANI</h1>
       <form
         style={{ width: "70%", height: "95%", marginTop: "150px" }}
-        action="/cari/olustur"
         method="post"
       >
         <div class="form-group">
