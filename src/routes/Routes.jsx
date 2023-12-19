@@ -15,6 +15,9 @@ import KagitPage from "../pages/KagitPage";
 import TakozAlisPage from "../pages/TakozAlisPage";
 import TakozSatisPage from "../pages/TakozSatisPage";
 import TakozTasimaPage from "../pages/TakozTasimaPage";
+import { KagitAlisPage } from "../pages/KagitAlisPage";
+import { KagitSatisPage } from "../pages/KagitSatisPage";
+import { KagitTasimaPage } from "../pages/KagitTasimaPage";
 
 const RoutesApp = () => {
   return (
@@ -29,6 +32,9 @@ const RoutesApp = () => {
       <Route path="/takozAlis" element={<TakozAlisPage />} />
       <Route path="/takozSatis" element={<TakozSatisPage />} />
       <Route path="/takozTasima" element={<TakozTasimaPage />} />
+      <Route path="/kagitAlis" element={<KagitAlisPage />} />
+      <Route path="/kagitSatis" element={<KagitSatisPage />} />
+      <Route path="/kagitTasima" element={<KagitTasimaPage />} />
 
       <Route path="/" element={<Navigate to="/" />} />
     </Routes>

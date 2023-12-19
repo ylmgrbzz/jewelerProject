@@ -21,13 +21,13 @@ const Kagit = () => {
       </div>
       <h1 className="menu-title">KAĞIT EKRANI</h1>
 
-      <Link to="/kagit/alis" className="btn btn-primary btn-lg menu-button">
+      <Link to="/kagitAlis" className="btn btn-primary btn-lg menu-button">
         Kağıt Alış
       </Link>
-      <Link to="/kagit/satis" className="btn btn-success btn-lg menu-button">
+      <Link to="/kagitSatis" className="btn btn-success btn-lg menu-button">
         Kağıt Satış
       </Link>
-      <Link to="/kagit/tasima" className="btn btn-secondary btn-lg menu-button">
+      <Link to="/kagitTasima" className="btn btn-secondary btn-lg menu-button">
         Kağıt Taşıma
       </Link>
     </div>
