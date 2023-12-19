@@ -48,15 +48,15 @@ const MusteriTanimlama = () => {
     );
   };
   return (
-    <div class="container">
-      <a href="#" class="btn btn-primary back-button" onClick={backToPage()}>
-        Geri Dön
-      </a>
-      <h1 class="form-title">CARİ KAYIT EKRANI</h1>
+    <div>
       <form
-        style={{ width: "70%", height: "95%", marginTop: "150px" }}
+        style={{ width: "70%", height: "100%", marginTop: "10px" }}
         method="post"
       >
+        <a href="#" class="btn btn-primary back-button" onClick={backToPage()}>
+          Geri Dön
+        </a>
+        <h1 class="form-title">CARİ KAYIT EKRANI</h1>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}

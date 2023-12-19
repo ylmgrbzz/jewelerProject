@@ -30,16 +30,17 @@ const SubelerVirman = () => {
   };
 
   return (
-    <div class="container">
-      <a href="#" class="btn btn-primary back-button" onClick={backToPage()}>
-        Geri Dön
-      </a>
-      <h1 class="form-title">ŞUBELER VİRMAN</h1>
+    <div>
       <form
-        onSubmit={handleSubmit}
-        style={{ width: "70%", height: "100%", marginTop: "150px" }}
+        style={{ width: "70%", height: "100%", marginTop: "10px" }}
         method="post"
+        onSubmit={handleSubmit}
       >
+        <a href="#" class="btn btn-primary back-button" onClick={backToPage()}>
+          Geri Dön
+        </a>
+        <h1 class="form-title">ŞUBELER VİRMAN</h1>
+
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
