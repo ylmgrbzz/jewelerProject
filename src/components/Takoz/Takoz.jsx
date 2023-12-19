@@ -1,6 +1,6 @@
 import React from "react";
 import "./Takoz.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Takoz = () => {
   const navigate = useNavigate();
@@ -10,23 +10,23 @@ const Takoz = () => {
   };
 
   return (
-    <div class="container">
+    <div className="container">
       <div>
-        <a href="#" class="btn btn-primary back-button" onClick={backToPage()}>
+        <a to="#" className="btn btn-primary back-button" onClick={backToPage}>
           Geri Dön
         </a>
       </div>
-      <h1 class="menu-title">TAKOZ EKRANI</h1>
+      <h1 className="menu-title">TAKOZ EKRANI</h1>
 
-      <a href="/takoz/alis" class="btn btn-primary btn-lg menu-button">
+      <Link to="/takoz/alis" className="btn btn-primary btn-lg menu-button">
         Takoz Alış
-      </a>
-      <a href="/takoz/satis" class="btn btn-success btn-lg menu-button">
+      </Link>
+      <Link to="/takoz/satis" className="btn btn-success btn-lg menu-button">
         Takoz Satış
-      </a>
-      <a href="/takoz/tasima" class="btn btn-secondary btn-lg menu-button">
+      </Link>
+      <Link to="/takoz/tasima" className="btn btn-secondary btn-lg menu-button">
         Takoz Taşıma
-      </a>
+      </Link>
     </div>
   );
 };
