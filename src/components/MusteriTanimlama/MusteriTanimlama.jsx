@@ -61,7 +61,13 @@ const MusteriTanimlama = () => {
           <Form.Control as="textarea" rows={4} placeholder="Adres" />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button
+          style={{
+            marginTop: "10px",
+          }}
+          variant="primary"
+          type="submit"
+        >
           Gönder
         </Button>
       </Form>
