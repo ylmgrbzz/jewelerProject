@@ -9,6 +9,7 @@ import {
 import JewelerPage from "../pages/JewelerPage";
 import MusteriTanimlamaPage from "../pages/MusteriTanimlamaPage";
 import SubelerVirmanPage from "../pages/SubelerVirmanPage";
+import GiderPage from "../pages/GiderPage";
 
 const RoutesApp = () => {
   return (
@@ -17,6 +18,7 @@ const RoutesApp = () => {
       <Route path="/jeweler" element={<JewelerPage />} />
       <Route path="/musteriTanimlama" element={<MusteriTanimlamaPage />} />
       <Route path="/subelerVirman" element={<SubelerVirmanPage />} />
+      <Route path="/gider" element={<GiderPage />} />
 
       <Route path="/" element={<Navigate to="/" />} />
     </Routes>

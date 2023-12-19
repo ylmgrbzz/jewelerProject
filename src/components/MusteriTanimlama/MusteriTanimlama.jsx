@@ -36,7 +36,6 @@ const MusteriTanimlama = () => {
   };
 
   const validateForm = () => {
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return (
       formData.email.match(emailRegex) &&

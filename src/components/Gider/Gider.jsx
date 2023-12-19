@@ -1,19 +1,23 @@
-import "./SubelerVirman.css";
+import "./Gider.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SubelerVirman = () => {
+const Gider = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    gonderenKasa: "",
-    transferCinsi: "",
-    transfer: "",
-    alici: "",
+    giderTuru: "",
+    harcamaKuru: "",
+    harcamaTutari: "",
     aciklama: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "harcamaTutari" && !/^\d+$/.test(value)) {
+      return;
+    }
+
     setFormData({
       ...formData,
       [name]: value,
@@ -39,77 +43,59 @@ const SubelerVirman = () => {
         <a href="#" class="btn btn-primary back-button">
           Geri Dön
         </a>
-        <h1 class="form-title">ŞUBELER VİRMAN</h1>
+        <h1 class="form-title">GİDER KAYIT EKRANI</h1>
 
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="gonderenKasa"
+            for="giderTuru"
           >
-            Gönderen Kasa/Şube
+            GİDER TÜRÜ
           </label>
           <input
             type="text"
-            value={formData.gonderenKasa}
+            value={formData.giderTuru}
             onChange={handleInputChange}
             class="form-control"
-            name="gonderenKasa"
-            id="gonderenKasa"
+            name="giderTuru"
+            id="giderTuru"
             placeholder="TRANSFERİ GÖNDEREN KASA/ŞUBE SEÇİNİZ "
           />
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="transferCinsi"
+            for="harcamaKuru"
           >
-            TRASNFER CİNSİ
+            HARCAMA KURU
           </label>
           <input
             type="text"
             class="form-control"
-            value={formData.transferCinsi}
+            value={formData.harcamaKuru}
             onChange={handleInputChange}
-            name="transferCinsi"
-            id="transferCinsi"
-            placeholder="TRANSFER CİNSİNİ SEÇİNİZ"
+            name="harcamaKuru"
+            id="harcamaKuru"
+            placeholder="DOLAR $"
           />
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="transfer"
+            for="harcamaTutari"
           >
-            TRANSFER TUTARI
+            HARCAMA TUTARI
           </label>
           <input
             type="text"
-            value={formData.transfer}
+            value={formData.harcamaTutari}
             onChange={handleInputChange}
             class="form-control"
-            name="transfer"
-            id="transfer"
-            placeholder="TRANSFER TUTARI GİRİNİZ"
+            name="harcamaTutari"
+            id="harcamaTutari"
+            placeholder="HARCAMA TUTARI GİRİNİZ"
           />
         </div>
-        <div class="form-group">
-          <label
-            style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="alici"
-          >
-            ALICI KASA/ŞUBE
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            value={formData.alici}
-            onChange={handleInputChange}
-            name="alici"
-            id="alici"
-            placeholder="TRANSFERİ ALACAK KASA/ŞUBE SEÇİNİZ"
-          />
-        </div>
-
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
@@ -127,6 +113,7 @@ const SubelerVirman = () => {
             placeholder="AÇIKLAMA"
           ></textarea>
         </div>
+
         <button
           style={{
             marginBottom: "10px",
@@ -143,4 +130,4 @@ const SubelerVirman = () => {
   );
 };
 
-export default SubelerVirman;
+export default Gider;
