@@ -52,7 +52,11 @@ const MusteriTanimlama = () => {
         style={{ width: "70%", height: "100%", marginTop: "10px" }}
         method="post"
       >
-        <a href="#" class="btn btn-primary back-button" onClick={backToPage()}>
+        <a
+          href="#"
+          class="btn btn-primary back-musteriButton"
+          onClick={backToPage()}
+        >
           Geri Dön
         </a>
         <h1 class="form-title">CARİ KAYIT EKRANI</h1>

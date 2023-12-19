@@ -36,7 +36,7 @@ const SubelerVirman = () => {
         method="post"
         onSubmit={handleSubmit}
       >
-        <a href="#" class="btn btn-primary back-button">
+        <a href="#" class="btn btn-primary back-subelerButton">
           Geri Dön
         </a>
         <h1 class="form-title">ŞUBELER VİRMAN</h1>

@@ -40,7 +40,7 @@ const Gider = () => {
         method="post"
         onSubmit={handleSubmit}
       >
-        <a href="#" class="btn btn-primary back-button">
+        <a href="#" class="btn btn-primary back-giderButton">
           Geri Dön
         </a>
         <h1 class="form-title">GİDER KAYIT EKRANI</h1>
