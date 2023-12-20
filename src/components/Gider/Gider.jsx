@@ -35,14 +35,18 @@ const Gider = () => {
 
   return (
     <div>
+      <a
+        onClick={backToPage()}
+        href="#"
+        class="btn btn-primary back-giderButton"
+      >
+        Geri Dön
+      </a>
       <form
         style={{ width: "70%", height: "100%", marginTop: "10px" }}
         method="post"
         onSubmit={handleSubmit}
       >
-        <a href="#" class="btn btn-primary back-giderButton">
-          Geri Dön
-        </a>
         <h1 class="form-title">GİDER KAYIT EKRANI</h1>
 
         <div class="form-group">
