@@ -41,7 +41,7 @@ const KagitAlis = () => {
 
   const navigate = useNavigate();
   const backToPage = () => {
-    navigate("/takoz");
+    navigate("/kagit");
   };
   return (
     <div>
