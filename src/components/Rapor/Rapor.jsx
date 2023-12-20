@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Rapor.css";
 const Rapor = () => {
   const [kaydedenKisiFilter, setKaydedenKisiFilter] = useState("");
@@ -45,13 +46,9 @@ const Rapor = () => {
 
   return (
     <div>
-      <a
-        href="#"
-        className="btn btn-primary back-button"
-        // onClick={backToPage()}
-      >
+      <Link to="/jeweler" className="btn btn-primary back-button">
         Geri Dön
-      </a>
+      </Link>
       <div className="container">
         <table className="report-table table table-bordered">
           <thead>
