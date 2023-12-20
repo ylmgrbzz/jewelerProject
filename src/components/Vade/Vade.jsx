@@ -35,86 +35,90 @@ const Vade = () => {
   };
 
   return (
-    <div className="container">
-      <a
-        href="#"
-        className="btn btn-primary back-button"
-        onClick={backToPage()}
-      >
-        Geri Dön
-      </a>
-      <table className="report-table table table-bordered">
-        <thead>
-          <tr>
-            <th>
-              KAYDEDEN KİŞİ
-              <input
-                className="filter-input"
-                type="text"
-                value={kaydedenKisiFilter}
-                onChange={(e) => handleInputChange(e, setKaydedenKisiFilter)}
-              />
-            </th>
-            <th>
-              FİRMA(ÜNVAN)
-              <input
-                className="filter-input"
-                type="text"
-                value={firmaFilter}
-                onChange={(e) => handleInputChange(e, setFirmaFilter)}
-              />
-            </th>
-            <th>
-              ALTIN
-              <input
-                className="filter-input"
-                type="text"
-                value={altinFilter}
-                onChange={(e) => handleInputChange(e, setAltinFilter)}
-              />
-            </th>
-            <th>
-              KAĞIT
-              <input
-                className="filter-input"
-                type="text"
-                value={kagitFilter}
-                onChange={(e) => handleInputChange(e, setKagitFilter)}
-              />
-            </th>
-            <th>
-              İŞÇİLİK
-              <input
-                className="filter-input"
-                type="text"
-                value={iscilikFilter}
-                onChange={(e) => handleInputChange(e, setIscilikFilter)}
-              />
-            </th>
-            <th>
-              VADE
-              <input
-                className="filter-input"
-                type="text"
-                value={vadeFilter}
-                onChange={(e) => handleInputChange(e, setVadeFilter)}
-              />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filterData(tableData).map((row, index) => (
-            <tr key={index}>
-              <td>{row.kaydedenKisi}</td>
-              <td>{row.firma}</td>
-              <td>{row.altin}</td>
-              <td>{row.kagit}</td>
-              <td>{row.iscilik}</td>
-              <td>{row.vade}</td>
+    <div>
+      {/* <div>
+        <a
+          href="#"
+          className="btn btn-primary back-button"
+          onClick={backToPage()}
+        >
+          Geri Dön
+        </a>
+      </div> */}
+      <div className="container">
+        <table className="report-table table table-bordered">
+          <thead>
+            <tr>
+              <th>
+                KAYDEDEN KİŞİ
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={kaydedenKisiFilter}
+                  onChange={(e) => handleInputChange(e, setKaydedenKisiFilter)}
+                />
+              </th>
+              <th>
+                FİRMA(ÜNVAN)
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={firmaFilter}
+                  onChange={(e) => handleInputChange(e, setFirmaFilter)}
+                />
+              </th>
+              <th>
+                ALTIN
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={altinFilter}
+                  onChange={(e) => handleInputChange(e, setAltinFilter)}
+                />
+              </th>
+              <th>
+                KAĞIT
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={kagitFilter}
+                  onChange={(e) => handleInputChange(e, setKagitFilter)}
+                />
+              </th>
+              <th>
+                İŞÇİLİK
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={iscilikFilter}
+                  onChange={(e) => handleInputChange(e, setIscilikFilter)}
+                />
+              </th>
+              <th>
+                VADE
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={vadeFilter}
+                  onChange={(e) => handleInputChange(e, setVadeFilter)}
+                />
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filterData(tableData).map((row, index) => (
+              <tr key={index}>
+                <td>{row.kaydedenKisi}</td>
+                <td>{row.firma}</td>
+                <td>{row.altin}</td>
+                <td>{row.kagit}</td>
+                <td>{row.iscilik}</td>
+                <td>{row.vade}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
