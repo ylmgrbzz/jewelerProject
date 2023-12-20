@@ -18,6 +18,9 @@ import TakozTasimaPage from "../pages/TakozTasimaPage";
 import { KagitAlisPage } from "../pages/KagitAlisPage";
 import { KagitSatisPage } from "../pages/KagitSatisPage";
 import { KagitTasimaPage } from "../pages/KagitTasimaPage";
+import RaporPage from "../pages/RaporPage";
+import KasaPage from "../pages/KasaPage";
+import VadePage from "../pages/VadePage";
 
 const RoutesApp = () => {
   return (
@@ -35,6 +38,9 @@ const RoutesApp = () => {
       <Route path="/kagitAlis" element={<KagitAlisPage />} />
       <Route path="/kagitSatis" element={<KagitSatisPage />} />
       <Route path="/kagitTasima" element={<KagitTasimaPage />} />
+      <Route path="/rapor" element={<RaporPage />}></Route>
+      <Route path="/kasa" element={<KasaPage />}></Route>
+      <Route path="/vade" element={<VadePage />}></Route>
 
       <Route path="/" element={<Navigate to="/login" replace />} />
     </Routes>
