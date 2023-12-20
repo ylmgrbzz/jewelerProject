@@ -44,13 +44,13 @@ const Kasa = () => {
 
   return (
     <div>
-      {/* <a
+      <a
         href="#"
         className="btn btn-primary back-button"
-        onClick={backToPage()}
+        // onClick={backToPage()}
       >
         Geri Dön
-      </a> */}
+      </a>
       <div className="container">
         <table className="report-table table table-bordered">
           <thead>

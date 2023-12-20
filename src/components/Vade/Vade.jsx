@@ -36,15 +36,15 @@ const Vade = () => {
 
   return (
     <div>
-      {/* <div>
+      <div>
         <a
           href="#"
           className="btn btn-primary back-button"
-          onClick={backToPage()}
+          // onClick={backToPage()}
         >
           Geri Dön
         </a>
-      </div> */}
+      </div>
       <div className="container">
         <table className="report-table table table-bordered">
           <thead>
