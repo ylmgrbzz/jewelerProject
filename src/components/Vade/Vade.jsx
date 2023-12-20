@@ -31,9 +31,6 @@ const Vade = () => {
       );
     });
   };
-  const backToPage = () => {
-    navigate("/jeweler");
-  };
 
   return (
     <div>
