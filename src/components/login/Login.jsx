@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import jwt from "jsonwebtoken";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,12 +16,65 @@ const Login = () => {
     };
   }, []);
 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     // Gerçek bir API endpoint'i
+  //     const apiUrl = "https://example.com/api/login";
+
+  //     // Gerçek bir API ile iletişim için fetch kullanımı
+  //     const response = await fetch(apiUrl, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ username, password }),
+  //     });
+
+  //     // Yanıt kontrolü
+  //     if (response.ok) {
+  //       const data = await response.json();
+
+  //       // API tarafından dönen gerçek token
+  //       const token = data.token;
+
+  //       // Bearer header oluştur
+  //       const bearerToken = `Bearer ${token}`;
+
+  //       // Token'i local storage'a kaydet
+  //       localStorage.setItem("token", bearerToken);
+
+  //       // Giriş başarılı mesajını yazdır
+  //       console.log("Giriş başarılı!");
+
+  //       // Yönlendirme
+  //       navigate("/jeweler");
+  //     } else {
+  //       // Hatalı yanıt durumunda işlemler
+  //       console.error("Giriş başarısız!");
+  //       alert("Hatalı kullanıcı adı veya şifre!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Bir hata oluştu:", error.message);
+  //   }
+  // };
+
   const handleLogin = (e) => {
     e.preventDefault();
 
     if (username === "admin" && password === "admin") {
-      navigate("/jeweler");
+      // Sahte bir JWT oluştur
+      const token = "example_jwt_token";
+
+      // Token'i local storage'a kaydet
+      localStorage.setItem("token", token);
+
+      // API isteği yapmadan giriş başarılı mesajını yazdır
       console.log("Giriş başarılı!");
+
+      // Yönlendirme
+      navigate("/jeweler");
     } else {
       alert("Hatalı kullanıcı adı veya şifre!");
     }
