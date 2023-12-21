@@ -24,15 +24,28 @@ import VadePage from "../pages/VadePage";
 import Admin from "../components/Admin/Admin";
 import { useNavigate } from "react-router-dom";
 
-const RoutesApp = () => {
+const PrivateRoute = ({ element, ...props }) => {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem("token");
 
-    if (token) {
-      navigate("/jeweler");
+  useEffect(() => {
+    if (!token) {
+      navigate("/login"); // Redirect to login if token is missing
+    } else {
+      // If token exists, prevent navigation to /login
+      navigate(props.location.pathname, { replace: true });
     }
-  }, []);
+  }, [token, navigate, props.location.pathname]);
+
+  return (
+    <Route
+      {...props}
+      element={token ? element : <Navigate to="/login" replace />}
+    />
+  );
+};
+
+const RoutesApp = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
