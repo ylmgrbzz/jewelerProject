@@ -22,30 +22,17 @@ import RaporPage from "../pages/RaporPage";
 import KasaPage from "../pages/KasaPage";
 import VadePage from "../pages/VadePage";
 import Admin from "../components/Admin/Admin";
-import { useNavigate } from "react-router-dom";
-
-const PrivateRoute = ({ element, ...props }) => {
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!token) {
-      navigate("/login"); // Redirect to login if token is missing
-    } else {
-      // If token exists, prevent navigation to /login
-      navigate(props.location.pathname, { replace: true });
-    }
-  }, [token, navigate, props.location.pathname]);
-
-  return (
-    <Route
-      {...props}
-      element={token ? element : <Navigate to="/login" replace />}
-    />
-  );
-};
+import { useNavigate, useLocation } from "react-router-dom";
 
 const RoutesApp = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log("useEffect triggered"); // Add this line
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
