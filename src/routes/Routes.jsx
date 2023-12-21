@@ -22,7 +22,7 @@ import RaporPage from "../pages/RaporPage";
 import KasaPage from "../pages/KasaPage";
 import VadePage from "../pages/VadePage";
 import Admin from "../components/Admin/Admin";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const RoutesApp = () => {
   const navigate = useNavigate();
