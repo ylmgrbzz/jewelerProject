@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoginPage from "../pages/LoginPage";
 import {
   BrowserRouter as Router,
@@ -22,8 +22,17 @@ import RaporPage from "../pages/RaporPage";
 import KasaPage from "../pages/KasaPage";
 import VadePage from "../pages/VadePage";
 import Admin from "../components/Admin/Admin";
+import { useNavigate } from "react-router-dom";
 
 const RoutesApp = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      navigate("/jeweler");
+    }
+  }, []);
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const Login = () => {
   const navigate = useNavigate();

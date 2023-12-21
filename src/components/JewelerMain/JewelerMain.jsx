@@ -1,8 +1,17 @@
 import React from "react";
 import "./JewelerMain.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const JewelerMain = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+
+    navigate("/login");
+  };
+
   return (
     <div
       style={{
@@ -17,6 +26,12 @@ const JewelerMain = () => {
     >
       <div class="row">
         <div class="col-md-4">
+          <a
+            onClick={handleLogout}
+            className="btn btn-primary back-musteriButton"
+          >
+            ÇIKIŞ YAP
+          </a>
           <div class="card colored-card bg-light">
             <div class="card-body">
               <h1
