@@ -1,20 +1,21 @@
 import "./Gider.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Gider = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    giderTuru: "",
-    harcamaKuru: "",
-    harcamaTutari: "",
+    gider_turu: "",
+    kur: "",
+    tutar: "",
     aciklama: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "harcamaTutari" && !/^\d+$/.test(value)) {
+    if (name === "tutar" && !/^\d+$/.test(value)) {
       return;
     }
 
@@ -24,9 +25,30 @@ const Gider = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    if (
+      formData.gider_turu &&
+      formData.kur &&
+      formData.tutar &&
+      formData.aciklama
+    ) {
+      try {
+        const response = await axios.post(
+          "http://52.29.240.45:3001/v1/giderOlustur",
+          {
+            ...formData,
+          }
+        );
+
+        console.log("Form submitted:", response.data);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    } else {
+      alert("Please fill in all required fields");
+    }
   };
 
   const backToPage = () => {
@@ -35,13 +57,13 @@ const Gider = () => {
 
   return (
     <div>
-      <a
+      {/* <a
         onClick={backToPage()}
         href="#"
         class="btn btn-primary back-giderButton"
       >
         Geri Dön
-      </a>
+      </a> */}
       <form
         style={{ width: "70%", height: "100%", marginTop: "10px" }}
         method="post"
@@ -52,51 +74,92 @@ const Gider = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="giderTuru"
+            for="gider_turu"
           >
             GİDER TÜRÜ
           </label>
-          <input
+          <select
             type="text"
-            value={formData.giderTuru}
+            value={formData.gider_turu}
             onChange={handleInputChange}
             class="form-control"
-            name="giderTuru"
-            id="giderTuru"
+            name="gider_turu"
+            id="gider_turu"
             placeholder="TRANSFERİ GÖNDEREN KASA/ŞUBE SEÇİNİZ "
-          />
+          >
+            <option style={{ color: "black" }} value="">
+              GİDER TÜRÜ SEÇİNİZ{" "}
+            </option>
+            <option style={{ color: "black" }} value="Kara Lojistik">
+              Kara Lojistik
+            </option>
+            <option style={{ color: "black" }} value="Genel Gider">
+              Genel Gider
+            </option>
+            <option style={{ color: "black" }} value="Maaş">
+              Maaş
+            </option>
+            <option style={{ color: "black" }} value="Personel">
+              Personel
+            </option>
+            <option style={{ color: "black" }} value="Kira">
+              Kira
+            </option>
+            <option style={{ color: "black" }} value="Demirbaş">
+              Demirbaş
+            </option>
+          </select>
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="harcamaKuru"
+            for="kur"
           >
             HARCAMA KURU
           </label>
-          <input
+          <select
             type="text"
             class="form-control"
-            value={formData.harcamaKuru}
+            value={formData.kur}
             onChange={handleInputChange}
-            name="harcamaKuru"
-            id="harcamaKuru"
+            name="kur"
+            id="kur"
             placeholder="DOLAR $"
-          />
+          >
+            <option style={{ color: "black" }} value="">
+              Döviz Cinsi Seçiniz
+            </option>
+            <option style={{ color: "black" }} value="TRY">
+              TRY - Turkish Lira
+            </option>
+            <option style={{ color: "black" }} value="USD">
+              USD - US Dollar
+            </option>
+            <option style={{ color: "black" }} value="EUR">
+              EUR - Euro
+            </option>
+            <option style={{ color: "black" }} value="GBP">
+              GBP - British Pound
+            </option>
+            <option style={{ color: "black" }} value="CHF">
+              CHF - Swiss Franc
+            </option>
+          </select>
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="harcamaTutari"
+            for="tutar"
           >
             HARCAMA TUTARI
           </label>
           <input
             type="text"
-            value={formData.harcamaTutari}
+            value={formData.tutar}
             onChange={handleInputChange}
             class="form-control"
-            name="harcamaTutari"
-            id="harcamaTutari"
+            name="tutar"
+            id="tutar"
             placeholder="HARCAMA TUTARI GİRİNİZ"
           />
         </div>
