@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TakozAlis.css";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { type } from "@testing-library/user-event/dist/type";
 
 const TakozAlis = () => {
+  const [customerList, setCustomerList] = useState([]);
+
   const [formData, setFormData] = useState({
-    musteriListesi: "",
-    alinacakMalinCinsi: "",
+    musteri: "",
+    malin_cinsi: "",
     gram: "",
     ayar: "",
     iscilik: "",
-    alisKurBedeli: "",
-    dovizOlarakTutar: "",
+    alis_kuru: "",
+    doviz_olarak_tutar: "",
     has: "",
+    type: "takoz",
+    type2: "alım",
   });
 
   const handleChange = (e) => {
@@ -21,22 +27,59 @@ const TakozAlis = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        if (!accessToken) {
+          console.error("Access token is missing");
+          return;
+        }
+
+        const response = await axios.get(
+          "http://52.29.240.45:3001/v1/musteriListele",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setCustomerList(response.data);
+      } catch (error) {
+        console.error("Error fetching customer list:", error);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation, you can add more specific validations as needed
     if (
-      formData.musteriListesi &&
-      formData.alinacakMalinCinsi &&
+      formData.musteri &&
+      formData.malin_cinsi &&
       formData.gram &&
       formData.ayar &&
       formData.iscilik &&
-      formData.alisKurBedeli &&
-      formData.dovizOlarakTutar &&
+      formData.alis_kuru &&
+      formData.doviz_olarak_tutar &&
       formData.has
     ) {
-      // Submit the form data or perform other actions
-      console.log("Form submitted:", formData);
+      try {
+        const response = await axios.post(
+          "http://52.29.240.45:3001/v1/islemOlustur",
+          {
+            ...formData,
+            customerId: formData.musteriListele,
+          }
+        );
+
+        console.log("Form submitted:", response.data);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     } else {
       alert("Please fill in all required fields");
     }
@@ -48,19 +91,19 @@ const TakozAlis = () => {
   };
   return (
     <div>
-      <a
+      {/* <a
         href="#"
         class="btn btn-primary back-musteriButton"
         onClick={backToPage()}
       >
         Geri Dön
-      </a>
+      </a> */}
       <form
         onSubmit={handleSubmit}
         style={{
           width: "70%",
           height: "150%",
-          marginTop: "200px",
+          marginTop: "300px",
         }}
         method="post"
       >
@@ -68,36 +111,74 @@ const TakozAlis = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="musteriListesi"
+            for="musteri"
           >
             MÜŞTERİ LİSTESİ
           </label>
-          <input
-            type="text"
-            value={formData.musteriListesi}
+          <select
+            style={{ color: "black" }}
+            className="form-control"
+            name="musteri"
+            value={formData.musteri}
             onChange={handleChange}
-            class="form-control"
-            name="musteriListesi"
-            id="musteriListesi"
-            placeholder="musteriListesi"
-          />
+            id="musteri"
+          >
+            <option value="" disabled>
+              MÜŞTERİ SEÇİNİZ{" "}
+            </option>
+            {customerList.map((customer) => (
+              <option
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  fontSize: "x-large",
+                }}
+                key={customer.id}
+                value={customer.id}
+              >
+                {customer.unvan}
+              </option>
+            ))}
+          </select>
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="alinacakMalinCinsi"
+            for="malin_cinsi"
           >
             ALINACAK MALIN CİNSİ
           </label>
-          <input
-            type="text"
-            class="form-control"
-            name="alinacakMalinCinsi"
-            value={formData.alinacakMalinCinsi}
+          <select
+            className="form-control"
+            name="malin_cinsi"
+            value={formData.malin_cinsi}
             onChange={handleChange}
-            id="alinacakMalinCinsi"
-            placeholder="alinacakMalinCinsi"
-          />
+            id="malin_cinsi"
+          >
+            <option value="" disabled>
+              Seçiniz
+            </option>
+            <option
+              style={{
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "x-large",
+              }}
+              value="Altin"
+            >
+              Altın
+            </option>
+            <option
+              style={{
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "x-large",
+              }}
+              value="Gumus"
+            >
+              Gümüş
+            </option>
+          </select>
         </div>
         <div class="form-group">
           <label
@@ -154,7 +235,7 @@ const TakozAlis = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="alisKurBedeli"
+            for="alis_kuru"
           >
             ALIŞ KUR BEDELİ
           </label>
@@ -162,11 +243,11 @@ const TakozAlis = () => {
             required
             type="text"
             class="form-control"
-            name="alisKurBedeli"
-            value={formData.alisKurBedeli}
+            name="alis_kuru"
+            value={formData.alis_kuru}
             onChange={handleChange}
-            id="alisKurBedeli"
-            placeholder="alisKurBedeli"
+            id="alis_kuru"
+            placeholder="alis_kuru"
           />
         </div>
 
@@ -181,11 +262,11 @@ const TakozAlis = () => {
             required
             type="text"
             class="form-control"
-            name="dövizOlarakTutar"
-            value={formData.dövizOlarakTutar}
+            name="doviz_olarak_tutar"
+            value={formData.doviz_olarak_tutar}
             onChange={handleChange}
-            id="dövizOlarakTutar"
-            placeholder="dövizOlarakTutar"
+            id="doviz_olarak_tutar"
+            placeholder="doviz_olarak_tutar"
           />
         </div>
         <div class="form-group">
