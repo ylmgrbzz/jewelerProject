@@ -1,17 +1,45 @@
 import "./TakozTasima.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const TakozTasima = () => {
+  const [customerList, setCustomerList] = useState([]);
+
   const [formData, setFormData] = useState({
-    müsteri: "",
-    tasinacakUrun: "",
+    musteri: "",
+    tasinacak_urun: "",
     gram: "",
-    dövizCinsi: "",
-    tasimaBedeli: "",
+    para_birimi: "",
+    tasima_bedeli: "",
     aciklama: "",
   });
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
 
+        if (!accessToken) {
+          console.error("Access token is missing");
+          return;
+        }
+
+        const response = await axios.get(
+          "http://52.29.240.45:3001/v1/musteriListele",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setCustomerList(response.data);
+      } catch (error) {
+        console.error("Error fetching customer list:", error);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,17 +47,30 @@ const TakozTasima = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(formData);
     if (
-      formData.müsteri &&
-      formData.tasinacakUrun &&
+      formData.musteri &&
+      formData.tasinacak_urun &&
       formData.gram &&
-      formData.dövizCinsi &&
-      formData.tasimaBedeli
+      formData.para_birimi &&
+      formData.tasima_bedeli &&
+      formData.aciklama
     ) {
-      console.log("Form submitted:", formData);
+      try {
+        const response = await axios.post(
+          "http://52.29.240.45:3001/v1/islemOlustur",
+          {
+            ...formData,
+            customerId: formData.musteriListele,
+          }
+        );
+
+        console.log("Form submitted:", response.data);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     } else {
       alert("Please fill in all required fields");
     }
@@ -41,13 +82,13 @@ const TakozTasima = () => {
   };
   return (
     <div>
-      <a
+      {/* <a
         href="#"
         class="btn btn-primary back-musteriButton"
         onClick={backToPage()}
       >
         Geri Dön
-      </a>
+      </a> */}
       <form
         onSubmit={handleSubmit}
         style={{
@@ -61,36 +102,70 @@ const TakozTasima = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="müsteri"
+            for="musteri"
           >
             MÜŞTERİ
           </label>
-          <input
-            type="text"
-            value={formData.müsteri}
+          <select
+            style={{ color: "black" }}
+            className="form-control"
+            name="musteri"
+            value={formData.musteri}
             onChange={handleChange}
-            class="form-control"
-            name="müsteri"
-            id="müsteri"
-            placeholder="müsteri"
-          />
+            id="musteri"
+          >
+            <option value="" disabled>
+              MÜŞTERİ SEÇİNİZ{" "}
+            </option>
+            {customerList.map((customer) => (
+              <option
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  fontSize: "x-large",
+                }}
+                key={customer.id}
+                value={customer.id}
+              >
+                {customer.unvan}
+              </option>
+            ))}
+          </select>
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="tasinacakUrun"
+            for="tasinacak_urun"
           >
             TAŞINACAK ÜRÜN
           </label>
-          <input
-            type="text"
-            class="form-control"
-            value={formData.gram}
+          <select
+            style={{ color: "black" }}
+            className="form-control"
+            value={formData.tasinacak_urun}
             onChange={handleChange}
-            name="tasinacakUrun"
-            id="tasinacakUrun"
-            placeholder="tasinacakUrun"
-          />
+            name="tasinacak_urun"
+            id="tasinacak_urun"
+          >
+            <option style={{ color: "black" }} value="">
+              Select an option
+            </option>
+            <option style={{ color: "black" }} value="14Ayar">
+              14 ayar
+            </option>{" "}
+            <option style={{ color: "black" }} value="18Ayar">
+              18 ayar
+            </option>
+            <option style={{ color: "black" }} value="21Ayar">
+              21 ayar
+            </option>
+            <option style={{ color: "black" }} value="22Ayar">
+              22 ayar
+            </option>
+            <option style={{ color: "black" }} value="Gümüş">
+              gümüş
+            </option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -114,26 +189,43 @@ const TakozTasima = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="dövizCinsi"
+            for="para_birimi"
           >
             DÖVİZ CİNSİ
           </label>
-          <input
+          <select
             required
-            type="text"
-            class="form-control"
-            name="dövizCinsi"
-            value={formData.dövizCinsi}
+            className="form-control"
+            name="para_birimi"
+            value={formData.para_birimi}
             onChange={handleChange}
-            id="dövizCinsi"
-            placeholder="dövizCinsi"
-          />
+            id="para_birimi"
+          >
+            <option style={{ color: "black" }} value="">
+              Döviz Cinsi Seçiniz
+            </option>
+            <option style={{ color: "black" }} value="TRY">
+              TRY - Turkish Lira
+            </option>
+            <option style={{ color: "black" }} value="USD">
+              USD - US Dollar
+            </option>
+            <option style={{ color: "black" }} value="EUR">
+              EUR - Euro
+            </option>
+            <option style={{ color: "black" }} value="GBP">
+              GBP - British Pound
+            </option>
+            <option style={{ color: "black" }} value="CHF">
+              CHF - Swiss Franc
+            </option>
+          </select>
         </div>
 
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="tasimaBedeli"
+            for="tasima_bedeli"
           >
             TAŞIMA BEDELİ
           </label>
@@ -141,10 +233,10 @@ const TakozTasima = () => {
             required
             type="text"
             class="form-control"
-            name="tasimaBedeli"
-            value={formData.tasimaBedeli}
+            name="tasima_bedeli"
+            value={formData.tasima_bedeli}
             onChange={handleChange}
-            id="tasimaBedeli"
+            id="tasima_bedeli"
             placeholder="tasimaBedeli"
           />
         </div>
@@ -160,6 +252,7 @@ const TakozTasima = () => {
             name="aciklama"
             id="aciklama"
             rows="4"
+            onChange={handleChange}
             placeholder="aciklama"
           ></textarea>
         </div>
