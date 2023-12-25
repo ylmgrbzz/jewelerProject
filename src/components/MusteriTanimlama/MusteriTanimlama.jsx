@@ -49,7 +49,7 @@ const MusteriTanimlama = () => {
   return (
     <div>
       <form
-        style={{ width: "70%", height: "130%", marginTop: "150px" }}
+        style={{ width: "70%", height: "130%", marginTop: "180px" }}
         method="post"
       >
         <a

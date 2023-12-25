@@ -26,13 +26,13 @@ import { useNavigate } from "react-router-dom";
 
 const RoutesApp = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log("useEffect triggered"); // Add this line
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   console.log("useEffect triggered"); // Add this line
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     navigate("/login");
+  //   }
+  // }, [navigate]);
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />

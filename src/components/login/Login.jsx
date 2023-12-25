@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
-// import jwt from "jsonwebtoken";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
@@ -16,67 +16,40 @@ const Login = () => {
     };
   }, []);
 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     // Gerçek bir API endpoint'i
-  //     const apiUrl = "https://example.com/api/login";
-
-  //     // Gerçek bir API ile iletişim için fetch kullanımı
-  //     const response = await fetch(apiUrl, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ username, password }),
-  //     });
-
-  //     // Yanıt kontrolü
-  //     if (response.ok) {
-  //       const data = await response.json();
-
-  //       // API tarafından dönen gerçek token
-  //       const token = data.token;
-
-  //       // Bearer header oluştur
-  //       const bearerToken = `Bearer ${token}`;
-
-  //       // Token'i local storage'a kaydet
-  //       localStorage.setItem("token", bearerToken);
-
-  //       // Giriş başarılı mesajını yazdır
-  //       console.log("Giriş başarılı!");
-
-  //       // Yönlendirme
-  //       navigate("/jeweler");
-  //     } else {
-  //       // Hatalı yanıt durumunda işlemler
-  //       console.error("Giriş başarısız!");
-  //       alert("Hatalı kullanıcı adı veya şifre!");
-  //     }
-  //   } catch (error) {
-  //     console.error("Bir hata oluştu:", error.message);
-  //   }
-  // };
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (username === "admin" && password === "admin") {
-      // Sahte bir JWT oluştur
-      const token = "example_jwt_token";
+    try {
+      // Sahte bir API endpoint'i
+      const apiUrl = "http://52.29.240.45:3001/v1/auth/login";
 
-      // Token'i local storage'a kaydet
-      localStorage.setItem("token", token);
+      // Sahte bir API ile iletişim için axios kullanımı
+      const response = await axios.post(apiUrl, {
+        email,
+        password,
+      });
 
-      // API isteği yapmadan giriş başarılı mesajını yazdır
-      console.log("Giriş başarılı!");
+      // Yanıt kontrolü
+      if (response.status === 200) {
+        localStorage.setItem(
+          "accessToken",
+          response.data?.tokens?.access?.token
+        );
+        localStorage.setItem(
+          "refreshToken",
+          response.data?.tokens?.refresh?.token
+        );
 
-      // Yönlendirme
-      navigate("/jeweler");
-    } else {
-      alert("Hatalı kullanıcı adı veya şifre!");
+        console.log("Giriş başarılı!");
+
+        // Yönlendirme
+        navigate("/jeweler");
+      } else {
+        console.error("Giriş başarısız!");
+        alert("Hatalı kullanıcı adı veya şifre!");
+      }
+    } catch (error) {
+      console.error("Bir hata oluştu:", error.message);
     }
   };
 
@@ -87,13 +60,13 @@ const Login = () => {
       <form onSubmit={handleLogin}>
         <h3>Giriş Yap</h3>
 
-        <label htmlFor="username">Kullanıcı Adı</label>
+        <label htmlFor="email">E-posta</label>
         <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <label htmlFor="password">Şifre</label>
