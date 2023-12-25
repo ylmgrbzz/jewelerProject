@@ -2,6 +2,7 @@ import "./TakozTasima.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { type } from "@testing-library/user-event/dist/type";
 
 const TakozTasima = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -13,6 +14,8 @@ const TakozTasima = () => {
     para_birimi: "",
     tasima_bedeli: "",
     aciklama: "",
+    type: "takoz",
+    type2: "taşıma",
   });
   useEffect(() => {
     const fetchCustomers = async () => {

@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./KagitAlis.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const KagitAlis = () => {
+  const [customerList, setCustomerList] = useState([]);
+
   const [formData, setFormData] = useState({
-    musteriListesi: "",
-    paraBirimi: "",
+    musteri: "",
+    para_birimi: "",
     miktar: "",
     iscilik: "",
     toplam: "",
     aciklama: "",
     vade: "",
+    type: "kağıt",
+    type2: "alım",
   });
 
   const handleChange = (e) => {
@@ -20,20 +25,60 @@ const KagitAlis = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        if (!accessToken) {
+          console.error("Access token is missing");
+          return;
+        }
+
+        const response = await axios.get(
+          "http://52.29.240.45:3001/v1/musteriListele",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setCustomerList(response.data);
+      } catch (error) {
+        console.error("Error fetching customer list:", error);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    console.log(formData);
     e.preventDefault();
 
     // Basic validation, you can add more specific validations as needed
     if (
-      formData.musteriListesi &&
-      formData.paraBirimi &&
+      formData.musteri &&
+      formData.para_birimi &&
       formData.miktar &&
       formData.iscilik &&
       formData.toplam &&
+      formData.aciklama &&
       formData.vade
     ) {
-      // Submit the form data or perform other actions
-      console.log("Form submitted:", formData);
+      try {
+        const response = await axios.post(
+          "http://52.29.240.45:3001/v1/islemOlustur",
+          {
+            ...formData,
+            customerId: formData.musteriListele,
+          }
+        );
+
+        console.log("Form submitted:", response.data);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     } else {
       alert("Please fill in all required fields");
     }
@@ -45,19 +90,19 @@ const KagitAlis = () => {
   };
   return (
     <div>
-      <a
+      {/* <a
         href="#"
         class="btn btn-primary back-musteriButton"
         onClick={backToPage()}
       >
         Geri Dön
-      </a>
+      </a> */}
       <form
         onSubmit={handleSubmit}
         style={{
           width: "70%",
           height: "150%",
-          marginTop: "200px",
+          marginTop: "350px",
         }}
         method="post"
       >
@@ -65,36 +110,70 @@ const KagitAlis = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="musteriListesi"
+            for="musteri"
           >
             MÜŞTERİ
           </label>
-          <input
-            type="text"
-            value={formData.musteriListesi}
+          <select
+            style={{ color: "black" }}
+            className="form-control"
+            name="musteri"
+            value={formData.musteri}
             onChange={handleChange}
-            class="form-control"
-            name="musteriListesi"
-            id="musteriListesi"
-            placeholder="musteriListesi"
-          />
+            id="musteri"
+          >
+            <option value="" disabled>
+              MÜŞTERİ SEÇİNİZ{" "}
+            </option>
+            {customerList.map((customer) => (
+              <option
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  fontSize: "x-large",
+                }}
+                key={customer.id}
+                value={customer.id}
+              >
+                {customer.unvan}
+              </option>
+            ))}
+          </select>
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="paraBirimi"
+            for="para_birimi"
           >
             PARA BİRİMİ
           </label>
-          <input
-            type="text"
-            class="form-control"
-            name="paraBirimi"
-            value={formData.paraBirimi}
+          <select
+            required
+            className="form-control"
+            name="para_birimi"
+            value={formData.para_birimi}
             onChange={handleChange}
-            id="paraBirimi"
-            placeholder="paraBirimi"
-          />
+            id="para_birimi"
+          >
+            <option style={{ color: "black" }} value="">
+              Para Birimi Seçiniz
+            </option>
+            <option style={{ color: "black" }} value="TRY">
+              TRY - Turkish Lira
+            </option>
+            <option style={{ color: "black" }} value="USD">
+              USD - US Dollar
+            </option>
+            <option style={{ color: "black" }} value="EUR">
+              EUR - Euro
+            </option>
+            <option style={{ color: "black" }} value="GBP">
+              GBP - British Pound
+            </option>
+            <option style={{ color: "black" }} value="CHF">
+              CHF - Swiss Franc
+            </option>
+          </select>
         </div>
         <div class="form-group">
           <label
@@ -181,6 +260,7 @@ const KagitAlis = () => {
             id="aciklama"
             rows="4"
             placeholder="aciklama"
+            onChange={handleChange}
           ></textarea>
         </div>
         <button
