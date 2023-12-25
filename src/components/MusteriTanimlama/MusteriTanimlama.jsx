@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MusteriTanimlama.css";
+import axios from "axios";
 
 const MusteriTanimlama = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     unvan: "",
-    isim: "",
-    tel1: "",
-    tel2: "",
+    ad_soyad: "",
+    gsm1: "",
+    gsm2: "",
     email: "",
     adres: "",
   });
@@ -22,12 +23,29 @@ const MusteriTanimlama = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (validateForm()) {
-      console.log("Form is valid. Submitting...");
-    } else {
-      console.log("Form is invalid. Please check your input.");
+  const submitForm = async (event) => {
+    try {
+      event.preventDefault();
+
+      // Get the access token from local storage
+      const accessToken = localStorage.getItem("accessToken");
+
+      // Set up an Axios instance with the access token in the headers
+      const axiosInstance = axios.create({
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      // Your API endpoint for submitting the form
+      const apiUrl = "http://52.29.240.45:3001/v1/musteriOlustur";
+
+      // Send a POST request with the form data using the Axios instance
+      const response = await axiosInstance.post(apiUrl, formData);
+
+      console.log("Server response:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -40,25 +58,26 @@ const MusteriTanimlama = () => {
     return (
       formData.email.match(emailRegex) &&
       formData.unvan &&
-      formData.isim &&
-      formData.tel1 &&
-      formData.tel2 &&
+      formData.ad_soyad &&
+      formData.gsm1 &&
+      formData.gsm2 &&
       formData.adres
     );
   };
+
   return (
     <div>
+      {/* <a
+        href="#"
+        class="btn btn-primary back-musteriButton"
+        onClick={backToPage()}
+      >
+        Geri Dön
+      </a> */}
       <form
         style={{ width: "70%", height: "130%", marginTop: "180px" }}
-        method="post"
+        onSubmit={submitForm}
       >
-        <a
-          href="#"
-          class="btn btn-primary back-musteriButton"
-          onClick={backToPage()}
-        >
-          Geri Dön
-        </a>
         <h1 class="form-title">CARİ KAYIT EKRANI</h1>
         <div class="form-group">
           <label
@@ -69,10 +88,10 @@ const MusteriTanimlama = () => {
           </label>
           <input
             type="text"
-            class="form-control"
-            name="unvan"
+            className="form-control"
             id="unvan"
             placeholder="Unvan"
+            onChange={handleChange}
           />
         </div>
         <div class="form-group">
@@ -84,10 +103,10 @@ const MusteriTanimlama = () => {
           </label>
           <input
             type="text"
-            class="form-control"
-            name="isim"
-            id="ad"
+            className="form-control"
+            id="ad_soyad"
             placeholder="Ad Soyad"
+            onChange={handleChange}
           />
         </div>
         <div class="form-group">
@@ -99,10 +118,10 @@ const MusteriTanimlama = () => {
           </label>
           <input
             type="text"
-            class="form-control"
-            name="tel1"
-            id="tel1"
-            placeholder="Tel1"
+            className="form-control"
+            id="gsm1"
+            placeholder="GSM 1"
+            onChange={handleChange}
           />
         </div>
         <div class="form-group">
@@ -114,10 +133,10 @@ const MusteriTanimlama = () => {
           </label>
           <input
             type="text"
-            class="form-control"
-            name="tel2"
-            id="tel2"
-            placeholder="Tel2"
+            className="form-control"
+            id="gsm2"
+            placeholder="GSM 2"
+            onChange={handleChange}
           />
         </div>
         <div class="form-group">
@@ -130,10 +149,10 @@ const MusteriTanimlama = () => {
           <input
             required
             type="email"
-            class="form-control"
-            name="email"
+            className="form-control"
             id="email"
             placeholder="E-Mail"
+            onChange={handleChange}
           />
         </div>
         <div class="form-group">
@@ -144,11 +163,11 @@ const MusteriTanimlama = () => {
             Adres
           </label>
           <textarea
-            class="form-control"
-            name="adres"
+            className="form-control"
             id="adres"
             rows="4"
             placeholder="Adres"
+            onChange={handleChange}
           ></textarea>
         </div>
         <button
