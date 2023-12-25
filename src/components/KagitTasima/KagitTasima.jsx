@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./KagitTasima.css";
+import axios from "axios";
+import { type } from "@testing-library/user-event/dist/type";
 
 const KagitTasima = () => {
+  const [customerList, setCustomerList] = useState([]);
+
   const [formData, setFormData] = useState({
-    musteriListesi: "",
-    tasimaMiktari: "",
-    tasinacakKagit: "",
-    tasimaBedeli: "",
-    tasimaBedeliTuru: "",
+    musteri: "",
+    miktar: "",
+    tasinacak_kagit: "",
+    tasima_bedeli: "",
+    tasima_bedeli_turu: "",
     aciklama: "",
+    type: "kağıt",
+    type2: "taşıma",
   });
 
   const handleChange = (e) => {
@@ -19,19 +25,58 @@ const KagitTasima = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
 
-    // Basic validation, you can add more specific validations as needed
+        if (!accessToken) {
+          console.error("Access token is missing");
+          return;
+        }
+
+        const response = await axios.get(
+          "http://52.29.240.45:3001/v1/musteriListele",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setCustomerList(response.data);
+      } catch (error) {
+        console.error("Error fetching customer list:", error);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+
     if (
-      formData.musteriListesi &&
-      formData.tasimaMiktari &&
-      formData.tasinacakKagit &&
-      formData.tasimaBedeli &&
-      formData.tasimaBedeliTuru
+      formData.musteri &&
+      formData.miktar &&
+      formData.tasinacak_kagit &&
+      formData.tasima_bedeli &&
+      formData.tasima_bedeli_turu &&
+      formData.aciklama
     ) {
-      // Submit the form data or perform other actions
-      console.log("Form submitted:", formData);
+      try {
+        const response = await axios.post(
+          "http://52.29.240.45:3001/v1/islemOlustur",
+          {
+            ...formData,
+            customerId: formData.musteriListele,
+          }
+        );
+
+        console.log("Form submitted:", response.data);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     } else {
       alert("Please fill in all required fields");
     }
@@ -43,19 +88,19 @@ const KagitTasima = () => {
   };
   return (
     <div>
-      <a
+      {/* <a
         href="#"
         class="btn btn-primary back-musteriButton"
         onClick={backToPage()}
       >
         Geri Dön
-      </a>
+      </a> */}
       <form
         onSubmit={handleSubmit}
         style={{
           width: "70%",
           height: "150%",
-          marginTop: "200px",
+          marginTop: "350px",
         }}
         method="post"
       >
@@ -63,58 +108,94 @@ const KagitTasima = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="musteriListesi"
+            for="musteri"
           >
             MÜŞTERİ
           </label>
-          <input
-            type="text"
-            value={formData.musteriListesi}
+          <select
+            style={{ color: "black" }}
+            className="form-control"
+            name="musteri"
+            value={formData.musteri}
             onChange={handleChange}
-            class="form-control"
-            name="musteriListesi"
-            id="musteriListesi"
-            placeholder="musteriListesi"
-          />
+            id="musteri"
+          >
+            <option value="" disabled>
+              MÜŞTERİ SEÇİNİZ{" "}
+            </option>
+            {customerList.map((customer) => (
+              <option
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  fontSize: "x-large",
+                }}
+                key={customer.id}
+                value={customer.id}
+              >
+                {customer.unvan}
+              </option>
+            ))}
+          </select>
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="tasimaMiktari"
+            for="miktar"
           >
             TAŞIMA MİKTARİ
           </label>
           <input
             type="text"
             class="form-control"
-            name="tasimaMiktari"
-            value={formData.tasimaMiktari}
+            name="miktar"
+            value={formData.miktar}
             onChange={handleChange}
-            id="tasimaMiktari"
-            placeholder="tasimaMiktari"
+            id="miktar"
+            placeholder="miktar"
           />
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="tasinacakKagit"
+            for="tasinacak_kagit"
           >
             TAŞINACAK KAĞIT
           </label>
-          <input
+          <select
             type="text"
             class="form-control"
-            value={formData.tasinacakKagit}
+            value={formData.tasinacak_kagit}
             onChange={handleChange}
-            name="tasinacakKagit"
-            id="tasinacakKagit"
-            placeholder="tasinacakKagit"
-          />
+            name="tasinacak_kagit"
+            id="tasinacak_kagit"
+            placeholder="tasinacak_kagit"
+          >
+            {" "}
+            <option style={{ color: "black" }} value="">
+              Döviz Cinsi Seçiniz
+            </option>
+            <option style={{ color: "black" }} value="TRY">
+              TRY - Turkish Lira
+            </option>
+            <option style={{ color: "black" }} value="USD">
+              USD - US Dollar
+            </option>
+            <option style={{ color: "black" }} value="EUR">
+              EUR - Euro
+            </option>
+            <option style={{ color: "black" }} value="GBP">
+              GBP - British Pound
+            </option>
+            <option style={{ color: "black" }} value="CHF">
+              CHF - Swiss Franc
+            </option>
+          </select>
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="tasimaBedeli"
+            for="tasima_bedeli"
           >
             TAŞIMA BEDELİ
           </label>
@@ -122,30 +203,47 @@ const KagitTasima = () => {
             required
             type="text"
             class="form-control"
-            value={formData.tasimaBedeli}
+            value={formData.tasima_bedeli}
             onChange={handleChange}
-            name="tasimaBedeli"
-            id="tasimaBedeli"
-            placeholder="tasimaBedeli"
+            name="tasima_bedeli"
+            id="tasima_bedeli"
+            placeholder="tasima_bedeli"
           />
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="tasimaBedeliTuru"
+            for="tasima_bedeli_turu"
           >
             TAŞIMA BEDELİ TÜRÜ
           </label>
-          <input
+          <select
             required
-            type="text"
-            class="form-control"
-            name="tasimaBedeliTuru"
-            value={formData.tasimaBedeliTuru}
+            className="form-control"
+            name="tasima_bedeli_turu"
+            value={formData.tasima_bedeli_turu}
             onChange={handleChange}
-            id="tasimaBedeliTuru"
-            placeholder="tasimaBedeliTuru"
-          />
+            id="tasima_bedeli_turu"
+          >
+            <option style={{ color: "black" }} value="">
+              Döviz Cinsi Seçiniz
+            </option>
+            <option style={{ color: "black" }} value="TRY">
+              TRY - Turkish Lira
+            </option>
+            <option style={{ color: "black" }} value="USD">
+              USD - US Dollar
+            </option>
+            <option style={{ color: "black" }} value="EUR">
+              EUR - Euro
+            </option>
+            <option style={{ color: "black" }} value="GBP">
+              GBP - British Pound
+            </option>
+            <option style={{ color: "black" }} value="CHF">
+              CHF - Swiss Franc
+            </option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -159,6 +257,7 @@ const KagitTasima = () => {
             class="form-control"
             name="aciklama"
             id="aciklama"
+            onChange={handleChange}
             rows="4"
             placeholder="aciklama"
           ></textarea>
