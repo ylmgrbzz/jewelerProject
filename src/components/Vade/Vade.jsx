@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Vade.css";
 import { Link } from "react-router-dom";
@@ -10,27 +10,42 @@ const Vade = () => {
   const [kagitFilter, setKagitFilter] = useState("");
   const [iscilikFilter, setIscilikFilter] = useState("");
   const [vadeFilter, setVadeFilter] = useState("");
+  const [tableData, setTableData] = useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://52.29.240.45:3001/v1/vadeListele");
+        const data = await response.json();
+        setTableData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleInputChange = (e, setFilter) => {
     setFilter(e.target.value);
   };
 
-  const filterData = (data) => {
-    return data.filter((row) => {
-      return (
-        row.kaydedenKisi
-          .toLowerCase()
-          .includes(kaydedenKisiFilter.toLowerCase()) &&
-        row.firma.toLowerCase().includes(firmaFilter.toLowerCase()) &&
-        row.altin.toLowerCase().includes(altinFilter.toLowerCase()) &&
-        row.kagit.toLowerCase().includes(kagitFilter.toLowerCase()) &&
-        row.iscilik.toLowerCase().includes(iscilikFilter.toLowerCase()) &&
-        row.vade.toLowerCase().includes(vadeFilter.toLowerCase())
-      );
-    });
-  };
+  // const filterData = (data) => {
+  //   return data.filter((row) => {
+  //     return (
+  //       row.kaydedenKisi
+  //         ?.toLowerCase()
+  //         .includes(kaydedenKisiFilter.toLowerCase()) &&
+  //       row?.user?.name.toLowerCase().includes(firmaFilter?.toLowerCase()) &&
+  //       row.altin.toLowerCase().includes(altinFilter?.toLowerCase()) &&
+  //       row.kagit.toLowerCase().includes(kagitFilter?.toLowerCase()) &&
+  //       row.iscilik.toLowerCase().includes(iscilikFilter?.toLowerCase()) &&
+  //       row.vade.toLowerCase().includes(vadeFilter?.toLowerCase())
+  //     );
+  //   });
+  // };
 
   return (
     <div>
@@ -100,12 +115,12 @@ const Vade = () => {
             </tr>
           </thead>
           <tbody>
-            {filterData(tableData).map((row, index) => (
+            {tableData?.map((row, index) => (
               <tr key={index}>
-                <td>{row.kaydedenKisi}</td>
-                <td>{row.firma}</td>
-                <td>{row.altin}</td>
-                <td>{row.kagit}</td>
+                <td>{row?.user?.name}</td>
+                <td>{row?.musteri?.unvan}</td>
+                <td>{row.malin_cinsi === "Altin" ? row.miktar : ""}</td>
+                <td>{row.iscilik}</td>
                 <td>{row.iscilik}</td>
                 <td>{row.vade}</td>
               </tr>
@@ -116,48 +131,5 @@ const Vade = () => {
     </div>
   );
 };
-
-const tableData = [
-  {
-    kaydedenKisi: "John Doe",
-    firma: "ABC Company",
-    altin: "10 gram",
-    kagit: "A4",
-    iscilik: "50 TL",
-    vade: "30 gün",
-  },
-  {
-    kaydedenKisi: "Jane Doe",
-    firma: "XYZ Corporation",
-    altin: "5 gram",
-    kagit: "Letter",
-    iscilik: "40 TL",
-    vade: "15 gün",
-  },
-  {
-    kaydedenKisi: "Alice Johnson",
-    firma: "123 Industries",
-    altin: "8 gram",
-    kagit: "A3",
-    iscilik: "60 TL",
-    vade: "45 gün",
-  },
-  {
-    kaydedenKisi: "Bob Smith",
-    firma: "456 Enterprises",
-    altin: "15 gram",
-    kagit: "Legal",
-    iscilik: "75 TL",
-    vade: "60 gün",
-  },
-  {
-    kaydedenKisi: "Charlie Brown",
-    firma: "789 Ltd.",
-    altin: "12 gram",
-    kagit: "B5",
-    iscilik: "55 TL",
-    vade: "20 gün",
-  },
-];
 
 export default Vade;
