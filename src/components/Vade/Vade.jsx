@@ -12,8 +12,6 @@ const Vade = () => {
   const [vadeFilter, setVadeFilter] = useState("");
   const [tableData, setTableData] = useState([]);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     const fetchData = async () => {
       try {

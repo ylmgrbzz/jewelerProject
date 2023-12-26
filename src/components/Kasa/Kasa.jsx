@@ -1,6 +1,6 @@
 import "./Kasa.css";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Kasa = () => {
@@ -10,8 +10,7 @@ const Kasa = () => {
   const [kagitFilter, setKagitFilter] = useState("");
   const [iscilikFilter, setIscilikFilter] = useState("");
   const [tarihFilter, setTarihFilter] = useState("");
-
-  const navigate = useNavigate();
+  const [tableData, setTableData] = useState([]);
 
   const formatInputDate = (inputDate) => {
     const [year, month, day] = inputDate.split("-");
@@ -25,23 +24,34 @@ const Kasa = () => {
     setFilter(value);
   };
 
-  const filterData = (data) => {
-    return data.filter((row) => {
-      return (
-        row.kaydedenKisi
-          .toLowerCase()
-          .includes(kaydedenKisiFilter.toLowerCase()) &&
-        row.firma.toLowerCase().includes(firmaFilter.toLowerCase()) &&
-        row.altin.toLowerCase().includes(altinFilter.toLowerCase()) &&
-        row.kagit.toLowerCase().includes(kagitFilter.toLowerCase()) &&
-        row.iscilik.toLowerCase().includes(iscilikFilter.toLowerCase()) &&
-        row.tarih.includes(tarihFilter)
-      );
-    });
-  };
-  const backToPage = () => {
-    navigate("/jeweler");
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://52.29.240.45:3001/v1/kasaListele");
+        const data = await response.json();
+        setTableData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // const filterData = (data) => {
+  //   return data.filter((row) => {
+  //     return (
+  //       row.kaydedenKisi
+  //         .toLowerCase()
+  //         .includes(kaydedenKisiFilter.toLowerCase()) &&
+  //       row.firma.toLowerCase().includes(firmaFilter.toLowerCase()) &&
+  //       row.altin.toLowerCase().includes(altinFilter.toLowerCase()) &&
+  //       row.kagit.toLowerCase().includes(kagitFilter.toLowerCase()) &&
+  //       row.iscilik.toLowerCase().includes(iscilikFilter.toLowerCase()) &&
+  //       row.tarih.includes(tarihFilter)
+  //     );
+  //   });
+  // };
 
   return (
     <div>
@@ -71,12 +81,21 @@ const Kasa = () => {
                 />
               </th>
               <th>
-                ALTIN
+                ALTIN / GÜMÜŞ
                 <input
                   className="filter-input"
                   type="text"
                   value={altinFilter}
                   onChange={(e) => handleInputChange(e, setAltinFilter)}
+                />
+              </th>
+              <th>
+                TYPE
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={kagitFilter}
+                  onChange={(e) => handleInputChange(e, setKagitFilter)}
                 />
               </th>
               <th>
@@ -109,64 +128,42 @@ const Kasa = () => {
             </tr>
           </thead>
           <tbody>
-            {filterData(tableData).map((row, index) => (
-              <tr key={index}>
-                <td>{row.kaydedenKisi}</td>
-                <td>{row.firma}</td>
-                <td>{row.altin}</td>
-                <td>{row.kagit}</td>
-                <td>{row.iscilik}</td>
-                <td>{row.tarih}</td>
-              </tr>
-            ))}
+            {tableData?.map((row, index) => {
+              const createdAtDate = new Date(row.createdAt);
+
+              const formattedDate = `${createdAtDate.getDate()}/${
+                createdAtDate.getMonth() + 1
+              }/${createdAtDate.getFullYear()}`;
+
+              return (
+                <tr key={index}>
+                  <td>{row?.user?.name}</td>
+                  <td>{row?.musteri?.unvan}</td>
+                  <td>
+                    {(row.malin_cinsi ? row.malin_cinsi : " ") +
+                      " " +
+                      (row.has ? row.has + " " + "Has" : " ")}
+                  </td>
+                  <td>{row.type}</td>
+                  <td>
+                    {(row.miktar ? row.miktar : " ") +
+                      " " +
+                      (row.para_birimi ? row.para_birimi : " ")}
+                  </td>
+                  <td>
+                    {(row.iscilik ? row.iscilik : " ") +
+                      " " +
+                      (row.para_birimi ? row.para_birimi : " ")}
+                  </td>
+                  <td>{formattedDate}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
     </div>
   );
 };
-
-const tableData = [
-  {
-    kaydedenKisi: "John Doe",
-    firma: "ABC Company",
-    altin: "10 gram",
-    kagit: "A4",
-    iscilik: "50 TL",
-    tarih: "01.01.2021",
-  },
-  {
-    kaydedenKisi: "Jane Doe",
-    firma: "XYZ Corporation",
-    altin: "5 gram",
-    kagit: "Letter",
-    iscilik: "40 TL",
-    tarih: "02.01.2021",
-  },
-  {
-    kaydedenKisi: "Alice Johnson",
-    firma: "123 Industries",
-    altin: "8 gram",
-    kagit: "A3",
-    iscilik: "60 TL",
-    tarih: "03.01.2021",
-  },
-  {
-    kaydedenKisi: "Bob Smith",
-    firma: "456 Enterprises",
-    altin: "15 gram",
-    kagit: "Legal",
-    iscilik: "75 TL",
-    tarih: "03.01.2021",
-  },
-  {
-    kaydedenKisi: "Charlie Brown",
-    firma: "789 Ltd.",
-    altin: "12 gram",
-    kagit: "B5",
-    iscilik: "55 TL",
-    tarih: "04.01.2021",
-  },
-];
 
 export default Kasa;
