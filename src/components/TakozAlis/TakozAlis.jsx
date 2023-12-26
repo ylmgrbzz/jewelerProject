@@ -6,6 +6,7 @@ import { type } from "@testing-library/user-event/dist/type";
 import { Link } from "react-router-dom";
 const TakozAlis = () => {
   const [customerList, setCustomerList] = useState([]);
+  const [submissionStatus, setSubmissionStatus] = useState(null);
 
   const [formData, setFormData] = useState({
     musteri: "",
@@ -21,9 +22,32 @@ const TakozAlis = () => {
   });
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // Numeric validation
+    const isNumeric = /^[0-9]*$/;
+
+    // Check if the input value is a valid number
+    if (
+      name === "ayar" ||
+      name === "iscilik" ||
+      name === "alis_kuru" ||
+      name === "gram" ||
+      name === "doviz_olarak_tutar" ||
+      name === "has"
+    ) {
+      if (!isNumeric.test(value)) {
+        // Display an error or handle invalid input as needed
+        console.error(
+          `Invalid input for ${name}. Please enter a valid number.`
+        );
+        return;
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -77,6 +101,19 @@ const TakozAlis = () => {
         );
 
         console.log("Form submitted:", response.data);
+        window.alert("Form başarıyla gönderildi.");
+        setFormData({
+          musteri: "",
+          malin_cinsi: "",
+          gram: "",
+          ayar: "",
+          iscilik: "",
+          alis_kuru: "",
+          doviz_olarak_tutar: "",
+          has: "",
+          type: "takoz",
+          type2: "alım",
+        });
       } catch (error) {
         console.error("Error submitting form:", error);
       }
@@ -85,10 +122,6 @@ const TakozAlis = () => {
     }
   };
 
-  const navigate = useNavigate();
-  const backToPage = () => {
-    navigate("/takoz");
-  };
   return (
     <div>
       <Link to="/jeweler" className="btn btn-primary back-button">
