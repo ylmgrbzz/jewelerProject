@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { type } from "@testing-library/user-event/dist/type";
+import { Link } from "react-router-dom";
 
 const TakozTasima = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -43,10 +44,32 @@ const TakozTasima = () => {
 
     fetchCustomers();
   }, []);
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    const isNumeric = /^[0-9]*$/;
+
+    if (
+      name === "ayar" ||
+      name === "iscilik" ||
+      name === "alis_kuru" ||
+      name === "gram" ||
+      name === "doviz_olarak_tutar" ||
+      name === "tasima_bedeli" ||
+      name === "has"
+    ) {
+      if (!isNumeric.test(value)) {
+        console.error(
+          `Invalid input for ${name}. Please enter a valid number.`
+        );
+        return;
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -69,29 +92,33 @@ const TakozTasima = () => {
             customerId: formData.musteriListele,
           }
         );
+        window.alert("Form başarıyla gönderildi.");
+        setFormData({
+          musteri: "",
+          tasinacak_urun: "",
+          gram: "",
+          para_birimi: "",
+          tasima_bedeli: "",
+          aciklama: "",
+          type: "takoz",
+          type2: "taşıma",
+        });
 
         console.log("Form submitted:", response.data);
       } catch (error) {
         console.error("Error submitting form:", error);
+        window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
       }
     } else {
-      alert("Please fill in all required fields");
+      window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
   };
 
-  const navigate = useNavigate();
-  const backToPage = () => {
-    navigate("/takoz");
-  };
   return (
     <div>
-      {/* <a
-        href="#"
-        class="btn btn-primary back-musteriButton"
-        onClick={backToPage()}
-      >
+      <Link to="/takoz" className="btn btn-primary back-button">
         Geri Dön
-      </a> */}
+      </Link>
       <form
         onSubmit={handleSubmit}
         style={{
@@ -151,7 +178,7 @@ const TakozTasima = () => {
             id="tasinacak_urun"
           >
             <option style={{ color: "black" }} value="">
-              Select an option
+              TAŞINACAK ÜRÜN SEÇİNİZ
             </option>
             <option style={{ color: "black" }} value="14Ayar">
               14 ayar
