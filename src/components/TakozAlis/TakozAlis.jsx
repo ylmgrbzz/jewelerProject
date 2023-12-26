@@ -3,7 +3,7 @@ import "./TakozAlis.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { type } from "@testing-library/user-event/dist/type";
-
+import { Link } from "react-router-dom";
 const TakozAlis = () => {
   const [customerList, setCustomerList] = useState([]);
 
@@ -91,13 +91,9 @@ const TakozAlis = () => {
   };
   return (
     <div>
-      {/* <a
-        href="#"
-        class="btn btn-primary back-musteriButton"
-        onClick={backToPage()}
-      >
+      <Link to="/jeweler" className="btn btn-primary back-button">
         Geri Dön
-      </a> */}
+      </Link>
       <form
         onSubmit={handleSubmit}
         style={{

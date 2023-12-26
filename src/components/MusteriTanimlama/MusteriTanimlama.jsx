@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MusteriTanimlama.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const MusteriTanimlama = () => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const MusteriTanimlama = () => {
     adres: "",
   });
 
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+
   const handleChange = (event) => {
     const { id, value } = event.target;
     setFormData((prevData) => ({
@@ -26,54 +29,52 @@ const MusteriTanimlama = () => {
   const submitForm = async (event) => {
     try {
       event.preventDefault();
-
-      // Get the access token from local storage
+      if (!validateForm()) {
+        window.alert("Lütfen formu eksiksiz doldurunuz.");
+        return;
+      }
       const accessToken = localStorage.getItem("accessToken");
 
-      // Set up an Axios instance with the access token in the headers
       const axiosInstance = axios.create({
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      // Your API endpoint for submitting the form
       const apiUrl = "http://52.29.240.45:3001/v1/musteriOlustur";
 
-      // Send a POST request with the form data using the Axios instance
       const response = await axiosInstance.post(apiUrl, formData);
 
       console.log("Server response:", response.data);
+      window.alert("Form başarıyla gönderildi.");
+      event.target.reset();
     } catch (error) {
       console.error("Error submitting form:", error);
+      setSubmissionStatus("error");
     }
-  };
-
-  const backToPage = () => {
-    navigate("/jeweler");
   };
 
   const validateForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/;
+
     return (
       formData.email.match(emailRegex) &&
-      formData.unvan &&
-      formData.ad_soyad &&
-      formData.gsm1 &&
-      formData.gsm2 &&
-      formData.adres
+      formData.unvan.trim() !== "" &&
+      formData.ad_soyad.trim() !== "" &&
+      formData.gsm1.match(phoneRegex) &&
+      formData.gsm2.match(phoneRegex) &&
+      formData.adres.trim() !== ""
     );
   };
 
   return (
     <div>
-      {/* <a
-        href="#"
-        class="btn btn-primary back-musteriButton"
-        onClick={backToPage()}
-      >
-        Geri Dön
-      </a> */}
+      <div>
+        <Link to="/jeweler" className="btn btn-primary back-button">
+          Geri Dön
+        </Link>
+      </div>
       <form
         style={{ width: "70%", height: "130%", marginTop: "180px" }}
         onSubmit={submitForm}
