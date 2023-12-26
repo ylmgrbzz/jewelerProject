@@ -57,6 +57,8 @@ const Vade = () => {
         typeof row?.iscilik === "string" ? row.iscilik.trim() : "";
       const vade = (row?.vade || "").trim();
 
+      const isNumeric = (value) => /^\d+$/.test(value);
+
       return (
         (kaydedenKisiFilter === "" ||
           userName.toLowerCase().includes(kaydedenKisiFilter.toLowerCase())) &&
@@ -68,11 +70,13 @@ const Vade = () => {
         (tipFilter === "" ||
           type.toLowerCase().includes(tipFilter.toLowerCase())) &&
         (kagitFilter === "" ||
-          miktar.toLowerCase().includes(kagitFilter.toLowerCase()) ||
-          paraBirimi.toLowerCase().includes(kagitFilter.toLowerCase())) &&
+          (isNumeric(kagitFilter) && miktar.includes(kagitFilter)) ||
+          (!isNumeric(kagitFilter) &&
+            paraBirimi.toLowerCase().includes(kagitFilter.toLowerCase()))) &&
         (iscilikFilter === "" ||
-          iscilik.toLowerCase().includes(iscilikFilter.toLowerCase()) ||
-          paraBirimi.toLowerCase().includes(iscilikFilter.toLowerCase())) &&
+          (isNumeric(iscilikFilter) && iscilik.includes(iscilikFilter)) ||
+          (!isNumeric(iscilikFilter) &&
+            paraBirimi.toLowerCase().includes(iscilikFilter.toLowerCase()))) &&
         (vadeFilter === "" ||
           vade.toLowerCase().includes(vadeFilter.toLowerCase()))
       );
