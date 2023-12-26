@@ -10,7 +10,9 @@ const Vade = () => {
   const [kagitFilter, setKagitFilter] = useState("");
   const [iscilikFilter, setIscilikFilter] = useState("");
   const [vadeFilter, setVadeFilter] = useState("");
+  const [tipFilter, setTipFilter] = useState("");
   const [tableData, setTableData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,6 +20,7 @@ const Vade = () => {
         const response = await fetch("http://52.29.240.45:3001/v1/vadeListele");
         const data = await response.json();
         setTableData(data);
+        setFilteredData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -26,24 +29,66 @@ const Vade = () => {
     fetchData();
   }, []);
 
-  const handleInputChange = (e, setFilter) => {
-    setFilter(e.target.value);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://52.29.240.45:3001/v1/vadeListele");
+        const data = await response.json();
+        setTableData(data);
+        setFilteredData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  // const filterData = (data) => {
-  //   return data.filter((row) => {
-  //     return (
-  //       row.kaydedenKisi
-  //         ?.toLowerCase()
-  //         .includes(kaydedenKisiFilter.toLowerCase()) &&
-  //       row?.user?.name.toLowerCase().includes(firmaFilter?.toLowerCase()) &&
-  //       row.altin.toLowerCase().includes(altinFilter?.toLowerCase()) &&
-  //       row.kagit.toLowerCase().includes(kagitFilter?.toLowerCase()) &&
-  //       row.iscilik.toLowerCase().includes(iscilikFilter?.toLowerCase()) &&
-  //       row.vade.toLowerCase().includes(vadeFilter?.toLowerCase())
-  //     );
-  //   });
-  // };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const filtered = tableData.filter((row) => {
+      const userName = (row?.user?.name || "").trim();
+      const unvan = (row?.musteri?.unvan || "").trim();
+      const malinCinsi = (row?.malin_cinsi || "").trim();
+      const has = typeof row?.has === "string" ? row.has.trim() : "";
+      const type = (row?.type || "").trim();
+      const miktar = typeof row?.miktar === "string" ? row.miktar.trim() : "";
+      const paraBirimi = (row?.para_birimi || "").trim();
+      const iscilik =
+        typeof row?.iscilik === "string" ? row.iscilik.trim() : "";
+      const vade = (row?.vade || "").trim();
+
+      return (
+        (kaydedenKisiFilter === "" ||
+          userName.toLowerCase().includes(kaydedenKisiFilter.toLowerCase())) &&
+        (firmaFilter === "" ||
+          unvan.toLowerCase().includes(firmaFilter.toLowerCase())) &&
+        (altinFilter === "" ||
+          malinCinsi.toLowerCase().includes(altinFilter.toLowerCase()) ||
+          has.toLowerCase().includes(altinFilter.toLowerCase())) &&
+        (tipFilter === "" ||
+          type.toLowerCase().includes(tipFilter.toLowerCase())) &&
+        (kagitFilter === "" ||
+          miktar.toLowerCase().includes(kagitFilter.toLowerCase()) ||
+          paraBirimi.toLowerCase().includes(kagitFilter.toLowerCase())) &&
+        (iscilikFilter === "" ||
+          iscilik.toLowerCase().includes(iscilikFilter.toLowerCase()) ||
+          paraBirimi.toLowerCase().includes(iscilikFilter.toLowerCase())) &&
+        (vadeFilter === "" ||
+          vade.toLowerCase().includes(vadeFilter.toLowerCase()))
+      );
+    });
+
+    setFilteredData(filtered);
+  }, [
+    kaydedenKisiFilter,
+    firmaFilter,
+    altinFilter,
+    kagitFilter,
+    iscilikFilter,
+    vadeFilter,
+    tipFilter,
+    tableData,
+  ]);
 
   return (
     <div>
@@ -62,7 +107,7 @@ const Vade = () => {
                   className="filter-input"
                   type="text"
                   value={kaydedenKisiFilter}
-                  onChange={(e) => handleInputChange(e, setKaydedenKisiFilter)}
+                  onChange={(e) => setKaydedenKisiFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -71,7 +116,7 @@ const Vade = () => {
                   className="filter-input"
                   type="text"
                   value={firmaFilter}
-                  onChange={(e) => handleInputChange(e, setFirmaFilter)}
+                  onChange={(e) => setFirmaFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -80,7 +125,7 @@ const Vade = () => {
                   className="filter-input"
                   type="text"
                   value={altinFilter}
-                  onChange={(e) => handleInputChange(e, setAltinFilter)}
+                  onChange={(e) => setAltinFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -88,8 +133,8 @@ const Vade = () => {
                 <input
                   className="filter-input"
                   type="text"
-                  value={kagitFilter}
-                  onChange={(e) => handleInputChange(e, setKagitFilter)}
+                  value={tipFilter}
+                  onChange={(e) => setTipFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -98,7 +143,7 @@ const Vade = () => {
                   className="filter-input"
                   type="text"
                   value={kagitFilter}
-                  onChange={(e) => handleInputChange(e, setKagitFilter)}
+                  onChange={(e) => setKagitFilter(e.target.value)}
                 />
               </th>
 
@@ -108,7 +153,7 @@ const Vade = () => {
                   className="filter-input"
                   type="text"
                   value={iscilikFilter}
-                  onChange={(e) => handleInputChange(e, setIscilikFilter)}
+                  onChange={(e) => setIscilikFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -117,13 +162,13 @@ const Vade = () => {
                   className="filter-input"
                   type="text"
                   value={vadeFilter}
-                  onChange={(e) => handleInputChange(e, setVadeFilter)}
+                  onChange={(e) => setVadeFilter(e.target.value)}
                 />
               </th>
             </tr>
           </thead>
           <tbody>
-            {tableData?.map((row, index) => (
+            {filteredData?.map((row, index) => (
               <tr key={index}>
                 <td>{row?.user?.name}</td>
                 <td>{row?.musteri?.unvan}</td>
