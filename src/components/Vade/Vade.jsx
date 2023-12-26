@@ -86,6 +86,15 @@ const Vade = () => {
                 />
               </th>
               <th>
+                TYPE
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={kagitFilter}
+                  onChange={(e) => handleInputChange(e, setKagitFilter)}
+                />
+              </th>
+              <th>
                 KAĞIT
                 <input
                   className="filter-input"
@@ -94,6 +103,7 @@ const Vade = () => {
                   onChange={(e) => handleInputChange(e, setKagitFilter)}
                 />
               </th>
+
               <th>
                 İŞÇİLİK
                 <input
@@ -119,9 +129,22 @@ const Vade = () => {
               <tr key={index}>
                 <td>{row?.user?.name}</td>
                 <td>{row?.musteri?.unvan}</td>
-                <td>{row.malin_cinsi === "Altin" ? row.miktar : ""}</td>
-                <td>{row.iscilik}</td>
-                <td>{row.iscilik}</td>
+                <td>
+                  {(row.malin_cinsi ? row.malin_cinsi : " ") +
+                    " " +
+                    (row.has ? row.has + " " + "Has" : " ")}
+                </td>
+                <td>{row.type}</td>
+                <td>
+                  {(row.miktar ? row.miktar : " ") +
+                    " " +
+                    (row.para_birimi ? row.para_birimi : " ")}
+                </td>
+                <td>
+                  {(row.iscilik ? row.iscilik : " ") +
+                    " " +
+                    (row.para_birimi ? row.para_birimi : " ")}
+                </td>
                 <td>{row.vade}</td>
               </tr>
             ))}
