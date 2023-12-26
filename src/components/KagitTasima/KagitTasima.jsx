@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./KagitTasima.css";
 import axios from "axios";
 import { type } from "@testing-library/user-event/dist/type";
+import { Link } from "react-router-dom";
 
 const KagitTasima = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -19,9 +20,33 @@ const KagitTasima = () => {
   });
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    const isNumeric = /^[0-9]*$/;
+
+    if (
+      name === "ayar" ||
+      name === "iscilik" ||
+      name === "alis_kuru" ||
+      name === "miktar" ||
+      name === "vade" ||
+      name === "toplam" ||
+      name === "gram" ||
+      name === "doviz_olarak_tutar" ||
+      name === "tasima_bedeli" ||
+      name === "has"
+    ) {
+      if (!isNumeric.test(value)) {
+        console.error(
+          `Invalid input for ${name}. Please enter a valid number.`
+        );
+        return;
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -74,11 +99,23 @@ const KagitTasima = () => {
         );
 
         console.log("Form submitted:", response.data);
+        window.alert("Form başarıyla gönderildi.");
+        setFormData({
+          musteri: "",
+
+          miktar: "",
+          tasinacak_kagit: "",
+          tasima_bedeli: "",
+          tasima_bedeli_turu: "",
+          aciklama: "",
+        });
       } catch (error) {
         console.error("Error submitting form:", error);
+        window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
       }
     } else {
       alert("Please fill in all required fields");
+      window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
   };
 
@@ -88,13 +125,9 @@ const KagitTasima = () => {
   };
   return (
     <div>
-      {/* <a
-        href="#"
-        class="btn btn-primary back-musteriButton"
-        onClick={backToPage()}
-      >
+      <Link to="/kagit" className="btn btn-primary back-button">
         Geri Dön
-      </a> */}
+      </Link>
       <form
         onSubmit={handleSubmit}
         style={{

@@ -2,6 +2,8 @@ import "./KagitSatis.css";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { type } from "@testing-library/user-event/dist/type";
+import { Link } from "react-router-dom";
 
 const KagitSatis = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -18,9 +20,32 @@ const KagitSatis = () => {
   });
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    const isNumeric = /^[0-9]*$/;
+
+    if (
+      name === "ayar" ||
+      name === "iscilik" ||
+      name === "alis_kuru" ||
+      name === "miktar" ||
+      name === "vade" ||
+      name === "toplam" ||
+      name === "gram" ||
+      name === "doviz_olarak_tutar" ||
+      name === "has"
+    ) {
+      if (!isNumeric.test(value)) {
+        console.error(
+          `Invalid input for ${name}. Please enter a valid number.`
+        );
+        return;
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -72,13 +97,26 @@ const KagitSatis = () => {
             customerId: formData.musteriListele,
           }
         );
+        window.alert("Form başarıyla gönderildi.");
+        setFormData({
+          musteri: "",
+          para_birimi: "",
+          miktar: "",
+          iscilik: "",
+          toplam: "",
+          aciklama: "",
+          vade: "",
+          type: "kağıt",
+          type2: "satım",
+        });
 
         console.log("Form submitted:", response.data);
       } catch (error) {
         console.error("Error submitting form:", error);
+        window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
       }
     } else {
-      alert("Please fill in all required fields");
+      window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
   };
 
@@ -88,13 +126,9 @@ const KagitSatis = () => {
   };
   return (
     <div>
-      {/* <a
-        href="#"
-        class="btn btn-primary back-musteriButton"
-        onClick={backToPage()}
-      >
+      <Link to="/kagit" className="btn btn-primary back-button">
         Geri Dön
-      </a> */}
+      </Link>
       <form
         onSubmit={handleSubmit}
         style={{
