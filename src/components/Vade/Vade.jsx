@@ -75,7 +75,7 @@ const Vade = () => {
                 />
               </th>
               <th>
-                ALTIN
+                ALTIN / GÜMÜŞ
                 <input
                   className="filter-input"
                   type="text"
@@ -84,7 +84,7 @@ const Vade = () => {
                 />
               </th>
               <th>
-                TYPE
+                TİP
                 <input
                   className="filter-input"
                   type="text"

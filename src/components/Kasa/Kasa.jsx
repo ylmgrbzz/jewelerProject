@@ -90,7 +90,7 @@ const Kasa = () => {
                 />
               </th>
               <th>
-                TYPE
+                TİP
                 <input
                   className="filter-input"
                   type="text"
