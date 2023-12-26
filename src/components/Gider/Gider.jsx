@@ -2,6 +2,8 @@ import "./Gider.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { type } from "@testing-library/user-event/dist/type";
+import { Link } from "react-router-dom";
 
 const Gider = () => {
   const navigate = useNavigate();
@@ -41,13 +43,22 @@ const Gider = () => {
             ...formData,
           }
         );
+        window.alert("Form başarıyla gönderildi.");
+
+        setFormData({
+          gider_turu: "",
+          kur: "",
+          tutar: "",
+          aciklama: "",
+        });
 
         console.log("Form submitted:", response.data);
       } catch (error) {
         console.error("Error submitting form:", error);
+        window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
       }
     } else {
-      alert("Please fill in all required fields");
+      window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
   };
 
@@ -57,13 +68,9 @@ const Gider = () => {
 
   return (
     <div>
-      {/* <a
-        onClick={backToPage()}
-        href="#"
-        class="btn btn-primary back-giderButton"
-      >
+      <Link to="/jeweler" className="btn btn-primary back-button">
         Geri Dön
-      </a> */}
+      </Link>
       <form
         style={{ width: "70%", height: "100%", marginTop: "10px" }}
         method="post"
