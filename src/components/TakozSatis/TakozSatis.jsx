@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./TakozSatis.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const TakozSatis = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -21,9 +22,29 @@ const TakozSatis = () => {
   });
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    const isNumeric = /^[0-9]*$/;
+
+    if (
+      name === "ayar" ||
+      name === "iscilik" ||
+      name === "alis_kuru" ||
+      name === "gram" ||
+      name === "doviz_olarak_tutar" ||
+      name === "has"
+    ) {
+      if (!isNumeric.test(value)) {
+        console.error(
+          `Invalid input for ${name}. Please enter a valid number.`
+        );
+        return;
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
   useEffect(() => {
@@ -76,27 +97,33 @@ const TakozSatis = () => {
         );
 
         console.log("Form submitted:", response.data);
+        window.alert("Form başarıyla gönderildi.");
+        setFormData({
+          musteri: "",
+          malin_cinsi: "",
+          gram: "",
+          ayar: "",
+          iscilik: "",
+          satis_kuru: "",
+          doviz_olarak_tutar: "",
+          has: "",
+          type: "takoz",
+          type2: "satım",
+          vade: "",
+        });
       } catch (error) {
         console.error("Error submitting form:", error);
       }
     } else {
-      alert("Please fill in all required fields");
+      window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
   };
 
-  const navigate = useNavigate();
-  const backToPage = () => {
-    navigate("/takoz");
-  };
   return (
     <div>
-      {/* <a
-        href="#"
-        class="btn btn-primary back-musteriButton"
-        onClick={backToPage()}
-      >
+      <Link to="/takoz" className="btn btn-primary back-button">
         Geri Dön
-      </a> */}
+      </Link>
       <form
         onSubmit={handleSubmit}
         style={{
@@ -173,7 +200,7 @@ const TakozSatis = () => {
                 fontWeight: "bold",
                 fontSize: "x-large",
               }}
-              value="Gumus"
+              value="Gümüş"
             >
               Gümüş
             </option>

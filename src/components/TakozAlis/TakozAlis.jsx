@@ -24,10 +24,8 @@ const TakozAlis = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Numeric validation
     const isNumeric = /^[0-9]*$/;
 
-    // Check if the input value is a valid number
     if (
       name === "ayar" ||
       name === "iscilik" ||
@@ -37,7 +35,6 @@ const TakozAlis = () => {
       name === "has"
     ) {
       if (!isNumeric.test(value)) {
-        // Display an error or handle invalid input as needed
         console.error(
           `Invalid input for ${name}. Please enter a valid number.`
         );
@@ -116,15 +113,16 @@ const TakozAlis = () => {
         });
       } catch (error) {
         console.error("Error submitting form:", error);
+        window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
       }
     } else {
-      alert("Please fill in all required fields");
+      window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
   };
 
   return (
     <div>
-      <Link to="/jeweler" className="btn btn-primary back-button">
+      <Link to="/takoz" className="btn btn-primary back-button">
         Geri Dön
       </Link>
       <form
@@ -203,7 +201,7 @@ const TakozAlis = () => {
                 fontWeight: "bold",
                 fontSize: "x-large",
               }}
-              value="Gumus"
+              value="Gümüş"
             >
               Gümüş
             </option>
