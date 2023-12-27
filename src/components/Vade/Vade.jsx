@@ -30,21 +30,6 @@ const Vade = () => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://52.29.240.45:3001/v1/vadeListele");
-        const data = await response.json();
-        setTableData(data);
-        setFilteredData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     const filtered = tableData.filter((row) => {
       const userName = (row?.user?.name || "").trim();
       const unvan = (row?.musteri?.unvan || "").trim();

@@ -11,6 +11,9 @@ const Kasa = () => {
   const [iscilikFilter, setIscilikFilter] = useState("");
   const [tarihFilter, setTarihFilter] = useState("");
   const [tableData, setTableData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [tipFilter, setTipFilter] = useState("");
+  const [has, setHasFilter] = useState("");
 
   const formatInputDate = (inputDate) => {
     const [year, month, day] = inputDate.split("-");
@@ -38,20 +41,55 @@ const Kasa = () => {
     fetchData();
   }, []);
 
-  // const filterData = (data) => {
-  //   return data.filter((row) => {
-  //     return (
-  //       row.kaydedenKisi
-  //         .toLowerCase()
-  //         .includes(kaydedenKisiFilter.toLowerCase()) &&
-  //       row.firma.toLowerCase().includes(firmaFilter.toLowerCase()) &&
-  //       row.altin.toLowerCase().includes(altinFilter.toLowerCase()) &&
-  //       row.kagit.toLowerCase().includes(kagitFilter.toLowerCase()) &&
-  //       row.iscilik.toLowerCase().includes(iscilikFilter.toLowerCase()) &&
-  //       row.tarih.includes(tarihFilter)
-  //     );
-  //   });
-  // };
+  useEffect(() => {
+    const filtered = tableData.filter((row) => {
+      const userName = (row?.user?.name || "").trim();
+      const unvan = (row?.musteri?.unvan || "").trim();
+      const malinCinsi = (row?.malin_cinsi || "").trim();
+      const has = typeof row?.has === "string" ? row.has.trim() : "";
+      const type = (row?.type || "").trim();
+      const miktar = typeof row?.miktar === "string" ? row.miktar.trim() : "";
+      const paraBirimi = (row?.para_birimi || "").trim();
+      const iscilik =
+        typeof row?.iscilik === "string" ? row.iscilik.trim() : "";
+
+      const isNumeric = (value) => /^\d+$/.test(value);
+      const hasValue = typeof row?.has === "string" ? row.has.trim() : "";
+      const isNumericHas = (value) => /^\d+$/.test(value);
+
+      return (
+        (kaydedenKisiFilter === "" ||
+          userName.toLowerCase().includes(kaydedenKisiFilter.toLowerCase())) &&
+        (firmaFilter === "" ||
+          unvan.toLowerCase().includes(firmaFilter.toLowerCase())) &&
+        (altinFilter === "" ||
+          malinCinsi.toLowerCase().includes(altinFilter.toLowerCase()) ||
+          has.toLowerCase().includes(altinFilter.toLowerCase())) &&
+        (tipFilter === "" ||
+          type.toLowerCase().includes(tipFilter.toLowerCase())) &&
+        (kagitFilter === "" ||
+          (isNumeric(kagitFilter) && miktar.includes(kagitFilter)) ||
+          (!isNumeric(kagitFilter) &&
+            paraBirimi.toLowerCase().includes(kagitFilter.toLowerCase()))) &&
+        (iscilikFilter === "" ||
+          (isNumeric(iscilikFilter) && iscilik.includes(iscilikFilter)) ||
+          (!isNumeric(iscilikFilter) &&
+            paraBirimi.toLowerCase().includes(iscilikFilter.toLowerCase()))) &&
+        (has === "" || (isNumericHas(has) && hasValue.includes(has)))
+      );
+    });
+
+    setFilteredData(filtered);
+  }, [
+    kaydedenKisiFilter,
+    firmaFilter,
+    altinFilter,
+    kagitFilter,
+    iscilikFilter,
+    tipFilter,
+    tableData,
+    has,
+  ]);
 
   return (
     <div>
@@ -68,7 +106,7 @@ const Kasa = () => {
                   className="filter-input"
                   type="text"
                   value={kaydedenKisiFilter}
-                  onChange={(e) => handleInputChange(e, setKaydedenKisiFilter)}
+                  onChange={(e) => setKaydedenKisiFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -77,7 +115,7 @@ const Kasa = () => {
                   className="filter-input"
                   type="text"
                   value={firmaFilter}
-                  onChange={(e) => handleInputChange(e, setFirmaFilter)}
+                  onChange={(e) => setFirmaFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -86,7 +124,16 @@ const Kasa = () => {
                   className="filter-input"
                   type="text"
                   value={altinFilter}
-                  onChange={(e) => handleInputChange(e, setAltinFilter)}
+                  onChange={(e) => setAltinFilter(e.target.value)}
+                />
+              </th>{" "}
+              <th>
+                HAS
+                <input
+                  className="filter-input"
+                  type="text"
+                  value={has}
+                  onChange={(e) => setHasFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -94,8 +141,8 @@ const Kasa = () => {
                 <input
                   className="filter-input"
                   type="text"
-                  value={kagitFilter}
-                  onChange={(e) => handleInputChange(e, setKagitFilter)}
+                  value={tipFilter}
+                  onChange={(e) => setTipFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -104,7 +151,7 @@ const Kasa = () => {
                   className="filter-input"
                   type="text"
                   value={kagitFilter}
-                  onChange={(e) => handleInputChange(e, setKagitFilter)}
+                  onChange={(e) => setKagitFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -113,7 +160,7 @@ const Kasa = () => {
                   className="filter-input"
                   type="text"
                   value={iscilikFilter}
-                  onChange={(e) => handleInputChange(e, setIscilikFilter)}
+                  onChange={(e) => setIscilikFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -128,7 +175,7 @@ const Kasa = () => {
             </tr>
           </thead>
           <tbody>
-            {tableData?.map((row, index) => {
+            {filteredData?.map((row, index) => {
               const createdAtDate = new Date(row.createdAt);
 
               const formattedDate = `${createdAtDate.getDate()}/${
@@ -139,11 +186,8 @@ const Kasa = () => {
                 <tr key={index}>
                   <td>{row?.user?.name}</td>
                   <td>{row?.musteri?.unvan}</td>
-                  <td>
-                    {(row.malin_cinsi ? row.malin_cinsi : " ") +
-                      " " +
-                      (row.has ? row.has + " " + "Has" : " ")}
-                  </td>
+                  <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
+                  <td>{row.has ? row.has + " " + "Has" : " "}</td>
                   <td>{row.type}</td>
                   <td>
                     {(row.miktar ? row.miktar : " ") +
