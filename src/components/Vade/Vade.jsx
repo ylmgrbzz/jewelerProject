@@ -34,15 +34,6 @@ const Vade = () => {
       const userName = (row?.user?.name || "").trim();
       const unvan = (row?.musteri?.unvan || "").trim();
       const malinCinsi = (row?.malin_cinsi || "").trim();
-      const has = typeof row?.has === "string" ? row.has.trim() : "";
-      const type = (row?.type || "").trim();
-      const miktar = typeof row?.miktar === "string" ? row.miktar.trim() : "";
-      const paraBirimi = (row?.para_birimi || "").trim();
-      const iscilik =
-        typeof row?.iscilik === "string" ? row.iscilik.trim() : "";
-      const vade = (row?.vade || "").trim();
-
-      const isNumeric = (value) => /^\d+$/.test(value);
 
       return (
         (kaydedenKisiFilter === "" ||
@@ -50,20 +41,7 @@ const Vade = () => {
         (firmaFilter === "" ||
           unvan.toLowerCase().includes(firmaFilter.toLowerCase())) &&
         (altinFilter === "" ||
-          malinCinsi.toLowerCase().includes(altinFilter.toLowerCase()) ||
-          has.toLowerCase().includes(altinFilter.toLowerCase())) &&
-        (tipFilter === "" ||
-          type.toLowerCase().includes(tipFilter.toLowerCase())) &&
-        (kagitFilter === "" ||
-          (isNumeric(kagitFilter) && miktar.includes(kagitFilter)) ||
-          (!isNumeric(kagitFilter) &&
-            paraBirimi.toLowerCase().includes(kagitFilter.toLowerCase()))) &&
-        (iscilikFilter === "" ||
-          (isNumeric(iscilikFilter) && iscilik.includes(iscilikFilter)) ||
-          (!isNumeric(iscilikFilter) &&
-            paraBirimi.toLowerCase().includes(iscilikFilter.toLowerCase()))) &&
-        (vadeFilter === "" ||
-          vade.toLowerCase().includes(vadeFilter.toLowerCase()))
+          malinCinsi.toLowerCase().includes(altinFilter.toLowerCase()))
       );
     });
 

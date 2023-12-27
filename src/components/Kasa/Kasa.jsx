@@ -47,18 +47,10 @@ const Kasa = () => {
       const userName = (row?.user?.name || "").trim();
       const unvan = (row?.musteri?.unvan || "").trim();
       const malinCinsi = (row?.malin_cinsi || "").trim();
-      const has = typeof row?.has === "string" ? row.has.trim() : "";
-      const type = (row?.type || "").trim();
-      const miktar = typeof row?.miktar === "string" ? row.miktar.trim() : "";
-      const paraBirimi = (row?.para_birimi || "").trim();
-      const iscilik =
-        typeof row?.iscilik === "string" ? row.iscilik.trim() : "";
+
       const formattedRowDate = formatInputDate(row.createdAt.split("T")[0]);
       const formattedFilterDate = formatInputDate(tarihFilter);
 
-      const isNumeric = (value) => /^\d+$/.test(value);
-      const hasValue = typeof row?.has === "string" ? row.has.trim() : "";
-      const isNumericHas = (value) => typeof value === "number";
       return (
         (kaydedenKisiFilter === "" ||
           userName.toLowerCase().includes(kaydedenKisiFilter.toLowerCase())) &&
@@ -67,17 +59,6 @@ const Kasa = () => {
         (altinFilter === "" ||
           malinCinsi.toLowerCase().includes(altinFilter.toLowerCase()) ||
           has.toLowerCase().includes(altinFilter.toLowerCase())) &&
-        (tipFilter === "" ||
-          type.toLowerCase().includes(tipFilter.toLowerCase())) &&
-        (kagitFilter === "" ||
-          (isNumeric(kagitFilter) && miktar.includes(kagitFilter)) ||
-          (!isNumeric(kagitFilter) &&
-            paraBirimi.toLowerCase().includes(kagitFilter.toLowerCase()))) &&
-        (iscilikFilter === "" ||
-          (isNumeric(iscilikFilter) && iscilik.includes(iscilikFilter)) ||
-          (!isNumeric(iscilikFilter) &&
-            paraBirimi.toLowerCase().includes(iscilikFilter.toLowerCase()))) &&
-        (has === "" || (isNumericHas(has) && parseInt(hasValue) === has)) &&
         (tarihFilter === "" || formattedRowDate === formattedFilterDate)
       );
     });
