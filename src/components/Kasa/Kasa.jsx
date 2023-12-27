@@ -26,7 +26,7 @@ const Kasa = () => {
   const handleInputChange = (e, setFilter) => {
     const value =
       e.target.type === "date"
-        ? formatInputDate(e.target.value)
+        ? new Date(e.target.value).toISOString().split("T")[0]
         : e.target.value;
     setFilter(value);
   };
@@ -38,6 +38,7 @@ const Kasa = () => {
           "http://52.29.240.45:3001/v1/kasaListele"
         );
         setTableData(response.data);
+        setFilteredData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -52,8 +53,12 @@ const Kasa = () => {
       const unvan = (row?.musteri?.unvan || "").trim();
       const malinCinsi = (row?.malin_cinsi || "").trim();
 
-      const formattedRowDate = formatInputDate(row.createdAt.split("T")[0]);
-      const formattedFilterDate = formatInputDate(tarihFilter);
+      const formattedRowDate = row.createdAt
+        ? formatInputDate(row.createdAt.split("T")[0])
+        : "";
+      const formattedFilterDate = tarihFilter
+        ? formatInputDate(tarihFilter)
+        : "";
 
       return (
         (kaydedenKisiFilter === "" ||

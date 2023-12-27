@@ -19,6 +19,19 @@ const Rapor = () => {
   const [has, setHasFilter] = useState("");
   const [giderTipFilter, setGiderTipFilter] = useState("");
 
+  const formatInputDate = (inputDate) => {
+    const [year, month, day] = inputDate.split("-");
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleInputChange = (e, setFilter) => {
+    const value =
+      e.target.type === "date"
+        ? formatInputDate(e.target.value)
+        : e.target.value;
+    setFilter(value);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,11 +57,15 @@ const Rapor = () => {
       const gider_turu = row.gider_turu ? row.gider_turu.toLowerCase() : "";
       const createdAt = row.createdAt ? row.createdAt : "";
 
+      const formattedRowDate = formatInputDate(row.createdAt.split("T")[0]);
+      const formattedFilterDate = formatInputDate(tarihFilter);
+
       return (
         kaydedenKisi.includes(kaydedenKisiFilter.toLowerCase()) &&
         firma.includes(firmaFilter.toLowerCase()) &&
         gider_turu.includes(giderTipFilter.toLowerCase()) &&
-        createdAt.includes(tarihFilter)
+        createdAt.includes(tarihFilter) &&
+        (tarihFilter === "" || formattedRowDate === formattedFilterDate)
       );
     });
 
@@ -98,7 +115,7 @@ const Rapor = () => {
                   className="filter-input"
                   type="date"
                   value={tarihFilter}
-                  onChange={(e) => setTarihFilter(e.target.value)}
+                  onChange={(e) => handleInputChange(e, setTarihFilter)}
                 />
               </th>
             </tr>
