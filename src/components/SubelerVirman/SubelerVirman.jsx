@@ -45,6 +45,11 @@ const SubelerVirman = () => {
           "http://52.29.240.45:3001/v1/kasaKullaniciListele"
         );
         setKasaList(response.data);
+        const userData = JSON.parse(localStorage.getItem("user"));
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          gonderenKasa: userData.name,
+        }));
       } catch (error) {
         console.error("Error fetching customer list:", error);
       }
