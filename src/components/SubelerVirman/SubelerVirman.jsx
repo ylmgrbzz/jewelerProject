@@ -69,25 +69,27 @@ const SubelerVirman = () => {
       formData.aciklama
     ) {
       try {
+        const { gonderen_kasa, ...formDataWithoutGonderen } = formData;
+
         const response = await api.post(
           "http://52.29.240.45:3001/v1/islemOlustur",
           {
-            ...formData,
-            customerId: formData.musteriListele,
+            ...formDataWithoutGonderen,
+            customerId: formDataWithoutGonderen.musteriListele,
           }
         );
 
         console.log("Form submitted:", response.data);
         window.alert("Form başarıyla gönderildi.");
         setFormData({
-          gonderen_kasa: "",
           transfer_cinsi: "",
-          transfer: "",
+          transfer_tutari: "",
           alici_kasa: "",
           aciklama: "",
           type: "virman",
           type2: "transfer",
         });
+        window.location.reload();
       } catch (error) {
         console.error("Error submitting form:", error);
         window.alert("Lütfen Tüm Değerleri Doğru Girinizzz");
