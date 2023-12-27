@@ -1,5 +1,5 @@
 import React from "react";
-import { TakozAdmin } from "../components/TakozAdmin/TakozAdmin";
+import TakozAdmin from "../components/TakozAdmin/TakozAdmin";
 
 const TakozAdminPage = () => {
   return (
