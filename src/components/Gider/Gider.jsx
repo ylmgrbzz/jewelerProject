@@ -74,7 +74,7 @@ const Gider = () => {
         Geri Dön
       </Link>
       <form
-        style={{ width: "70%", height: "70%", marginTop: "20px" }}
+        style={{ width: "70%", height: "85%", marginTop: "40px" }}
         method="post"
         onSubmit={handleSubmit}
       >

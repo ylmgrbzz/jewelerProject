@@ -120,8 +120,8 @@ const TakozAlis = () => {
         onSubmit={handleSubmit}
         style={{
           width: "70%",
-          height: "100%",
-          marginTop: "80px",
+          height: "125%",
+          marginTop: "110px",
         }}
         method="post"
       >

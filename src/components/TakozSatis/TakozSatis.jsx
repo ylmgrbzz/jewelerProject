@@ -118,8 +118,8 @@ const TakozSatis = () => {
         onSubmit={handleSubmit}
         style={{
           width: "70%",
-          height: "110%",
-          marginTop: "80px",
+          height: "140%",
+          marginTop: "200px",
         }}
         method="post"
       >

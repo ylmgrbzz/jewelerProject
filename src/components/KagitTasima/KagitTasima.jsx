@@ -122,8 +122,8 @@ const KagitTasima = () => {
         onSubmit={handleSubmit}
         style={{
           width: "70%",
-          height: "90%",
-          marginTop: "20px",
+          height: "110%",
+          marginTop: "80px",
         }}
         method="post"
       >
