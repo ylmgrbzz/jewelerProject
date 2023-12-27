@@ -1,7 +1,9 @@
 import "./SubelerVirman.css";
+
 import React, { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../../services/api";
 
 const SubelerVirman = () => {
   const [kasaList, setKasaList] = useState([]);
@@ -39,20 +41,8 @@ const SubelerVirman = () => {
   useEffect(() => {
     const fetchKasa = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-
-        if (!accessToken) {
-          console.error("Access token is missing");
-          return;
-        }
-
-        const response = await axios.get(
-          "http://52.29.240.45:3001/v1/kasaKullaniciListele",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
+        const response = await api.get(
+          "http://52.29.240.45:3001/v1/kasaKullaniciListele"
         );
         setKasaList(response.data);
       } catch (error) {
@@ -74,7 +64,7 @@ const SubelerVirman = () => {
       formData.aciklama
     ) {
       try {
-        const response = await axios.post(
+        const response = await api.post(
           "http://52.29.240.45:3001/v1/islemOlustur",
           {
             ...formData,

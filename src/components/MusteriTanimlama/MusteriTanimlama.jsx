@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./MusteriTanimlama.css";
-import axios from "axios";
+
+import React, { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const MusteriTanimlama = () => {
   const navigate = useNavigate();
@@ -35,15 +37,9 @@ const MusteriTanimlama = () => {
       }
       const accessToken = localStorage.getItem("accessToken");
 
-      const axiosInstance = axios.create({
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
       const apiUrl = "http://52.29.240.45:3001/v1/musteriOlustur";
 
-      const response = await axiosInstance.post(apiUrl, formData);
+      const response = await api.post(apiUrl, formData);
 
       console.log("Server response:", response.data);
       window.alert("Form başarıyla gönderildi.");

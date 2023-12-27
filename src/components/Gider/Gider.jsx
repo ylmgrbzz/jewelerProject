@@ -1,9 +1,11 @@
 import "./Gider.css";
+
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { type } from "@testing-library/user-event/dist/type";
+
 import { Link } from "react-router-dom";
+import api from "../../services/api";
+import { type } from "@testing-library/user-event/dist/type";
+import { useNavigate } from "react-router-dom";
 
 const Gider = () => {
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ const Gider = () => {
       formData.aciklama
     ) {
       try {
-        const response = await axios.post(
+        const response = await api.post(
           "http://52.29.240.45:3001/v1/giderOlustur",
           {
             ...formData,

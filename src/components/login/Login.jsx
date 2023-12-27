@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./login.css";
+
+import React, { useEffect, useState } from "react";
+
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,10 +22,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      // Sahte bir API endpoint'i
       const apiUrl = "http://52.29.240.45:3001/v1/auth/login";
 
-      // Sahte bir API ile iletişim için axios kullanımı
       const response = await axios.post(apiUrl, {
         email,
         password,
@@ -39,6 +39,7 @@ const Login = () => {
           "refreshToken",
           response.data?.tokens?.refresh?.token
         );
+        localStorage.setItem("user", JSON.stringify(response.data?.user));
 
         console.log("Giriş başarılı!");
 
