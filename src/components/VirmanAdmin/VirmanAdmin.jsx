@@ -35,7 +35,7 @@ const VirmanAdmin = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/kasaListele"
+          "http://52.29.240.45:3001/v1/admin/virmanListele"
         );
         setTableData(response.data);
         setFilteredData(response.data);
@@ -107,7 +107,7 @@ const VirmanAdmin = () => {
           <thead>
             <tr>
               <th>
-                KAYDEDEN KİŞİ
+                GÖNDEREN KASA
                 <input
                   className="filter-input"
                   type="text"
@@ -116,7 +116,7 @@ const VirmanAdmin = () => {
                 />
               </th>
               <th>
-                FİRMA(ÜNVAN)
+                ALICI KASA
                 <input
                   className="filter-input"
                   type="text"
@@ -124,19 +124,7 @@ const VirmanAdmin = () => {
                   onChange={(e) => setFirmaFilter(e.target.value)}
                 />
               </th>
-              <th>
-                ALTIN / GÜMÜŞ
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={altinFilter}
-                  onChange={(e) => setAltinFilter(e.target.value)}
-                />
-              </th>{" "}
-              <th>HAS</th>
-              <th>TİP</th>
-              <th>KAĞIT</th>
-              <th>İŞÇİLİK</th>
+              <th>TRANSFER CİNSİ</th> <th>TRANSFER TUTARI</th>
               <th>
                 TARİH
                 <input
@@ -159,21 +147,10 @@ const VirmanAdmin = () => {
 
               return (
                 <tr key={index}>
-                  <td>{row?.user?.name}</td>
-                  <td>{row?.musteri?.unvan}</td>
-                  <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
-                  <td>{row.has ? row.has + " " + "Has" : " "}</td>
-                  <td>{row.type}</td>
-                  <td>
-                    {(row.miktar ? row.miktar : " ") +
-                      " " +
-                      (row.para_birimi ? row.para_birimi : " ")}
-                  </td>
-                  <td>
-                    {(row.iscilik ? row.iscilik : " ") +
-                      " " +
-                      (row.para_birimi ? row.para_birimi : " ")}
-                  </td>
+                  <td>{row?.gonderen_kasa?.name}</td>
+                  <td>{row?.alici_kasa?.name}</td>
+                  <td>{row.transfer_cinsi ? row.transfer_cinsi : " "}</td>
+                  <td>{row.transfer_tutari ? row.transfer_tutari : " "}</td>
                   <td>{formattedDate}</td>
                   <td>
                     <div className="action-buttons">
