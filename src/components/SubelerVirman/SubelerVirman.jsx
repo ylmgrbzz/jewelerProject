@@ -123,12 +123,12 @@ const SubelerVirman = () => {
           </label>
           <input
             type="text"
-            value={formData.transfer}
+            value={formData.gonderenKasa}
             onChange={handleInputChange}
             class="form-control"
-            name="transfer"
-            id="transfer"
-            placeholder="TRANSFER TUTARI GİRİNİZ"
+            name="gonderenKasa"
+            disabled
+            id="gonderenKasa"
           />
         </div>
         <div class="form-group">
@@ -154,8 +154,6 @@ const SubelerVirman = () => {
             <option
               style={{
                 color: "black",
-                fontWeight: "bold",
-                fontSize: "x-large",
               }}
               value="Altin"
             >
@@ -164,12 +162,25 @@ const SubelerVirman = () => {
             <option
               style={{
                 color: "black",
-                fontWeight: "bold",
-                fontSize: "x-large",
               }}
               value="Gümüş"
             >
               Gümüş
+            </option>
+            <option style={{ color: "black" }} value="TRY">
+              TRY - Turkish Lira
+            </option>
+            <option style={{ color: "black" }} value="USD">
+              USD - US Dollar
+            </option>
+            <option style={{ color: "black" }} value="EUR">
+              EUR - Euro
+            </option>
+            <option style={{ color: "black" }} value="GBP">
+              GBP - British Pound
+            </option>
+            <option style={{ color: "black" }} value="CHF">
+              CHF - Swiss Franc
             </option>
           </select>
         </div>
