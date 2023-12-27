@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Vade.css";
 import { Link } from "react-router-dom";
+import api from "../../services/api";
 
 const Vade = () => {
   const [kaydedenKisiFilter, setKaydedenKisiFilter] = useState("");
@@ -17,10 +18,10 @@ const Vade = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://52.29.240.45:3001/v1/vadeListele");
-        const data = await response.json();
-        setTableData(data);
-        setFilteredData(data);
+        const response = await api.get(
+          "http://52.29.240.45:3001/v1/vadeListele"
+        );
+        setTableData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
