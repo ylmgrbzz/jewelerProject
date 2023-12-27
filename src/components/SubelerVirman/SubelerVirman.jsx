@@ -143,8 +143,8 @@ const SubelerVirman = () => {
             id="transferCinsi"
             placeholder="TRANSFER CİNSİNİ SEÇİNİZ"
           >
-            <option value="" disabled>
-              Seçiniz
+            <option style={{ color: "black" }} value="">
+              Transfer Cinsi Seçiniz
             </option>
             <option
               style={{
