@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./Rapor.css";
@@ -10,39 +10,58 @@ const Rapor = () => {
   const [iscilikFilter, setIscilikFilter] = useState("");
   const [tarihFilter, setTarihFilter] = useState("");
   const [giderFilter, setGiderFilter] = useState("");
+  const [tableData, setTableData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [has, setHasFilter] = useState("");
+  const [giderTipFilter, setGiderTipFilter] = useState("");
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://52.29.240.45:3001/v1/giderListele"
+        );
+        const data = await response.json();
+        setTableData(data);
+        setFilteredData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  const formatInputDate = (inputDate) => {
-    const [year, month, day] = inputDate.split("-");
-    return `${day}.${month}.${year}`;
-  };
-  const handleInputChange = (e, setFilter) => {
-    const value =
-      e.target.type === "date"
-        ? formatInputDate(e.target.value)
-        : e.target.value;
-    setFilter(value);
-  };
+    fetchData();
+  }, []);
 
-  const filterData = (data) => {
-    return data.filter((row) => {
+  useEffect(() => {
+    const filteredTableData = tableData.filter((row) => {
+      // Check if the properties exist before accessing them
+      const kaydedenKisi = row.kaydedenKisi
+        ? row.kaydedenKisi.toLowerCase()
+        : "";
+      const firma = row.firma ? row.firma.toLowerCase() : "";
+      const gider_turu = row.gider_turu ? row.gider_turu.toLowerCase() : "";
+      const createdAt = row.createdAt ? row.createdAt : "";
+      const aciklama = row.aciklama ? row.aciklama.toLowerCase() : "";
+
+      // Implement your filtering logic here
       return (
-        row.kaydedenKisi
-          .toLowerCase()
-          .includes(kaydedenKisiFilter.toLowerCase()) &&
-        row.firma.toLowerCase().includes(firmaFilter.toLowerCase()) &&
-        row.altin.toLowerCase().includes(altinFilter.toLowerCase()) &&
-        row.kagit.toLowerCase().includes(kagitFilter.toLowerCase()) &&
-        row.iscilik.toLowerCase().includes(iscilikFilter.toLowerCase()) &&
-        row.gider.toLowerCase().includes(giderFilter.toLowerCase()) &&
-        row.tarih.includes(tarihFilter)
+        kaydedenKisi.includes(kaydedenKisiFilter.toLowerCase()) &&
+        firma.includes(firmaFilter.toLowerCase()) &&
+        gider_turu.includes(giderTipFilter.toLowerCase()) &&
+        createdAt.includes(tarihFilter) &&
+        aciklama.includes(giderFilter.toLowerCase())
       );
     });
-  };
-  const backToPage = () => {
-    navigate("/jeweler");
-  };
+
+    setFilteredData(filteredTableData);
+  }, [
+    kaydedenKisiFilter,
+    firmaFilter,
+    giderTipFilter,
+    tarihFilter,
+    giderFilter,
+    tableData,
+  ]);
 
   return (
     <div>
@@ -59,43 +78,17 @@ const Rapor = () => {
                   className="filter-input"
                   type="text"
                   value={kaydedenKisiFilter}
-                  onChange={(e) => handleInputChange(e, setKaydedenKisiFilter)}
+                  onChange={(e) => setKaydedenKisiFilter(e.target.value)}
                 />
               </th>
+
               <th>
-                FİRMA(ÜNVAN)
+                GİDER TÜRÜ
                 <input
                   className="filter-input"
                   type="text"
-                  value={firmaFilter}
-                  onChange={(e) => handleInputChange(e, setFirmaFilter)}
-                />
-              </th>
-              <th>
-                ALTIN
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={altinFilter}
-                  onChange={(e) => handleInputChange(e, setAltinFilter)}
-                />
-              </th>
-              <th>
-                KAĞIT
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={kagitFilter}
-                  onChange={(e) => handleInputChange(e, setKagitFilter)}
-                />
-              </th>
-              <th>
-                İŞÇİLİK
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={iscilikFilter}
-                  onChange={(e) => handleInputChange(e, setIscilikFilter)}
+                  value={giderTipFilter}
+                  onChange={(e) => setGiderTipFilter(e.target.value)}
                 />
               </th>
               <th>
@@ -104,7 +97,6 @@ const Rapor = () => {
                   className="filter-input"
                   type="date"
                   value={tarihFilter}
-                  onChange={(e) => handleInputChange(e, setTarihFilter)}
                 />
               </th>
               <th>
@@ -112,77 +104,34 @@ const Rapor = () => {
                 <input
                   className="filter-input"
                   type="text"
+                  onChange={(e) => setGiderFilter(e.target.value)}
                   value={giderFilter}
-                  onChange={(e) => handleInputChange(e, setGiderFilter)}
                 />
               </th>
             </tr>
           </thead>
           <tbody>
-            {filterData(tableData).map((row, index) => (
-              <tr key={index}>
-                <td>{row.kaydedenKisi}</td>
-                <td>{row.firma}</td>
-                <td>{row.altin}</td>
-                <td>{row.kagit}</td>
-                <td>{row.iscilik}</td>
-                <td>{row.tarih}</td>
-                <td>{row.gider}</td>
-              </tr>
-            ))}
+            {filteredData?.map((row, index) => {
+              const createdAtDate = new Date(row.createdAt);
+
+              const formattedDate = `${createdAtDate.getDate()}/${
+                createdAtDate.getMonth() + 1
+              }/${createdAtDate.getFullYear()}`;
+
+              return (
+                <tr key={index}>
+                  <td>{row?.user?.name}</td>
+                  <td>{row.gider_turu}</td>
+                  <td>{formattedDate}</td>
+                  <td>{row.tutar + " " + row.kur}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
     </div>
   );
 };
-
-const tableData = [
-  {
-    kaydedenKisi: "John Doe",
-    firma: "ABC Company",
-    altin: "10 gram",
-    kagit: "A4",
-    iscilik: "50 TL",
-    tarih: "01.01.2021",
-    gider: "50 TL",
-  },
-  {
-    kaydedenKisi: "Jane Doe",
-    firma: "XYZ Corporation",
-    altin: "5 gram",
-    kagit: "Letter",
-    iscilik: "40 TL",
-    tarih: "02.01.2021",
-    gider: "40 TL",
-  },
-  {
-    kaydedenKisi: "Alice Johnson",
-    firma: "123 Industries",
-    altin: "8 gram",
-    kagit: "A3",
-    iscilik: "60 TL",
-    tarih: "03.01.2021",
-    gider: "60 TL",
-  },
-  {
-    kaydedenKisi: "Bob Smith",
-    firma: "456 Enterprises",
-    altin: "15 gram",
-    kagit: "Legal",
-    iscilik: "75 TL",
-    tarih: "03.01.2021",
-    gider: "150 TL",
-  },
-  {
-    kaydedenKisi: "Charlie Brown",
-    firma: "789 Ltd.",
-    altin: "12 gram",
-    kagit: "B5",
-    iscilik: "55 TL",
-    tarih: "04.01.2021",
-    gider: "33 TL",
-  },
-];
 
 export default Rapor;
