@@ -117,43 +117,12 @@ const Vade = () => {
                   onChange={(e) => setAltinFilter(e.target.value)}
                 />
               </th>
-              <th>
-                TİP
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={tipFilter}
-                  onChange={(e) => setTipFilter(e.target.value)}
-                />
-              </th>
-              <th>
-                KAĞIT
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={kagitFilter}
-                  onChange={(e) => setKagitFilter(e.target.value)}
-                />
-              </th>
+              <th>HAS</th>
+              <th>TİP</th>
+              <th>KAĞIT</th>
 
-              <th>
-                İŞÇİLİK
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={iscilikFilter}
-                  onChange={(e) => setIscilikFilter(e.target.value)}
-                />
-              </th>
-              <th>
-                VADE
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={vadeFilter}
-                  onChange={(e) => setVadeFilter(e.target.value)}
-                />
-              </th>
+              <th>İŞÇİLİK</th>
+              <th>VADE</th>
             </tr>
           </thead>
           <tbody>
@@ -161,11 +130,8 @@ const Vade = () => {
               <tr key={index}>
                 <td>{row?.user?.name}</td>
                 <td>{row?.musteri?.unvan}</td>
-                <td>
-                  {(row.malin_cinsi ? row.malin_cinsi : " ") +
-                    " " +
-                    (row.has ? row.has + " " + "Has" : " ")}
-                </td>
+                <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
+                <td>{row.has ? row.has + " " + "Has" : " "}</td>
                 <td>{row.type}</td>
                 <td>
                   {(row.miktar ? row.miktar : " ") +

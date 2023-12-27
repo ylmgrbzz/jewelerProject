@@ -131,42 +131,10 @@ const Kasa = () => {
                   onChange={(e) => setAltinFilter(e.target.value)}
                 />
               </th>{" "}
-              <th>
-                HAS
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={has}
-                  onChange={(e) => setHasFilter(e.target.value)}
-                />
-              </th>
-              <th>
-                TİP
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={tipFilter}
-                  onChange={(e) => setTipFilter(e.target.value)}
-                />
-              </th>
-              <th>
-                KAĞIT
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={kagitFilter}
-                  onChange={(e) => setKagitFilter(e.target.value)}
-                />
-              </th>
-              <th>
-                İŞÇİLİK
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={iscilikFilter}
-                  onChange={(e) => setIscilikFilter(e.target.value)}
-                />
-              </th>
+              <th>HAS</th>
+              <th>TİP</th>
+              <th>KAĞIT</th>
+              <th>İŞÇİLİK</th>
               <th>
                 TARİH
                 <input

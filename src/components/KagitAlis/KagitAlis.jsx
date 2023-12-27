@@ -130,8 +130,8 @@ const KagitAlis = () => {
         onSubmit={handleSubmit}
         style={{
           width: "70%",
-          height: "150%",
-          marginTop: "350px",
+          height: "90%",
+          marginTop: "20px",
         }}
         method="post"
       >

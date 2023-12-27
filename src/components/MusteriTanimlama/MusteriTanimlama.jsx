@@ -76,7 +76,7 @@ const MusteriTanimlama = () => {
         </Link>
       </div>
       <form
-        style={{ width: "70%", height: "130%", marginTop: "180px" }}
+        style={{ width: "70%", height: "90%", marginTop: "10px" }}
         onSubmit={submitForm}
       >
         <h1 class="form-title">CARİ KAYIT EKRANI</h1>

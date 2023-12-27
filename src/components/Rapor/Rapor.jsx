@@ -99,15 +99,7 @@ const Rapor = () => {
                   value={tarihFilter}
                 />
               </th>
-              <th>
-                GİDER
-                <input
-                  className="filter-input"
-                  type="text"
-                  onChange={(e) => setGiderFilter(e.target.value)}
-                  value={giderFilter}
-                />
-              </th>
+              <th>GİDER</th>
             </tr>
           </thead>
           <tbody>

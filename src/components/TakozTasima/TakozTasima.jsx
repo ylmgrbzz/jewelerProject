@@ -123,8 +123,8 @@ const TakozTasima = () => {
         onSubmit={handleSubmit}
         style={{
           width: "70%",
-          height: "130%",
-          marginTop: "150px",
+          height: "80%",
+          marginTop: "50px",
         }}
         method="post"
       >

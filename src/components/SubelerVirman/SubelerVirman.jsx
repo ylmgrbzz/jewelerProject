@@ -39,7 +39,7 @@ const SubelerVirman = () => {
         Geri Dön
       </a>
       <form
-        style={{ width: "70%", height: "100%", marginTop: "10px" }}
+        style={{ width: "70%", height: "90%", marginTop: "10px" }}
         method="post"
         onSubmit={handleSubmit}
       >
