@@ -35,7 +35,7 @@ const KagıtAdmin = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/kasaListele"
+          "http://52.29.240.45:3001/v1/admin/kagitListele"
         );
         setTableData(response.data);
         setFilteredData(response.data);
@@ -124,19 +124,14 @@ const KagıtAdmin = () => {
                   onChange={(e) => setFirmaFilter(e.target.value)}
                 />
               </th>
-              <th>
-                ALTIN / GÜMÜŞ
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={altinFilter}
-                  onChange={(e) => setAltinFilter(e.target.value)}
-                />
-              </th>{" "}
-              <th>HAS</th>
+
               <th>TİP</th>
-              <th>KAĞIT</th>
-              <th>İŞÇİLİK</th>
+              <th>KAĞIT MİKTAR / TAŞINACAK KAĞIT</th>
+              <th>İŞÇİLİK / PARA BİRİMİ </th>
+              <th>TOPLAM</th>
+              <th>VADE</th>
+              <th>TAŞIMA BEDELİ / TAŞIMA BEDELİ TÜRÜ</th>
+              <th>AÇIKLAMA</th>
               <th>
                 TARİH
                 <input
@@ -161,19 +156,27 @@ const KagıtAdmin = () => {
                 <tr key={index}>
                   <td>{row?.user?.name}</td>
                   <td>{row?.musteri?.unvan}</td>
-                  <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
-                  <td>{row.has ? row.has + " " + "Has" : " "}</td>
-                  <td>{row.type}</td>
+                  <td>{row.type2}</td>
                   <td>
                     {(row.miktar ? row.miktar : " ") +
                       " " +
-                      (row.para_birimi ? row.para_birimi : " ")}
+                      (row.tasinacak_kagit
+                        ? row?.tasinacak_kagit
+                        : row?.para_birimi)}
                   </td>
                   <td>
                     {(row.iscilik ? row.iscilik : " ") +
                       " " +
                       (row.para_birimi ? row.para_birimi : " ")}
                   </td>
+                  <td>{row.toplam ? row.toplam : " "}</td>
+                  <td>{row.vade ? row.vade : " "}</td>
+                  <td>
+                    {(row.tasima_bedeli ? row.tasima_bedeli : " ") +
+                      " " +
+                      (row.tasima_bedeli_turu ? row.tasima_bedeli_turu : " ")}
+                  </td>
+                  <td>{row?.aciklama}</td>
                   <td>{formattedDate}</td>
                   <td>
                     <div className="action-buttons">

@@ -35,7 +35,7 @@ const TakozAdmin = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/kasaListele"
+          "http://52.29.240.45:3001/v1/admin/takozListele"
         );
         setTableData(response.data);
         setFilteredData(response.data);
@@ -99,9 +99,11 @@ const TakozAdmin = () => {
 
   return (
     <div>
-      <Link to="/admin" className="btn btn-primary back-button">
-        Geri Dön
-      </Link>
+      <div>
+        <Link to="/admin" className="btn btn-primary back-button">
+          Geri Dön
+        </Link>
+      </div>
       <div className="container">
         <table className="report-table table table-bordered">
           <thead>
@@ -124,19 +126,20 @@ const TakozAdmin = () => {
                   onChange={(e) => setFirmaFilter(e.target.value)}
                 />
               </th>
-              <th>
-                ALTIN / GÜMÜŞ
-                <input
-                  className="filter-input"
-                  type="text"
-                  value={altinFilter}
-                  onChange={(e) => setAltinFilter(e.target.value)}
-                />
-              </th>{" "}
-              <th>HAS</th>
+
               <th>TİP</th>
-              <th>KAĞIT</th>
+              <th>MALIN CİNSİ</th>
+              <th>ALIŞ / SATIŞ KURU</th>
+              <th>AYAR</th>
+              <th>DÖVİZ OLARAK TUTAR </th>
+              <th>GRAM</th>
+              <th>HAS</th>
               <th>İŞÇİLİK</th>
+              <th>MALIN CİNSİ</th>
+              <th>VADE</th>
+              <th>TAŞIMA BEDELİ / PARA BİRİMİ </th>
+              <th>TAŞINACAK ÜRÜN </th>
+              <th>AÇIKLAMA</th>
               <th>
                 TARİH
                 <input
@@ -161,19 +164,31 @@ const TakozAdmin = () => {
                 <tr key={index}>
                   <td>{row?.user?.name}</td>
                   <td>{row?.musteri?.unvan}</td>
+                  <td>{row.type2}</td>
+                  <td>{row.malin_cinsi}</td>
+                  <td>
+                    {(row.alis_kuru ? row.alis_kuru : " ") +
+                      " " +
+                      (row.satis_kuru ? row?.satis_kuru : " ")}
+                  </td>
+                  <td>{row.ayar ? row.ayar : " "}</td>
+                  <td>
+                    {row.doviz_olarak_tutar ? row.doviz_olarak_tutar : " "}
+                  </td>
+                  <td>{row.gram ? row.gram : " "}</td>
+                  <td>{row.has ? row.has : " "}</td>
+                  <td>{row.iscilik ? row.iscilik : " "}</td>
                   <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
-                  <td>{row.has ? row.has + " " + "Has" : " "}</td>
-                  <td>{row.type}</td>
+                  <td>{row.vade ? row.vade : " "}</td>
+
                   <td>
-                    {(row.miktar ? row.miktar : " ") +
+                    {(row.tasima_bedeli ? row.tasima_bedeli : " ") +
                       " " +
                       (row.para_birimi ? row.para_birimi : " ")}
                   </td>
-                  <td>
-                    {(row.iscilik ? row.iscilik : " ") +
-                      " " +
-                      (row.para_birimi ? row.para_birimi : " ")}
-                  </td>
+                  <td>{row.tasinacak_urun ? row.tasinacak_urun : " "}</td>
+
+                  <td>{row?.aciklama}</td>
                   <td>{formattedDate}</td>
                   <td>
                     <div className="action-buttons">

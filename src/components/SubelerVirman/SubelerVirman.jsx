@@ -9,10 +9,10 @@ const SubelerVirman = () => {
   const [kasaList, setKasaList] = useState([]);
 
   const [formData, setFormData] = useState({
-    gonderenKasa: "",
+    gonderen_kasa: "",
     transfer_cinsi: "",
-    transfer: "",
-    alici: "",
+    transfer_tutari: "",
+    alici_kasa: "",
     aciklama: "",
     type: "virman",
     type2: "transfer",
@@ -48,7 +48,7 @@ const SubelerVirman = () => {
         const userData = JSON.parse(localStorage.getItem("user"));
         setFormData((prevFormData) => ({
           ...prevFormData,
-          gonderenKasa: userData.name,
+          gonderen_kasa: userData.name,
         }));
       } catch (error) {
         console.error("Error fetching customer list:", error);
@@ -62,10 +62,10 @@ const SubelerVirman = () => {
     e.preventDefault();
 
     if (
-      formData.gonderenKasa &&
+      formData.gonderen_kasa &&
       formData.transfer_cinsi &&
-      formData.transfer &&
-      formData.alici &&
+      formData.transfer_tutari &&
+      formData.alici_kasa &&
       formData.aciklama
     ) {
       try {
@@ -80,17 +80,17 @@ const SubelerVirman = () => {
         console.log("Form submitted:", response.data);
         window.alert("Form başarıyla gönderildi.");
         setFormData({
-          gonderenKasa: "",
+          gonderen_kasa: "",
           transfer_cinsi: "",
           transfer: "",
-          alici: "",
+          alici_kasa: "",
           aciklama: "",
           type: "virman",
           type2: "transfer",
         });
       } catch (error) {
         console.error("Error submitting form:", error);
-        window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
+        window.alert("Lütfen Tüm Değerleri Doğru Girinizzz");
       }
     } else {
       window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
@@ -112,24 +112,24 @@ const SubelerVirman = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="gonderenKasa"
+            for="gonderen_kasa"
           >
             Gönderen Kasa/Şube
           </label>
           <input
             type="text"
-            value={formData.gonderenKasa}
+            value={formData.gonderen_kasa}
             onChange={handleInputChange}
             class="form-control"
-            name="gonderenKasa"
+            name="gonderen_kasa"
             disabled
-            id="gonderenKasa"
+            id="gonderen_kasa"
           />
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="transferCinsi"
+            for="transfer_cinsi"
           >
             TRASNFER CİNSİ
           </label>
@@ -137,10 +137,10 @@ const SubelerVirman = () => {
           <select
             type="text"
             className="form-control"
-            name="transferCinsi"
-            value={formData.transferCinsi}
+            name="transfer_cinsi"
+            value={formData.transfer_cinsi}
             onChange={handleInputChange}
-            id="transferCinsi"
+            id="transfer_cinsi"
             placeholder="TRANSFER CİNSİNİ SEÇİNİZ"
           >
             <option style={{ color: "black" }} value="">
@@ -182,24 +182,24 @@ const SubelerVirman = () => {
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="transfer"
+            for="transfer_tutari"
           >
             TRANSFER TUTARI
           </label>
           <input
             type="text"
-            value={formData.transfer}
+            value={formData.transfer_tutari}
             onChange={handleInputChange}
             class="form-control"
-            name="transfer"
-            id="transfer"
+            name="transfer_tutari"
+            id="transfer_tutari"
             placeholder="TRANSFER TUTARI GİRİNİZ"
           />
         </div>
         <div class="form-group">
           <label
             style={{ color: "black", fontWeight: "bold", fontSize: "x-large" }}
-            for="alici"
+            for="alici_kasa"
           >
             ALICI KASA/ŞUBE
           </label>
@@ -208,10 +208,10 @@ const SubelerVirman = () => {
             type="text"
             style={{ color: "black" }}
             className="form-control"
-            value={formData.alici}
+            value={formData.alici_kasa}
             onChange={handleInputChange}
-            name="alici"
-            id="alici"
+            name="alici_kasa"
+            id="alici_kasa"
             placeholder="TRANSFERİ ALACAK KASA/ŞUBE SEÇİNİZ"
           >
             <option

@@ -22,20 +22,11 @@ import RaporPage from "../pages/RaporPage";
 import KasaPage from "../pages/KasaPage";
 import VadePage from "../pages/VadePage";
 import Admin from "../components/Admin/Admin";
-import { useNavigate } from "react-router-dom";
 import TakozAdminPage from "../pages/TakozAdminPage";
 import KagıtAdminPage from "../pages/KagıtAdminPage";
 import VirmanAdminPage from "../pages/VirmanAdminPage";
 
 const RoutesApp = () => {
-  const navigate = useNavigate();
-  // useEffect(() => {
-  //   console.log("useEffect triggered"); // Add this line
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     navigate("/login");
-  //   }
-  // }, [navigate]);
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
