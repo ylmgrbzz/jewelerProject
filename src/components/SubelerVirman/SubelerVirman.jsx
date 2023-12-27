@@ -1,43 +1,112 @@
 import "./SubelerVirman.css";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const SubelerVirman = () => {
-  const navigate = useNavigate();
+  const [kasaList, setKasaList] = useState([]);
+
   const [formData, setFormData] = useState({
     gonderenKasa: "",
-    transferCinsi: "",
+    transfer_cinsi: "",
     transfer: "",
     alici: "",
     aciklama: "",
+    type: "virman",
+    type2: "transfer",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    const isNumeric = /^[0-9]*$/;
+
+    if (name === "transfer") {
+      if (!isNumeric.test(value)) {
+        console.error(
+          `Invalid input for ${name}. Please enter a valid number.`
+        );
+        return;
+      }
+    }
+
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+  useEffect(() => {
+    const fetchKasa = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
 
-  const backToPage = () => {
-    navigate("/jeweler");
+        if (!accessToken) {
+          console.error("Access token is missing");
+          return;
+        }
+
+        const response = await axios.get(
+          "http://52.29.240.45:3001/v1/kasaKullaniciListele",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setKasaList(response.data);
+      } catch (error) {
+        console.error("Error fetching customer list:", error);
+      }
+    };
+
+    fetchKasa();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      formData.gonderenKasa &&
+      formData.transfer_cinsi &&
+      formData.transfer &&
+      formData.alici &&
+      formData.aciklama
+    ) {
+      try {
+        const response = await axios.post(
+          "http://52.29.240.45:3001/v1/islemOlustur",
+          {
+            ...formData,
+            customerId: formData.musteriListele,
+          }
+        );
+
+        console.log("Form submitted:", response.data);
+        window.alert("Form başarıyla gönderildi.");
+        setFormData({
+          gonderenKasa: "",
+          transfer_cinsi: "",
+          transfer: "",
+          alici: "",
+          aciklama: "",
+          type: "virman",
+          type2: "transfer",
+        });
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
+      }
+    } else {
+      window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
+    }
   };
 
   return (
     <div>
-      <a
-        onClick={backToPage()}
-        href="#"
-        class="btn btn-primary back-subelerButton"
-      >
+      <Link to="/jeweler" className="btn btn-primary back-button">
         Geri Dön
-      </a>
+      </Link>
       <form
         style={{ width: "70%", height: "90%", marginTop: "10px" }}
         method="post"
@@ -54,12 +123,12 @@ const SubelerVirman = () => {
           </label>
           <input
             type="text"
-            value={formData.gonderenKasa}
+            value={formData.transfer}
             onChange={handleInputChange}
             class="form-control"
-            name="gonderenKasa"
-            id="gonderenKasa"
-            placeholder="TRANSFERİ GÖNDEREN KASA/ŞUBE SEÇİNİZ "
+            name="transfer"
+            id="transfer"
+            placeholder="TRANSFER TUTARI GİRİNİZ"
           />
         </div>
         <div class="form-group">
@@ -69,15 +138,40 @@ const SubelerVirman = () => {
           >
             TRASNFER CİNSİ
           </label>
-          <input
+
+          <select
             type="text"
-            class="form-control"
+            className="form-control"
+            name="transferCinsi"
             value={formData.transferCinsi}
             onChange={handleInputChange}
-            name="transferCinsi"
             id="transferCinsi"
             placeholder="TRANSFER CİNSİNİ SEÇİNİZ"
-          />
+          >
+            <option value="" disabled>
+              Seçiniz
+            </option>
+            <option
+              style={{
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "x-large",
+              }}
+              value="Altin"
+            >
+              Altın
+            </option>
+            <option
+              style={{
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "x-large",
+              }}
+              value="Gümüş"
+            >
+              Gümüş
+            </option>
+          </select>
         </div>
         <div class="form-group">
           <label
@@ -103,15 +197,42 @@ const SubelerVirman = () => {
           >
             ALICI KASA/ŞUBE
           </label>
-          <input
+
+          <select
             type="text"
-            class="form-control"
+            style={{ color: "black" }}
+            className="form-control"
             value={formData.alici}
             onChange={handleInputChange}
             name="alici"
             id="alici"
             placeholder="TRANSFERİ ALACAK KASA/ŞUBE SEÇİNİZ"
-          />
+          >
+            <option
+              style={{
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "x-large",
+              }}
+              value=""
+              disabled
+            >
+              TRANSFERİ ALACAK KASA/ŞUBE SEÇİNİZ{" "}
+            </option>
+            {kasaList.map((kasa) => (
+              <option
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  fontSize: "x-large",
+                }}
+                key={kasa.id}
+                value={kasa.id}
+              >
+                {kasa.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div class="form-group">

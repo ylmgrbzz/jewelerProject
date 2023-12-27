@@ -34,22 +34,18 @@ const Rapor = () => {
 
   useEffect(() => {
     const filteredTableData = tableData.filter((row) => {
-      // Check if the properties exist before accessing them
       const kaydedenKisi = row.kaydedenKisi
         ? row.kaydedenKisi.toLowerCase()
         : "";
       const firma = row.firma ? row.firma.toLowerCase() : "";
       const gider_turu = row.gider_turu ? row.gider_turu.toLowerCase() : "";
       const createdAt = row.createdAt ? row.createdAt : "";
-      const aciklama = row.aciklama ? row.aciklama.toLowerCase() : "";
 
-      // Implement your filtering logic here
       return (
         kaydedenKisi.includes(kaydedenKisiFilter.toLowerCase()) &&
         firma.includes(firmaFilter.toLowerCase()) &&
         gider_turu.includes(giderTipFilter.toLowerCase()) &&
-        createdAt.includes(tarihFilter) &&
-        aciklama.includes(giderFilter.toLowerCase())
+        createdAt.includes(tarihFilter)
       );
     });
 
@@ -91,6 +87,8 @@ const Rapor = () => {
                   onChange={(e) => setGiderTipFilter(e.target.value)}
                 />
               </th>
+              <th>GİDER</th>
+
               <th>
                 TARİH
                 <input
@@ -99,7 +97,6 @@ const Rapor = () => {
                   value={tarihFilter}
                 />
               </th>
-              <th>GİDER</th>
             </tr>
           </thead>
           <tbody>
@@ -114,8 +111,8 @@ const Rapor = () => {
                 <tr key={index}>
                   <td>{row?.user?.name}</td>
                   <td>{row.gider_turu}</td>
-                  <td>{formattedDate}</td>
                   <td>{row.tutar + " " + row.kur}</td>
+                  <td>{formattedDate}</td>
                 </tr>
               );
             })}
