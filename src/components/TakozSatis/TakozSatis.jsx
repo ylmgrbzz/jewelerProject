@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
 import "./TakozSatis.css";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
+import React, { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const TakozSatis = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -50,20 +52,8 @@ const TakozSatis = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-
-        if (!accessToken) {
-          console.error("Access token is missing");
-          return;
-        }
-
-        const response = await axios.get(
-          "http://52.29.240.45:3001/v1/musteriListele",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
+        const response = await api.get(
+          "http://52.29.240.45:3001/v1/musteriListele"
         );
         setCustomerList(response.data);
       } catch (error) {
@@ -88,7 +78,7 @@ const TakozSatis = () => {
       formData.has
     ) {
       try {
-        const response = await axios.post(
+        const response = await api.post(
           "http://52.29.240.45:3001/v1/islemOlustur",
           {
             ...formData,

@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import "./Rapor.css";
+
+import React, { useEffect, useState } from "react";
+
+import { Link } from "react-router-dom";
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
+
 const Rapor = () => {
   const [kaydedenKisiFilter, setKaydedenKisiFilter] = useState("");
   const [firmaFilter, setFirmaFilter] = useState("");
@@ -18,12 +22,11 @@ const Rapor = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
+        const response = await api.get(
           "http://52.29.240.45:3001/v1/giderListele"
         );
-        const data = await response.json();
-        setTableData(data);
-        setFilteredData(data);
+        setTableData(response.data);
+        setFilteredData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

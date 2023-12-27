@@ -1,7 +1,10 @@
 import "./Kasa.css";
-import { useNavigate } from "react-router-dom";
+
 import React, { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const Kasa = () => {
   const [kaydedenKisiFilter, setKaydedenKisiFilter] = useState("");
@@ -31,9 +34,10 @@ const Kasa = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://52.29.240.45:3001/v1/kasaListele");
-        const data = await response.json();
-        setTableData(data);
+        const response = await api.get(
+          "http://52.29.240.45:3001/v1/kasaListele"
+        );
+        setTableData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

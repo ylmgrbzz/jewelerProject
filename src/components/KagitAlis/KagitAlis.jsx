@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
 import "./KagitAlis.css";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
+import React, { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const KagitAlis = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -59,7 +61,7 @@ const KagitAlis = () => {
           return;
         }
 
-        const response = await axios.get(
+        const response = await api.get(
           "http://52.29.240.45:3001/v1/musteriListele",
           {
             headers: {
@@ -91,7 +93,7 @@ const KagitAlis = () => {
       formData.vade
     ) {
       try {
-        const response = await axios.post(
+        const response = await api.post(
           "http://52.29.240.45:3001/v1/islemOlustur",
           {
             ...formData,
