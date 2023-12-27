@@ -98,6 +98,7 @@ const Rapor = () => {
                   className="filter-input"
                   type="date"
                   value={tarihFilter}
+                  onChange={(e) => setTarihFilter(e.target.value)}
                 />
               </th>
             </tr>
