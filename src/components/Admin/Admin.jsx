@@ -17,16 +17,13 @@ const Admin = () => {
       </div>
       <h1 className="menu-title">Admin Paneli</h1>
 
-      <Link to="/kagitAlis" className="btn btn-primary btn-lg menu-button">
+      <Link to="/kagitAdmin" className="btn btn-primary btn-lg menu-button">
         Kağıt
       </Link>
-      <Link to="/takozAlis" className="btn btn-success btn-lg menu-button">
+      <Link to="/takozAdmin" className="btn btn-success btn-lg menu-button">
         Takoz
       </Link>
-      <Link
-        to="/subelerVirman"
-        className="btn btn-secondary btn-lg menu-button"
-      >
+      <Link to="/virmanAdmin" className="btn btn-secondary btn-lg menu-button">
         Şubeler Virman
       </Link>
     </div>

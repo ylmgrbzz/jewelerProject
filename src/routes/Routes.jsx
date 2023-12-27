@@ -23,6 +23,9 @@ import KasaPage from "../pages/KasaPage";
 import VadePage from "../pages/VadePage";
 import Admin from "../components/Admin/Admin";
 import { useNavigate } from "react-router-dom";
+import TakozAdminPage from "../pages/TakozAdminPage";
+import KagıtAdminPage from "../pages/KagıtAdminPage";
+import VirmanAdminPage from "../pages/VirmanAdminPage";
 
 const RoutesApp = () => {
   const navigate = useNavigate();
@@ -52,6 +55,9 @@ const RoutesApp = () => {
       <Route path="/kasa" element={<KasaPage />}></Route>
       <Route path="/vade" element={<VadePage />}></Route>
       <Route path="/admin" element={<Admin />}></Route>
+      <Route path="/takozAdmin" element={<TakozAdminPage />}></Route>
+      <Route path="/kagitAdmin" element={<KagıtAdminPage />}></Route>
+      <Route path="/virmanAdmin" element={<VirmanAdminPage />}></Route>
 
       <Route path="/" element={<Navigate to="/login" replace />} />
     </Routes>
