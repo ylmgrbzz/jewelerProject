@@ -17,8 +17,9 @@ const Kasa = () => {
 
   const formatInputDate = (inputDate) => {
     const [year, month, day] = inputDate.split("-");
-    return `${day}.${month}.${year}`;
+    return `${day}/${month}/${year}`;
   };
+
   const handleInputChange = (e, setFilter) => {
     const value =
       e.target.type === "date"
@@ -52,11 +53,12 @@ const Kasa = () => {
       const paraBirimi = (row?.para_birimi || "").trim();
       const iscilik =
         typeof row?.iscilik === "string" ? row.iscilik.trim() : "";
+      const formattedRowDate = formatInputDate(row.createdAt.split("T")[0]);
+      const formattedFilterDate = formatInputDate(tarihFilter);
 
       const isNumeric = (value) => /^\d+$/.test(value);
       const hasValue = typeof row?.has === "string" ? row.has.trim() : "";
-      const isNumericHas = (value) => /^\d+$/.test(value);
-
+      const isNumericHas = (value) => typeof value === "number";
       return (
         (kaydedenKisiFilter === "" ||
           userName.toLowerCase().includes(kaydedenKisiFilter.toLowerCase())) &&
@@ -75,7 +77,8 @@ const Kasa = () => {
           (isNumeric(iscilikFilter) && iscilik.includes(iscilikFilter)) ||
           (!isNumeric(iscilikFilter) &&
             paraBirimi.toLowerCase().includes(iscilikFilter.toLowerCase()))) &&
-        (has === "" || (isNumericHas(has) && hasValue.includes(has)))
+        (has === "" || (isNumericHas(has) && parseInt(hasValue) === has)) &&
+        (tarihFilter === "" || formattedRowDate === formattedFilterDate)
       );
     });
 
@@ -87,6 +90,7 @@ const Kasa = () => {
     kagitFilter,
     iscilikFilter,
     tipFilter,
+    tarihFilter,
     tableData,
     has,
   ]);
