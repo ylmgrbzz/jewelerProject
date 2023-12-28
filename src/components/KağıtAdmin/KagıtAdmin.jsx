@@ -88,18 +88,22 @@ const KagıtAdmin = () => {
   const handleEdit = (rowData) => {
     console.log("Edit:", rowData);
   };
-
-  const handleDelete = async (rowId) => {
+  const handleDelete = async (islemId) => {
     const isConfirmed = window.confirm("Bu kaydı silmek istiyor musunuz?");
 
     if (isConfirmed) {
       try {
-        await api.delete(`http://52.29.240.45:3001/v1/admin/kagitSil/${rowId}`);
+        // Send a delete request to the backend
+        await api.delete(
+          `http://52.29.240.45:3001/v1/admin/islemSil/${islemId}`
+        );
 
         // Update the state to reflect the deletion
-        setTableData((prevData) => prevData.filter((row) => row.id !== rowId));
+        setTableData((prevData) =>
+          prevData.filter((row) => row._id !== islemId)
+        );
         setFilteredData((prevData) =>
-          prevData.filter((row) => row.id !== rowId)
+          prevData.filter((row) => row._id !== islemId)
         );
       } catch (error) {
         console.error("Error deleting data:", error);
@@ -198,7 +202,7 @@ const KagıtAdmin = () => {
                       </button>
                       <button
                         className="action-button"
-                        onClick={() => handleDelete(row.id)}
+                        onClick={() => handleDelete(row._id)}
                       >
                         <FaTrash />
                       </button>
