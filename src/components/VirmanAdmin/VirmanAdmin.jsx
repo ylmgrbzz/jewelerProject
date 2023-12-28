@@ -89,11 +89,21 @@ const VirmanAdmin = () => {
     console.log("Edit:", rowData);
   };
 
-  const handleDelete = (rowId) => {
+  const handleDelete = async (rowId) => {
     const isConfirmed = window.confirm("Bu kaydı silmek istiyor musunuz?");
 
     if (isConfirmed) {
-      console.log("Delete:", rowId);
+      try {
+        await api.delete(`http://52.29.240.45:3001/v1/admin/kagitSil/${rowId}`);
+
+        // Update the state to reflect the deletion
+        setTableData((prevData) => prevData.filter((row) => row.id !== rowId));
+        setFilteredData((prevData) =>
+          prevData.filter((row) => row.id !== rowId)
+        );
+      } catch (error) {
+        console.error("Error deleting data:", error);
+      }
     }
   };
 
