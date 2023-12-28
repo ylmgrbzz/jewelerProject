@@ -94,13 +94,13 @@ const TakozAdmin = () => {
 
     if (isConfirmed) {
       try {
-        await api.delete(`http://52.29.240.45:3001/v1/admin/kagitSil/${rowId}`);
+        // Make API request to delete the record
+        await api.delete(`http://52.29.240.45:3001/v1/admin/islemSil/${rowId}`);
 
-        // Update the state to reflect the deletion
-        setTableData((prevData) => prevData.filter((row) => row.id !== rowId));
-        setFilteredData((prevData) =>
-          prevData.filter((row) => row.id !== rowId)
-        );
+        // Update the table data after deletion
+        const updatedData = tableData.filter((row) => row.id !== rowId);
+        setTableData(updatedData);
+        setFilteredData(updatedData);
       } catch (error) {
         console.error("Error deleting data:", error);
       }
