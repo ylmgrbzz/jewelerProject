@@ -1,16 +1,17 @@
 import React from "react";
 import "./JewelerMain.css";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const JewelerMain = () => {
-  const navigate = useNavigate();
-
   const handleLogout = () => {
-    localStorage.removeItem("token");
-
-    navigate("/login");
+    // Clear tokens from localStorage
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   };
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  console.log(user);
 
   return (
     <div
@@ -26,12 +27,13 @@ const JewelerMain = () => {
     >
       <div class="row">
         <div class="col-md-4">
-          <a
+          <Link
+            to={"/login"}
             onClick={handleLogout}
             className="btn btn-primary back-musteriButton"
           >
             ÇIKIŞ YAP
-          </a>
+          </Link>
           <div class="card colored-card bg-light">
             <div class="card-body">
               <h1
@@ -115,20 +117,22 @@ const JewelerMain = () => {
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card colored-card bg-light">
-            <div class="card-body">
-              <h1
-                style={{ textAlign: "center", margin: "15px" }}
-                class="card-title"
-              >
-                Admin Paneli
-              </h1>
-              <p class="card-text"></p>
-              <Link to="/admin" className="stretched-link"></Link>
+        {user && user.role === "admin" && (
+          <div class="col-md-4">
+            <div class="card colored-card bg-light">
+              <div class="card-body">
+                <h1
+                  style={{ textAlign: "center", margin: "15px" }}
+                  class="card-title"
+                >
+                  Admin Paneli
+                </h1>
+                <p class="card-text"></p>
+                <Link to="/admin" className="stretched-link"></Link>
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div class="col-md-4">
           <div class="card colored-card bg-light">
             <div class="card-body">
@@ -143,20 +147,22 @@ const JewelerMain = () => {
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card colored-card bg-light">
-            <div class="card-body">
-              <h1
-                style={{ textAlign: "center", margin: "15px" }}
-                class="card-title"
-              >
-                Rapor
-              </h1>
-              <p class="card-text"></p>
-              <Link to="/rapor" className="stretched-link"></Link>
+        {user && user.role === "admin" && (
+          <div class="col-md-4">
+            <div class="card colored-card bg-light">
+              <div class="card-body">
+                <h1
+                  style={{ textAlign: "center", margin: "15px" }}
+                  class="card-title"
+                >
+                  Rapor
+                </h1>
+                <p class="card-text"></p>
+                <Link to="/rapor" className="stretched-link"></Link>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
