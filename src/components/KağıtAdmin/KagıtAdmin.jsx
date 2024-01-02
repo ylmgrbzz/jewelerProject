@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./KagıtAdmin.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
-
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import KagitAlis from "../KagitAlis/KagitAlis";
 
 const KagıtAdmin = () => {
+  const navigate = useNavigate();
   const [kaydedenKisiFilter, setKaydedenKisiFilter] = useState("");
   const [firmaFilter, setFirmaFilter] = useState("");
   const [altinFilter, setAltinFilter] = useState("");
@@ -85,9 +92,38 @@ const KagıtAdmin = () => {
     has,
   ]);
 
+  const [formData, setFormData] = useState({
+    musteri: "",
+    para_birimi: "",
+    miktar: "",
+    iscilik: "",
+    toplam: "",
+    aciklama: "",
+    vade: "",
+    type: "kağıt",
+    type2: "alım",
+  });
+
   const handleEdit = (rowData) => {
     console.log("Edit:", rowData);
+
+    if (rowData.type2 === "alım") {
+      // navigate("/kagitAlis");
+
+      setFormData({
+        musteri: rowData.musteri.id,
+        para_birimi: rowData.para_birimi,
+        miktar: rowData.miktar,
+        iscilik: rowData.iscilik,
+        toplam: rowData.toplam,
+        aciklama: rowData.aciklama,
+        vade: rowData.vade,
+        type: rowData.type,
+        type2: rowData.type2,
+      });
+    }
   };
+
   const handleDelete = async (islemId) => {
     const isConfirmed = window.confirm("Bu kaydı silmek istiyor musunuz?");
 
@@ -200,6 +236,7 @@ const KagıtAdmin = () => {
                       >
                         <FaEdit />
                       </button>
+
                       <button
                         className="action-button"
                         onClick={() => handleDelete(row._id)}

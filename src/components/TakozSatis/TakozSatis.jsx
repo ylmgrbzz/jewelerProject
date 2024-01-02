@@ -109,6 +109,25 @@ const TakozSatis = () => {
     }
   };
 
+  const handleCalculateHas = (e) => {
+    e.preventDefault();
+    const { gram, ayar } = formData;
+    const result = (parseFloat(gram) * parseFloat(ayar)) / 995;
+    setFormData({
+      ...formData,
+      has: result.toFixed(2),
+    });
+  };
+  const handleCalculateDoviz = (e) => {
+    e.preventDefault();
+    const { satis_kuru, has } = formData;
+    const result = (parseFloat(satis_kuru) * parseFloat(has)) / 1000;
+    setFormData({
+      ...formData,
+      doviz_olarak_tutar: result.toFixed(2),
+    });
+  };
+
   return (
     <div>
       <Link to="/takoz" className="btn btn-primary back-button">
@@ -275,6 +294,7 @@ const TakozSatis = () => {
             DÖVİZ OLARAK TUTAR
           </label>
           <input
+            disabled
             required
             type="text"
             class="form-control"
@@ -292,16 +312,45 @@ const TakozSatis = () => {
           >
             HAS
           </label>
-          <input
-            required
-            type="text"
-            class="form-control"
-            value={formData.has}
-            onChange={handleChange}
-            name="has"
-            id="has"
-            placeholder="has"
-          />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "30px",
+            }}
+          >
+            <div className="col-sm-4">
+              <input
+                required
+                type="text"
+                class="form-control"
+                value={formData.has}
+                onChange={handleChange}
+                name="has"
+                id="has"
+                placeholder="has"
+                disabled
+              />
+            </div>
+            <div className="col-sm-3">
+              <button
+                onClick={handleCalculateHas}
+                style={{ marginBottom: "40px", height: "50px" }}
+              >
+                {" "}
+                HAS
+              </button>
+            </div>
+            <div className="col-sm-3">
+              <button
+                onClick={handleCalculateDoviz}
+                style={{ marginBottom: "40px", height: "50px" }}
+              >
+                {" "}
+                TUTAR
+              </button>
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label

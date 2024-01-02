@@ -87,6 +87,8 @@ const VirmanAdmin = () => {
 
   const handleEdit = (rowData) => {
     console.log("Edit:", rowData);
+
+    console.log("Tıklanan Satır Verileri:", rowData);
   };
 
   const handleDelete = async (islemId) => {
@@ -171,7 +173,7 @@ const VirmanAdmin = () => {
                     <div className="action-buttons">
                       <button
                         className="action-button"
-                        onClick={() => handleEdit(row)}
+                        onClick={() => handleEdit(row._id)}
                       >
                         <FaEdit />
                       </button>
