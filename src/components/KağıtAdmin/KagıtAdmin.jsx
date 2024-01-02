@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./KagıtAdmin.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
@@ -108,8 +103,6 @@ const KagıtAdmin = () => {
     console.log("Edit:", rowData);
 
     if (rowData.type2 === "alım") {
-      // navigate("/kagitAlis");
-
       setFormData({
         musteri: rowData.musteri.id,
         para_birimi: rowData.para_birimi,
@@ -121,6 +114,14 @@ const KagıtAdmin = () => {
         type: rowData.type,
         type2: rowData.type2,
       });
+      localStorage.setItem("editedData", JSON.stringify(rowData));
+
+      if (rowData.type2 === "alım") {
+        // Eğer type2 "alım" ise, ayrıca "localstorage_kagitalim" anahtarına kaydet
+        localStorage.setItem("localstorage_kagitalim", JSON.stringify(rowData));
+      }
+
+      navigate("/kagitAlisAdmin");
     }
   };
 

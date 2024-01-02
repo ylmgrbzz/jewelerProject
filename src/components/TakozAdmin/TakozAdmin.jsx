@@ -119,7 +119,7 @@ const TakozAdmin = () => {
           Geri Dön
         </Link>
       </div>
-      <div className="container">
+      <div className="container   ">
         <table className="report-table table table-bordered">
           <thead>
             <tr>
