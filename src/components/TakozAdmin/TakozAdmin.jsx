@@ -201,13 +201,11 @@ const TakozAdmin = () => {
   };
 
   return (
-    <div className="container">
-      <div>
-        <Link to="/admin" className="btn btn-primary back-button">
-          Geri Dön
-        </Link>
-      </div>
-      <div>
+    <div>
+      <Link to="/admin" className="btn btn-primary back-button">
+        Geri Dön
+      </Link>
+      <div className="container">
         <table className="report-table table table-bordered">
           <thead>
             <tr>
