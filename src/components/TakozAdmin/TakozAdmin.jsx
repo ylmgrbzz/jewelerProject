@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./TakozAdmin.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
-
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import "./TakozAdmin.css";
 
 const TakozAdmin = () => {
   const [kaydedenKisiFilter, setKaydedenKisiFilter] = useState("");
@@ -25,7 +24,7 @@ const TakozAdmin = () => {
 
   const handleInputChange = (e, setFilter) => {
     const value =
-      e.target.type === "date"
+      e.target.type === "date" && !isNaN(new Date(e.target.value).getTime())
         ? new Date(e.target.value).toISOString().split("T")[0]
         : e.target.value;
     setFilter(value);
@@ -202,13 +201,13 @@ const TakozAdmin = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <div>
         <Link to="/admin" className="btn btn-primary back-button">
           Geri Dön
         </Link>
       </div>
-      <div className="container   ">
+      <div>
         <table className="report-table table table-bordered">
           <thead>
             <tr>
