@@ -85,10 +85,39 @@ const VirmanAdmin = () => {
     has,
   ]);
 
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    alici_kasa: "",
+    transfer_cinsi: "",
+    transfer_tutari: "",
+    aciklama: "",
+    type: "",
+    type2: "",
+  });
+
   const handleEdit = (rowData) => {
     console.log("Edit:", rowData);
 
     console.log("Tıklanan Satır Verileri:", rowData);
+
+    if (rowData.type === "virman") {
+      setFormData({
+        alici_kasa: rowData.alici_kasa.name,
+        transfer_cinsi: rowData.transfer_cinsi,
+        transfer_tutari: rowData.transfer_tutari,
+        gonderen_kasa: rowData.gonderen_kasa.name,
+        aciklama: rowData.aciklama,
+        type: rowData.type,
+        type2: rowData.type2,
+      });
+      localStorage.setItem("editedData", JSON.stringify(rowData));
+
+      if (rowData.type === "virman") {
+        localStorage.setItem("localstorage_virman", JSON.stringify(rowData));
+      }
+      navigate("/virmanGuncellemeAdmin");
+    }
   };
 
   const handleDelete = async (islemId) => {
@@ -142,6 +171,7 @@ const VirmanAdmin = () => {
                 />
               </th>
               <th>TRANSFER CİNSİ</th> <th>TRANSFER TUTARI</th>
+              <th>AÇIKLAMA</th>
               <th>
                 TARİH
                 <input
@@ -168,12 +198,13 @@ const VirmanAdmin = () => {
                   <td>{row?.alici_kasa?.name}</td>
                   <td>{row.transfer_cinsi ? row.transfer_cinsi : " "}</td>
                   <td>{row.transfer_tutari ? row.transfer_tutari : " "}</td>
+                  <td>{row.aciklama ? row.aciklama : " "}</td>
                   <td>{formattedDate}</td>
                   <td>
                     <div className="action-buttons">
                       <button
                         className="action-button"
-                        onClick={() => handleEdit(row._id)}
+                        onClick={() => handleEdit(row)}
                       >
                         <FaEdit />
                       </button>

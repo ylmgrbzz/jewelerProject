@@ -28,6 +28,7 @@ import VirmanAdminPage from "../pages/VirmanAdminPage";
 import KagitAlisAdmin from "../components/KagitAlisAdmin/KagitAlisAdmin";
 import KagitSatisAdmin from "../components/KagitSatimAdmin/KagitSatisAdmin";
 import KagitTasimaAdmin from "../components/KagitTasimaAdmin/KagitTasimaAdmin";
+import VirmanUpdateAdmin from "../components/VirmanAdmin/VirmanUpdateAdmin";
 
 const RoutesApp = () => {
   return (
@@ -55,6 +56,10 @@ const RoutesApp = () => {
       <Route path="/kagitAlisAdmin" element={<KagitAlisAdmin />}></Route>
       <Route path="/kagitSatisAdmin" element={<KagitSatisAdmin />}></Route>
       <Route path="/kagitTasimaAdmin" element={<KagitTasimaAdmin />}></Route>
+      <Route
+        path="/virmanGuncellemeAdmin"
+        element={<VirmanUpdateAdmin />}
+      ></Route>
 
       <Route path="/" element={<Navigate to="/login" replace />} />
     </Routes>

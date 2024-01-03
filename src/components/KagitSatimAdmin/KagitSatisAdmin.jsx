@@ -112,7 +112,7 @@ const KagitSatisAdmin = () => {
           const parsedData = JSON.parse(localStorageData);
           const islemId = parsedData._id;
 
-          const response = await api.post(
+          const response = await api.patch(
             `http://52.29.240.45:3001/v1/admin/islemGuncelle/${islemId}`,
             {
               ...formData,
