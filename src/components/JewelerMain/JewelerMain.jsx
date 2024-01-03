@@ -4,9 +4,17 @@ import { Link } from "react-router-dom";
 
 const JewelerMain = () => {
   const handleLogout = () => {
-    // Clear tokens from localStorage
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+    localStorage.removeItem("editedData");
+    localStorage.removeItem("localstorage_kagitsatim");
+    localStorage.removeItem("localstorage_kagittaşıma");
+    localStorage.removeItem("localstorage_kagitalim");
+    localStorage.removeItem("localstorage_takozalim");
+    localStorage.removeItem("localstorage_takozsatim");
+    localStorage.removeItem("localstorage_takoztaşıma");
+    localStorage.removeItem("localstorage_virman");
   };
 
   const user = JSON.parse(localStorage.getItem("user"));
