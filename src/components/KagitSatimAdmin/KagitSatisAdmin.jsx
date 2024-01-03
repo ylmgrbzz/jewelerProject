@@ -59,7 +59,12 @@ const KagitSatisAdmin = () => {
         }
 
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/musteriListele"
+          "http://52.29.240.45:3001/v1/musteriListele",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         setCustomerList(response.data);
       } catch (error) {
@@ -67,13 +72,28 @@ const KagitSatisAdmin = () => {
       }
     };
 
+    const localStorageData = localStorage.getItem("localstorage_kagitsatim");
+    if (localStorageData) {
+      const parsedData = JSON.parse(localStorageData);
+      console.log("parsedData", parsedData);
+      setFormData((prevData) => ({
+        ...prevData,
+        musteri: parsedData.musteri.id,
+        para_birimi: parsedData.para_birimi.toString(),
+        miktar: parsedData.miktar.toString(),
+        iscilik: parsedData.iscilik.toString(),
+        toplam: parsedData.toplam.toString(),
+        aciklama: parsedData.aciklama,
+        vade: parsedData.vade.toString(),
+      }));
+    }
+
     fetchCustomers();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation, you can add more specific validations as needed
     if (
       formData.musteri &&
       formData.para_birimi &&
@@ -84,27 +104,27 @@ const KagitSatisAdmin = () => {
       formData.aciklama
     ) {
       try {
-        const response = await api.post(
-          "http://52.29.240.45:3001/v1/islemOlustur",
-          {
-            ...formData,
-            customerId: formData.musteriListele,
-          }
+        const localStorageData = localStorage.getItem(
+          "localstorage_kagitsatim"
         );
-        window.alert("Form başarıyla gönderildi.");
-        setFormData({
-          musteri: "",
-          para_birimi: "",
-          miktar: "",
-          iscilik: "",
-          toplam: "",
-          aciklama: "",
-          vade: "",
-          type: "kağıt",
-          type2: "satım",
-        });
 
-        console.log("Form submitted:", response.data);
+        if (localStorageData) {
+          const parsedData = JSON.parse(localStorageData);
+          const islemId = parsedData._id;
+
+          const response = await api.post(
+            `http://52.29.240.45:3001/v1/admin/islemGuncelle/${islemId}`,
+            {
+              ...formData,
+              customerId: formData.musteriListele,
+            }
+          );
+          window.alert("Form başarıyla gönderildi.");
+          localStorage.removeItem("localstorage_kagitalim");
+          navigate("/kagitAdmin");
+
+          console.log("Form submitted:", response.data);
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
         window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
@@ -115,9 +135,7 @@ const KagitSatisAdmin = () => {
   };
 
   const navigate = useNavigate();
-  const backToPage = () => {
-    navigate("/kagit");
-  };
+
   return (
     <div>
       <Link to="/kagit" className="btn btn-primary back-button">

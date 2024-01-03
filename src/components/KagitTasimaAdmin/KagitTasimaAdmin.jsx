@@ -50,20 +50,6 @@ const KagitTasimaAdmin = () => {
     });
   };
 
-  //   useEffect(() => {
-  //     const fetchCustomers = async () => {
-  //       try {
-  //         const response = await api.get(
-  //           "http://52.29.240.45:3001/v1/musteriListele"
-  //         );
-  //         setCustomerList(response.data);
-  //       } catch (error) {
-  //         console.error("Error fetching customer list:", error);
-  //       }
-  //     };
-
-  //     fetchCustomers();
-  //   }, []);
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
