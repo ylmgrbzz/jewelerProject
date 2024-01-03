@@ -51,8 +51,20 @@ const TakozSatimAdmin = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        if (!accessToken) {
+          console.error("Access token is missing");
+          return;
+        }
+
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/musteriListele"
+          "http://52.29.240.45:3001/v1/musteriListele",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         setCustomerList(response.data);
       } catch (error) {
@@ -60,8 +72,29 @@ const TakozSatimAdmin = () => {
       }
     };
 
+    const localStorageData = localStorage.getItem("localstorage_takozsatim");
+    if (localStorageData) {
+      const parsedData = JSON.parse(localStorageData);
+      console.log("parsedData", parsedData);
+      setFormData((prevData) => ({
+        ...prevData,
+        musteri: parsedData.musteri.id,
+        ayar: parsedData.ayar.toString(),
+        doviz_olarak_tutar: parsedData.doviz_olarak_tutar.toString(),
+        gram: parsedData.gram.toString(),
+        has: parsedData.has.toString(),
+        iscilik: parsedData.iscilik.toString(),
+        satis_kuru: parsedData.satis_kuru.toString(),
+        malin_cinsi: parsedData.malin_cinsi,
+        vade: parsedData.vade.toString(),
+      }));
+    }
+
     fetchCustomers();
   }, []);
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -77,29 +110,27 @@ const TakozSatimAdmin = () => {
       formData.has
     ) {
       try {
-        const response = await api.post(
-          "http://52.29.240.45:3001/v1/islemOlustur",
-          {
-            ...formData,
-            customerId: formData.musteriListele,
-          }
+        const localStorageData = localStorage.getItem(
+          "localstorage_takozsatim"
         );
 
-        console.log("Form submitted:", response.data);
-        window.alert("Form başarıyla gönderildi.");
-        setFormData({
-          musteri: "",
-          malin_cinsi: "",
-          gram: "",
-          ayar: "",
-          iscilik: "",
-          satis_kuru: "",
-          doviz_olarak_tutar: "",
-          has: "",
-          type: "takoz",
-          type2: "satım",
-          vade: "",
-        });
+        if (localStorageData) {
+          const parsedData = JSON.parse(localStorageData);
+          const islemId = parsedData._id;
+
+          const response = await api.patch(
+            `http://52.29.240.45:3001/v1/admin/islemGuncelle/${islemId}`,
+            {
+              ...formData,
+              customerId: formData.musteriListele,
+            }
+          );
+
+          console.log("Form submitted:", response.data);
+          window.alert("Form başarıyla gönderildi.");
+          localStorage.removeItem("localstorage_takozsatim");
+          navigate("/takozAdmin");
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
       }
@@ -136,8 +167,8 @@ const TakozSatimAdmin = () => {
         onSubmit={handleSubmit}
         style={{
           width: "70%",
-          height: "140%",
-          marginTop: "200px",
+          height: "160%",
+          marginTop: "280px",
         }}
         method="post"
       >
