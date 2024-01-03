@@ -1,10 +1,7 @@
 import "./Kasa.css";
-
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-import { useNavigate } from "react-router-dom";
 
 const Kasa = () => {
   const [kaydedenKisiFilter, setKaydedenKisiFilter] = useState("");
