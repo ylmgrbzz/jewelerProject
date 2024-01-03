@@ -85,8 +85,97 @@ const TakozAdmin = () => {
     has,
   ]);
 
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    musteri: "",
+    alis_kuru: "",
+    ayar: "",
+    doviz_olarak_tutar: "",
+    gram: "",
+    has: "",
+    iscilik: "",
+    malin_cinsi: "",
+    para_birimi: "",
+    tasima_bedeli: "",
+    tasinacak_urun: "",
+
+    type: "takoz",
+    type2: "",
+  });
+
   const handleEdit = (rowData) => {
     console.log("Edit:", rowData);
+
+    if (rowData.type2 === "alım") {
+      setFormData({
+        musteri: rowData.musteri.id,
+        ayar: rowData.ayar,
+        doviz_olarak_tutar: rowData.doviz_olarak_tutar,
+        gram: rowData.gram,
+        has: rowData.has,
+        iscilik: rowData.iscilik,
+        malin_cinsi: rowData.malin_cinsi,
+        alis_kuru: rowData.alis_kuru,
+        vade: rowData.vade,
+        type: rowData.type,
+        type2: rowData.type2,
+      });
+      localStorage.setItem("editedData", JSON.stringify(rowData));
+
+      if (rowData.type2 === "alım") {
+        // Eğer type2 "alım" ise, ayrıca "localstorage_kagitalim" anahtarına kaydet
+        localStorage.setItem("localstorage_takozalim", JSON.stringify(rowData));
+      }
+      navigate("/takozAlisAdmin");
+    }
+
+    if (rowData.type2 === "satım") {
+      setFormData({
+        musteri: rowData.musteri.id,
+        ayar: rowData.ayar,
+        doviz_olarak_tutar: rowData.doviz_olarak_tutar,
+        gram: rowData.gram,
+        has: rowData.has,
+        iscilik: rowData.iscilik,
+        malin_cinsi: rowData.malin_cinsi,
+        satis_kuru: rowData.satis_kuru,
+        vade: rowData.vade,
+        type: rowData.type,
+        type2: rowData.type2,
+      });
+      localStorage.setItem("editedData", JSON.stringify(rowData));
+
+      if (rowData.type2 === "satım") {
+        // Eğer type2 "satım" ise, ayrıca "localstorage_kagitsatim" anahtarına kaydet
+        localStorage.setItem(
+          "localstorage_takozsatim",
+          JSON.stringify(rowData)
+        );
+      }
+      navigate("/takozSatisAdmin");
+    }
+
+    if (rowData.type2 === "taşıma") {
+      setFormData({
+        musteri: rowData.musteri.id,
+        para_birimi: rowData.para_birimi,
+        tasima_bedeli: rowData.tasima_bedeli,
+        tasinacak_urun: rowData.tasinacak_urun,
+        type: rowData.type,
+        type2: rowData.type2,
+      });
+      localStorage.setItem("editedData", JSON.stringify(rowData));
+
+      if (rowData.type2 === "taşıma") {
+        // Eğer type2 "taşıma" ise, ayrıca "localstorage_kagittaşıma" anahtarına kaydet
+        localStorage.setItem(
+          "localstorage_takoztaşıma",
+          JSON.stringify(rowData)
+        );
+      }
+      navigate("/takozTasimaAdmin");
+    }
   };
 
   const handleDelete = async (islemId) => {

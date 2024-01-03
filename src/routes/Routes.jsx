@@ -29,6 +29,9 @@ import KagitAlisAdmin from "../components/KagitAlisAdmin/KagitAlisAdmin";
 import KagitSatisAdmin from "../components/KagitSatimAdmin/KagitSatisAdmin";
 import KagitTasimaAdmin from "../components/KagitTasimaAdmin/KagitTasimaAdmin";
 import VirmanUpdateAdmin from "../components/VirmanAdmin/VirmanUpdateAdmin";
+import TakozAlimAdmin from "../components/TakozAlimSatimTasimaAdmin/TakozAlimAdmin";
+import TakozSatimAdmin from "../components/TakozAlimSatimTasimaAdmin/TakozSatimAdmin";
+import TakozTasimaAdmin from "../components/TakozAlimSatimTasimaAdmin/TakozTasimaAdmin";
 
 const RoutesApp = () => {
   return (
@@ -56,6 +59,9 @@ const RoutesApp = () => {
       <Route path="/kagitAlisAdmin" element={<KagitAlisAdmin />}></Route>
       <Route path="/kagitSatisAdmin" element={<KagitSatisAdmin />}></Route>
       <Route path="/kagitTasimaAdmin" element={<KagitTasimaAdmin />}></Route>
+      <Route path="/takozAlisAdmin" element={<TakozAlimAdmin />}></Route>
+      <Route path="/takozSatisAdmin" element={<TakozSatimAdmin />}></Route>
+      <Route path="/takozTasimaAdmin" element={<TakozTasimaAdmin />}></Route>
       <Route
         path="/virmanGuncellemeAdmin"
         element={<VirmanUpdateAdmin />}
