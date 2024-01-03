@@ -1,10 +1,7 @@
 import "./TakozSatis.css";
-
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-import { useNavigate } from "react-router-dom";
 
 const TakozSatis = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -38,7 +35,7 @@ const TakozSatis = () => {
     ) {
       if (!isNumeric.test(value)) {
         console.error(
-          `Invalid input for ${name}. Please enter a valid number.`
+          `Geçersiz giriş ${name} için. Lütfen geçerli bir sayı giriniz.`
         );
         return;
       }

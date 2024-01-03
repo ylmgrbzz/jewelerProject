@@ -1,15 +1,10 @@
 import "./TakozAlis.css";
-
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-import { type } from "@testing-library/user-event/dist/type";
-import { useNavigate } from "react-router-dom";
 
 const TakozAlis = () => {
   const [customerList, setCustomerList] = useState([]);
-  const [submissionStatus, setSubmissionStatus] = useState(null);
 
   const [formData, setFormData] = useState({
     musteri: "",
@@ -140,7 +135,7 @@ const TakozAlis = () => {
         style={{
           width: "70%",
           height: "125%",
-          marginTop: "110px",
+          marginTop: "140px",
         }}
         method="post"
       >

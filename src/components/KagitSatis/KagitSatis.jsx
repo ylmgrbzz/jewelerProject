@@ -1,10 +1,7 @@
 import "./KagitSatis.css";
-
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-import { type } from "@testing-library/user-event/dist/type";
 import { useNavigate } from "react-router-dom";
 
 const KagitSatis = () => {
@@ -39,7 +36,7 @@ const KagitSatis = () => {
     ) {
       if (!isNumeric.test(value)) {
         console.error(
-          `Invalid input for ${name}. Please enter a valid number.`
+          `Geçersiz giriş ${name} için. Lütfen geçerli bir sayı giriniz.`
         );
         return;
       }
@@ -76,7 +73,6 @@ const KagitSatis = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation, you can add more specific validations as needed
     if (
       formData.musteri &&
       formData.para_birimi &&

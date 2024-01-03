@@ -1,10 +1,7 @@
 import "./KagitAlis.css";
-
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-import { useNavigate } from "react-router-dom";
 
 const KagitAlis = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -82,7 +79,6 @@ const KagitAlis = () => {
     console.log(formData);
     e.preventDefault();
 
-    // Basic validation, you can add more specific validations as needed
     if (
       formData.musteri &&
       formData.para_birimi &&

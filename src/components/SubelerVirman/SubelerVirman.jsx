@@ -1,7 +1,5 @@
 import "./SubelerVirman.css";
-
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 
@@ -26,7 +24,7 @@ const SubelerVirman = () => {
     if (name === "transfer") {
       if (!isNumeric.test(value)) {
         console.error(
-          `Invalid input for ${name}. Please enter a valid number.`
+          `Geçersiz giriş ${name} için. Lütfen geçerli bir sayı giriniz.`
         );
         return;
       }

@@ -1,11 +1,7 @@
 import "./KagitTasima.css";
-
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-import { type } from "@testing-library/user-event/dist/type";
-import { useNavigate } from "react-router-dom";
 
 const KagitTasima = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -40,7 +36,7 @@ const KagitTasima = () => {
     ) {
       if (!isNumeric.test(value)) {
         console.error(
-          `Invalid input for ${name}. Please enter a valid number.`
+          `Geçersiz giriş ${name} için. Lütfen geçerli bir sayı giriniz.`
         );
         return;
       }
@@ -92,7 +88,6 @@ const KagitTasima = () => {
         window.alert("Form başarıyla gönderildi.");
         setFormData({
           musteri: "",
-
           miktar: "",
           tasinacak_kagit: "",
           tasima_bedeli: "",
@@ -104,15 +99,10 @@ const KagitTasima = () => {
         window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
       }
     } else {
-      alert("Please fill in all required fields");
       window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
   };
 
-  const navigate = useNavigate();
-  const backToPage = () => {
-    navigate("/kagit");
-  };
   return (
     <div>
       <Link to="/kagit" className="btn btn-primary back-button">

@@ -25,7 +25,7 @@ const Kasa = () => {
 
   const handleInputChange = (e, setFilter) => {
     const value =
-      e.target.type === "date"
+      e.target.type === "date" && !isNaN(new Date(e.target.value).getTime())
         ? new Date(e.target.value).toISOString().split("T")[0]
         : e.target.value;
     setFilter(value);
