@@ -19,17 +19,45 @@ const TakozTasimaAdmin = () => {
     type: "takoz",
     type2: "taşıma",
   });
+
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        if (!accessToken) {
+          console.error("Access token is missing");
+          return;
+        }
+
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/musteriListele"
+          "http://52.29.240.45:3001/v1/musteriListele",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         setCustomerList(response.data);
       } catch (error) {
         console.error("Error fetching customer list:", error);
       }
     };
+
+    const localStorageData = localStorage.getItem("localstorage_takoztaşıma");
+    if (localStorageData) {
+      const parsedData = JSON.parse(localStorageData);
+      console.log("parsedData", parsedData);
+      setFormData((prevData) => ({
+        ...prevData,
+        musteri: parsedData.musteri.id,
+        gram: parsedData.gram.toString(),
+        para_birimi: parsedData.para_birimi,
+        tasima_bedeli: parsedData.tasima_bedeli.toString(),
+        tasinacak_urun: parsedData.tasinacak_urun,
+        aciklama: parsedData.aciklama,
+      }));
+    }
 
     fetchCustomers();
   }, []);
@@ -62,6 +90,8 @@ const TakozTasimaAdmin = () => {
     });
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
@@ -74,26 +104,27 @@ const TakozTasimaAdmin = () => {
       formData.aciklama
     ) {
       try {
-        const response = await api.post(
-          "http://52.29.240.45:3001/v1/islemOlustur",
-          {
-            ...formData,
-            customerId: formData.musteriListele,
-          }
+        const localStorageData = localStorage.getItem(
+          "localstorage_takoztaşıma"
         );
-        window.alert("Form başarıyla gönderildi.");
-        setFormData({
-          musteri: "",
-          tasinacak_urun: "",
-          gram: "",
-          para_birimi: "",
-          tasima_bedeli: "",
-          aciklama: "",
-          type: "takoz",
-          type2: "taşıma",
-        });
 
-        console.log("Form submitted:", response.data);
+        if (localStorageData) {
+          const parsedData = JSON.parse(localStorageData);
+          const islemId = parsedData._id;
+
+          const response = await api.patch(
+            `http://52.29.240.45:3001/v1/admin/islemGuncelle/${islemId}`,
+            {
+              ...formData,
+              customerId: formData.musteriListele,
+            }
+          );
+          window.alert("Form başarıyla gönderildi.");
+          localStorage.removeItem("localstorage_takoztaşıma");
+          navigate("/takozAdmin");
+
+          console.log("Form submitted:", response.data);
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
         window.alert("Lütfen Tüm Değerleri Doğru Giriniz");
@@ -270,6 +301,7 @@ const TakozTasimaAdmin = () => {
             class="form-control"
             name="aciklama"
             id="aciklama"
+            value={formData.aciklama}
             rows="4"
             onChange={handleChange}
             placeholder="aciklama"
