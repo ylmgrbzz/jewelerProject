@@ -120,8 +120,54 @@ const KagıtAdmin = () => {
         // Eğer type2 "alım" ise, ayrıca "localstorage_kagitalim" anahtarına kaydet
         localStorage.setItem("localstorage_kagitalim", JSON.stringify(rowData));
       }
-
       navigate("/kagitAlisAdmin");
+    }
+
+    if (rowData.type2 === "satım") {
+      setFormData({
+        musteri: rowData.musteri.id,
+        para_birimi: rowData.para_birimi,
+        miktar: rowData.miktar,
+        iscilik: rowData.iscilik,
+        toplam: rowData.toplam,
+        aciklama: rowData.aciklama,
+        vade: rowData.vade,
+        type: rowData.type,
+        type2: rowData.type2,
+      });
+      localStorage.setItem("editedData", JSON.stringify(rowData));
+
+      if (rowData.type2 === "satım") {
+        // Eğer type2 "satım" ise, ayrıca "localstorage_kagitsatim" anahtarına kaydet
+        localStorage.setItem(
+          "localstorage_kagitsatim",
+          JSON.stringify(rowData)
+        );
+      }
+      navigate("/kagitSatisAdmin");
+    }
+
+    if (rowData.type2 === "taşıma") {
+      setFormData({
+        musteri: rowData.musteri.id,
+        miktar: rowData.miktar,
+        tasinacak_kagit: rowData.tasinacak_kagit,
+        tasima_bedeli: rowData.tasima_bedeli,
+        tasima_bedeli_turu: rowData.tasima_bedeli_turu,
+        aciklama: rowData.aciklama,
+        type: rowData.type,
+        type2: rowData.type2,
+      });
+      localStorage.setItem("editedData", JSON.stringify(rowData));
+
+      if (rowData.type2 === "taşıma") {
+        // Eğer type2 "taşıma" ise, ayrıca "localstorage_kagittaşıma" anahtarına kaydet
+        localStorage.setItem(
+          "localstorage_kagittaşıma",
+          JSON.stringify(rowData)
+        );
+      }
+      navigate("/kagitTasimaAdmin");
     }
   };
 
