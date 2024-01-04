@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const apiUrl = "http://52.29.240.45:3001/v1/auth/login";
+      const apiUrl = "https://kuyumcu.mmustafa.dev/v1/auth/login";
 
       const response = await axios.post(apiUrl, {
         email,

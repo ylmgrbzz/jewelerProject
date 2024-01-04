@@ -36,7 +36,7 @@ const Rapor = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/giderListele"
+          "https://kuyumcu.mmustafa.dev/v1/giderListele"
         );
         setTableData(response.data);
         setFilteredData(response.data);

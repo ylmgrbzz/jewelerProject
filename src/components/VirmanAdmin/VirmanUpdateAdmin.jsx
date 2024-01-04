@@ -47,7 +47,7 @@ const VirmanUpdateAdmin = () => {
         }
 
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/kasaKullaniciListele",
+          "https://kuyumcu.mmustafa.dev/v1/kasaKullaniciListele",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -100,7 +100,7 @@ const VirmanUpdateAdmin = () => {
           const islemId = parsedData._id;
 
           const response = await api.patch(
-            `http://52.29.240.45:3001/v1/admin/islemGuncelle/${islemId}`,
+            `https://kuyumcu.mmustafa.dev/v1/admin/islemGuncelle/${islemId}`,
             {
               ...formDataWithoutGonderen,
               customerId: formDataWithoutGonderen.musteriListele,

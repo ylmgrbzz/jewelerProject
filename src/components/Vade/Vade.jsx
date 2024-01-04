@@ -18,7 +18,7 @@ const Vade = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/vadeListele"
+          "https://kuyumcu.mmustafa.dev/v1/vadeListele"
         );
         setTableData(response.data);
       } catch (error) {

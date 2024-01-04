@@ -40,7 +40,7 @@ const Gider = () => {
     ) {
       try {
         const response = await api.post(
-          "http://52.29.240.45:3001/v1/giderOlustur",
+          "https://kuyumcu.mmustafa.dev/v1/giderOlustur",
           {
             ...formData,
           }

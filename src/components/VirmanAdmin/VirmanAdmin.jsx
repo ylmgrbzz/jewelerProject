@@ -35,7 +35,7 @@ const VirmanAdmin = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/admin/virmanListele"
+          "https://kuyumcu.mmustafa.dev/v1/admin/virmanListele"
         );
         setTableData(response.data);
         setFilteredData(response.data);
@@ -127,7 +127,7 @@ const VirmanAdmin = () => {
       try {
         // Send a delete request to the backend
         await api.delete(
-          `http://52.29.240.45:3001/v1/admin/islemSil/${islemId}`
+          `https://kuyumcu.mmustafa.dev/v1/admin/islemSil/${islemId}`
         );
 
         // Update the state to reflect the deletion

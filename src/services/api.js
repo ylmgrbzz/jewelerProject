@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://52.29.240.45:3001",
+  baseURL: "https://kuyumcu.mmustafa.dev",
 });
 
 // interceptors

@@ -52,7 +52,7 @@ const KagitTasima = () => {
     const fetchCustomers = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/musteriListele"
+          "https://kuyumcu.mmustafa.dev/v1/musteriListele"
         );
         setCustomerList(response.data);
       } catch (error) {
@@ -77,7 +77,7 @@ const KagitTasima = () => {
     ) {
       try {
         const response = await api.post(
-          "http://52.29.240.45:3001/v1/islemOlustur",
+          "https://kuyumcu.mmustafa.dev/v1/islemOlustur",
           {
             ...formData,
             customerId: formData.musteriListele,

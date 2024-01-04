@@ -36,7 +36,7 @@ const KagıtAdmin = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/admin/kagitListele"
+          "https://kuyumcu.mmustafa.dev/v1/admin/kagitListele"
         );
         setTableData(response.data);
         setFilteredData(response.data);
@@ -177,7 +177,7 @@ const KagıtAdmin = () => {
       try {
         // Send a delete request to the backend
         await api.delete(
-          `http://52.29.240.45:3001/v1/admin/islemSil/${islemId}`
+          `https://kuyumcu.mmustafa.dev/v1/admin/islemSil/${islemId}`
         );
 
         // Update the state to reflect the deletion

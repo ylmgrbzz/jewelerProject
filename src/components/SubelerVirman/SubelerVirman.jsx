@@ -40,7 +40,7 @@ const SubelerVirman = () => {
     const fetchKasa = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/kasaKullaniciListele"
+          "https://kuyumcu.mmustafa.dev/v1/kasaKullaniciListele"
         );
         setKasaList(response.data);
         const userData = JSON.parse(localStorage.getItem("user"));
@@ -70,7 +70,7 @@ const SubelerVirman = () => {
         const { gonderen_kasa, ...formDataWithoutGonderen } = formData;
 
         const response = await api.post(
-          "http://52.29.240.45:3001/v1/islemOlustur",
+          "https://kuyumcu.mmustafa.dev/v1/islemOlustur",
           {
             ...formDataWithoutGonderen,
             customerId: formDataWithoutGonderen.musteriListele,

@@ -32,7 +32,7 @@ const Kasa = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/kasaListele"
+          "https://kuyumcu.mmustafa.dev/v1/kasaListele"
         );
         setTableData(response.data);
         setFilteredData(response.data);

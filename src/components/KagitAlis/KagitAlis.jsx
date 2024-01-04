@@ -59,7 +59,7 @@ const KagitAlis = () => {
         }
 
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/musteriListele",
+          "https://kuyumcu.mmustafa.dev/v1/musteriListele",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -90,7 +90,7 @@ const KagitAlis = () => {
     ) {
       try {
         const response = await api.post(
-          "http://52.29.240.45:3001/v1/islemOlustur",
+          "https://kuyumcu.mmustafa.dev/v1/islemOlustur",
           {
             ...formData,
             customerId: formData.musteriListele,

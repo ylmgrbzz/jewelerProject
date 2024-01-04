@@ -61,7 +61,7 @@ const KagitTasimaAdmin = () => {
         }
 
         const response = await api.get(
-          "http://52.29.240.45:3001/v1/musteriListele",
+          "https://kuyumcu.mmustafa.dev/v1/musteriListele",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -115,7 +115,7 @@ const KagitTasimaAdmin = () => {
           const islemId = parsedData._id;
 
           const response = await api.patch(
-            `http://52.29.240.45:3001/v1/admin/islemGuncelle/${islemId}`,
+            `https://kuyumcu.mmustafa.dev/v1/admin/islemGuncelle/${islemId}`,
             {
               ...formData,
               customerId: formData.musteriListele,

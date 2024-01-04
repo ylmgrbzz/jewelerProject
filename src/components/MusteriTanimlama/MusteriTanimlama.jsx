@@ -32,7 +32,7 @@ const MusteriTanimlama = () => {
       }
       const accessToken = localStorage.getItem("accessToken");
 
-      const apiUrl = "http://52.29.240.45:3001/v1/musteriOlustur";
+      const apiUrl = "https://kuyumcu.mmustafa.dev/v1/musteriOlustur";
 
       const response = await api.post(apiUrl, formData);
 
