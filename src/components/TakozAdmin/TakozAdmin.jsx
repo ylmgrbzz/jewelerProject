@@ -261,6 +261,12 @@ const TakozAdmin = () => {
                 createdAtDate.getMonth() + 1
               }/${createdAtDate.getFullYear()}`;
 
+              const createdAtVadeDate = new Date(row.vade ? row.vade : " ");
+
+              const formattedVadeDate = `${createdAtVadeDate.getDate()}/${
+                createdAtVadeDate.getMonth() + 1
+              }/${createdAtVadeDate.getFullYear()}`;
+
               return (
                 <tr key={index}>
                   <td>{row?.user?.name}</td>
@@ -280,7 +286,7 @@ const TakozAdmin = () => {
                   <td>{row.has ? row.has : " "}</td>
                   <td>{row.iscilik ? row.iscilik : " "}</td>
                   <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
-                  <td>{row.vade ? row.vade : " "}</td>
+                  <td>{formattedVadeDate}</td>
 
                   <td>
                     {(row.tasima_bedeli ? row.tasima_bedeli : " ") +

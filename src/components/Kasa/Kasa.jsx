@@ -120,6 +120,7 @@ const Kasa = () => {
               </th>{" "}
               <th>HAS</th>
               <th>TİP</th>
+              <th>DÖVİZ OLARAK TUTAR</th>
               <th>KAĞIT</th>
               <th>İŞÇİLİK / TAŞIMA BEDELİ</th>
               <th>
@@ -145,16 +146,43 @@ const Kasa = () => {
                 <tr key={index}>
                   <td>{row?.user?.name}</td>
                   <td>{row?.musteri?.unvan}</td>
-                  <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
-                  <td>{row.has ? row.has + " " + "Has" : " "}</td>
+                  <td>
+                    {row.malin_cinsi ? row.malin_cinsi : row?.tasinacak_urun}
+                  </td>
+                  {/* <td>
+                    {row.has ? row.has + " " + "Has" : row.transfer_cinsi}
+                  </td> */}
+                  <td>
+                    {row.has
+                      ? (row.type2 === "alım" ? "+" : "-") + row.has + " Has"
+                      : row.transfer_cinsi}
+                  </td>
                   <td>{row.type + " " + row.type2}</td>
                   <td>
-                    {(row.miktar ? row.miktar : " ") +
+                    {row.doviz_olarak_tutar ? row?.doviz_olarak_tutar : " "}
+                  </td>
+                  <td>
+                    {(row.type2 === "alım"
+                      ? " +"
+                      : row.type2 === "satım"
+                      ? " -"
+                      : "") +
+                      (row.miktar ? row.miktar : " ") +
                       " " +
                       (row.para_birimi ? row.para_birimi : " ")}
                   </td>
+
                   <td>
-                    {(row.iscilik ? row.iscilik : row.tasima_bedeli) +
+                    {(row.type2 === "alım"
+                      ? " -"
+                      : row.type2 === "satım"
+                      ? " +"
+                      : "") +
+                      (row.iscilik
+                        ? row.iscilik
+                        : row.tasima_bedeli
+                        ? row.tasima_bedeli
+                        : row.transfer_tutari) +
                       " " +
                       (row.para_birimi
                         ? row.para_birimi

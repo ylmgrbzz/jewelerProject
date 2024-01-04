@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,7 @@ import "./TakozAlimSatimTasimaAdmin.css";
 
 const TakozSatimAdmin = () => {
   const [customerList, setCustomerList] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date()); // New state for the selected date
 
   const [formData, setFormData] = useState({
     musteri: "",
@@ -137,6 +139,14 @@ const TakozSatimAdmin = () => {
     } else {
       window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date); // Update the selected date state
+    setFormData({
+      ...formData,
+      vade: date,
+    });
   };
 
   const handleCalculateHas = (e) => {
@@ -389,7 +399,7 @@ const TakozSatimAdmin = () => {
           >
             VADE
           </label>
-          <input
+          {/* <input
             required
             type="text"
             class="form-control"
@@ -398,6 +408,12 @@ const TakozSatimAdmin = () => {
             name="vade"
             id="vade"
             placeholder="vade"
+          /> */}
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            className="form-control"
+            dateFormat="dd/MM/yyyy"
           />
         </div>
         <button

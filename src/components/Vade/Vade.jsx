@@ -104,26 +104,33 @@ const Vade = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData?.map((row, index) => (
-              <tr key={index}>
-                <td>{row?.user?.name}</td>
-                <td>{row?.musteri?.unvan}</td>
-                <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
-                <td>{row.has ? row.has + " " + "Has" : " "}</td>
-                <td>{row.type + " " + row.type2}</td>
-                <td>
-                  {(row.miktar ? row.miktar : " ") +
-                    " " +
-                    (row.para_birimi ? row.para_birimi : " ")}
-                </td>
-                <td>
-                  {(row.iscilik ? row.iscilik : " ") +
-                    " " +
-                    (row.para_birimi ? row.para_birimi : " ")}
-                </td>
-                <td>{row.vade}</td>
-              </tr>
-            ))}
+            {filteredData?.map((row, index) => {
+              const createdAtDate = new Date(row.vade);
+
+              const formattedDate = `${createdAtDate.getDate()}/${
+                createdAtDate.getMonth() + 1
+              }/${createdAtDate.getFullYear()}`;
+              return (
+                <tr key={index}>
+                  <td>{row?.user?.name}</td>
+                  <td>{row?.musteri?.unvan}</td>
+                  <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
+                  <td>{row.has ? row.has + " " + "Has" : " "}</td>
+                  <td>{row.type + " " + row.type2}</td>
+                  <td>
+                    {(row.miktar ? row.miktar : " ") +
+                      " " +
+                      (row.para_birimi ? row.para_birimi : " ")}
+                  </td>
+                  <td>
+                    {(row.iscilik ? row.iscilik : " ") +
+                      " " +
+                      (row.para_birimi ? row.para_birimi : " ")}
+                  </td>
+                  <td>{formattedDate}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

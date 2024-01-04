@@ -2,7 +2,8 @@ import "./TakozSatis.css";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const TakozSatis = () => {
   const [customerList, setCustomerList] = useState([]);
 
@@ -19,6 +20,13 @@ const TakozSatis = () => {
     type2: "satım",
     vade: "",
   });
+
+  const handleDateChange = (date) => {
+    setFormData({
+      ...formData,
+      vade: date,
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -356,15 +364,12 @@ const TakozSatis = () => {
           >
             VADE
           </label>
-          <input
-            required
-            type="text"
-            class="form-control"
-            value={formData.vade}
-            onChange={handleChange}
-            name="vade"
-            id="vade"
-            placeholder="vade"
+
+          <DatePicker
+            selected={formData.vade}
+            onChange={handleDateChange}
+            className="form-control"
+            dateFormat="dd/MM/yyyy"
           />
         </div>
         <button

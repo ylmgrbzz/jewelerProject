@@ -49,12 +49,15 @@ const MusteriTanimlama = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\d{10}$/;
 
+    const isGsm1Valid = formData.gsm1.match(phoneRegex);
+    const isGsm2Valid = formData.gsm2 === "" || formData.gsm2.match(phoneRegex);
+
     return (
       formData.email.match(emailRegex) &&
       formData.unvan.trim() !== "" &&
       formData.ad_soyad.trim() !== "" &&
-      formData.gsm1.match(phoneRegex) &&
-      formData.gsm2.match(phoneRegex) &&
+      isGsm1Valid &&
+      isGsm2Valid &&
       formData.adres.trim() !== ""
     );
   };
