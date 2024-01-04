@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const KagitSatis = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -113,10 +115,16 @@ const KagitSatis = () => {
     }
   };
 
-  const navigate = useNavigate();
-  const backToPage = () => {
-    navigate("/kagit");
+  const [selectedDate, setSelectedDate] = useState(new Date()); // New state for the selected date
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date); // Update the selected date state
+    setFormData({
+      ...formData,
+      vade: date,
+    });
   };
+
   return (
     <div>
       <Link to="/kagit" className="btn btn-primary back-button">
@@ -261,15 +269,11 @@ const KagitSatis = () => {
           >
             VADE
           </label>
-          <input
-            required
-            type="text"
-            class="form-control"
-            name="vade"
-            value={formData.vade}
-            onChange={handleChange}
-            id="vade"
-            placeholder="vade"
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            className="form-control"
+            dateFormat="dd/MM/yyyy"
           />
         </div>
         <div class="form-group">

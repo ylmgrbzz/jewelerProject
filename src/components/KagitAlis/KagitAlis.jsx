@@ -2,6 +2,8 @@ import "./KagitAlis.css";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const KagitAlis = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -117,6 +119,16 @@ const KagitAlis = () => {
     } else {
       window.alert("Lütfen Tüm Değerleri Doğru Giriniz  ");
     }
+  };
+
+  const [selectedDate, setSelectedDate] = useState(new Date()); // New state for the selected date
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date); // Update the selected date state
+    setFormData({
+      ...formData,
+      vade: date,
+    });
   };
 
   return (
@@ -263,15 +275,11 @@ const KagitAlis = () => {
           >
             VADE
           </label>
-          <input
-            required
-            type="text"
-            class="form-control"
-            name="vade"
-            value={formData.vade}
-            onChange={handleChange}
-            id="vade"
-            placeholder="vade"
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            className="form-control"
+            dateFormat="dd/MM/yyyy"
           />
         </div>
         <div class="form-group">

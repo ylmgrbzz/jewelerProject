@@ -248,6 +248,12 @@ const KagıtAdmin = () => {
                 createdAtDate.getMonth() + 1
               }/${createdAtDate.getFullYear()}`;
 
+              const createdAtVadeDate = new Date(row.vade ? row.vade : " ");
+
+              const formattedVadeDate = `${createdAtVadeDate.getDate()}/${
+                createdAtVadeDate.getMonth() + 1
+              }/${createdAtVadeDate.getFullYear()}`;
+
               return (
                 <tr key={index}>
                   <td>{row?.user?.name}</td>
@@ -266,7 +272,7 @@ const KagıtAdmin = () => {
                       (row.para_birimi ? row.para_birimi : " ")}
                   </td>
                   <td>{row.toplam ? row.toplam : " "}</td>
-                  <td>{row.vade ? row.vade : " "}</td>
+                  <td>{formattedVadeDate}</td>
                   <td>
                     {(row.tasima_bedeli ? row.tasima_bedeli : " ") +
                       " " +

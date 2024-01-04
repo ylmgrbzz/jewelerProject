@@ -399,16 +399,7 @@ const TakozSatimAdmin = () => {
           >
             VADE
           </label>
-          {/* <input
-            required
-            type="text"
-            class="form-control"
-            value={formData.vade}
-            onChange={handleChange}
-            name="vade"
-            id="vade"
-            placeholder="vade"
-          /> */}
+
           <DatePicker
             selected={selectedDate}
             onChange={handleDateChange}

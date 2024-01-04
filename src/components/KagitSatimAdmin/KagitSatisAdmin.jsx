@@ -4,6 +4,9 @@ import api from "../../services/api";
 import { type } from "@testing-library/user-event/dist/type";
 import { useNavigate } from "react-router-dom";
 import "./KagitSatisAdmin.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const KagitSatisAdmin = () => {
   const [customerList, setCustomerList] = useState([]);
   const [formData, setFormData] = useState({
@@ -135,6 +138,16 @@ const KagitSatisAdmin = () => {
   };
 
   const navigate = useNavigate();
+
+  const [selectedDate, setSelectedDate] = useState(new Date()); // New state for the selected date
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date); // Update the selected date state
+    setFormData({
+      ...formData,
+      vade: date,
+    });
+  };
 
   return (
     <div>
@@ -280,15 +293,11 @@ const KagitSatisAdmin = () => {
           >
             VADE
           </label>
-          <input
-            required
-            type="text"
-            class="form-control"
-            name="vade"
-            value={formData.vade}
-            onChange={handleChange}
-            id="vade"
-            placeholder="vade"
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            className="form-control"
+            dateFormat="dd/MM/yyyy"
           />
         </div>
         <div class="form-group">
