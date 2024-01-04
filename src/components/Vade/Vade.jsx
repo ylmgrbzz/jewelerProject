@@ -110,7 +110,7 @@ const Vade = () => {
                 <td>{row?.musteri?.unvan}</td>
                 <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
                 <td>{row.has ? row.has + " " + "Has" : " "}</td>
-                <td>{row.type}</td>
+                <td>{row.type + " " + row.type2}</td>
                 <td>
                   {(row.miktar ? row.miktar : " ") +
                     " " +

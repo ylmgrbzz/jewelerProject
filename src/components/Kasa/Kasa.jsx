@@ -121,7 +121,7 @@ const Kasa = () => {
               <th>HAS</th>
               <th>TİP</th>
               <th>KAĞIT</th>
-              <th>İŞÇİLİK</th>
+              <th>İŞÇİLİK / TAŞIMA BEDELİ</th>
               <th>
                 TARİH
                 <input
@@ -147,16 +147,22 @@ const Kasa = () => {
                   <td>{row?.musteri?.unvan}</td>
                   <td>{row.malin_cinsi ? row.malin_cinsi : " "}</td>
                   <td>{row.has ? row.has + " " + "Has" : " "}</td>
-                  <td>{row.type}</td>
+                  <td>{row.type + " " + row.type2}</td>
                   <td>
                     {(row.miktar ? row.miktar : " ") +
                       " " +
                       (row.para_birimi ? row.para_birimi : " ")}
                   </td>
                   <td>
-                    {(row.iscilik ? row.iscilik : " ") +
+                    {(row.iscilik ? row.iscilik : row.tasima_bedeli) +
                       " " +
-                      (row.para_birimi ? row.para_birimi : " ")}
+                      (row.para_birimi
+                        ? row.para_birimi
+                          ? row.para_birimi
+                          : " "
+                        : row.tasima_bedeli_turu
+                        ? row.tasima_bedeli_turu
+                        : " ")}
                   </td>
                   <td>{formattedDate}</td>
                 </tr>
